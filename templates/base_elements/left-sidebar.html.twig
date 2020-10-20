@@ -1,6 +1,6 @@
 <div id="left-sidebar" class="sidebar mini_sidebar_on">
 	<div class="navbar-brand">
-		<a href="{{ path("default") }}"><img src="../assets/images/ClaraLogoXS.png" alt="CLARA Logo" class="img-fluid logo"><span></span></a>
+		<a href="{{ path("dashboard") }}"><img src="../assets/images/ClaraLogoXS.png" alt="CLARA Logo" class="img-fluid logo"><span></span></a>
 		<button type="button" class="btn-toggle-offcanvas btn btn-sm float-right"><i class="lnr lnr-menu icon-close"></i></button>
 	</div>
 	<div class="sidebar-scroll">
@@ -13,7 +13,7 @@
 				<a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>{{ app.user.username }}</strong></a>
 				<ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
 					<li><a href=""><i class="icon-user"></i>Profil</a></li>
-					<li><a href=""><i class="icon-envelope-open"></i>Nachrichten</a></li>
+					<li><a href="{{ path("nachrichten") }}"><i class="icon-envelope-open"></i>Nachrichten</a></li>
 					<li><a href=""><i class="icon-settings"></i>Einstellungen</a></li>
 					<li class="divider"></li>
 					<li><a href="{{ path("app_logout") }}"><i class="icon-power"></i>Logout</a></li>
@@ -22,18 +22,24 @@
 		</div>
 		<nav id="left-sidebar-nav" class="sidebar-nav">
 			<ul id="main-menu" class="metismenu">
-				{% if is_granted('ROLE_ADMIN') %}
+				{% if is_granted('ROLE_PORTAL_ADMIN') %}
 					<li class="header">Admin</li>
 					<li>
-						<a href="" class="has-arrow"><i class="icon-speedometer"></i><span>Dashboard</span></a>
+						<a href="" class="has-arrow"><i class="icon-speedometer"></i><span>Importer</span></a>
 						<ul>
-							<li><a href="index.html">Import Users</a></li>
-							<li><a href="index4.html">Import Calendars</a></li>
+							<li><a href="">Import Users</a></li>
+							<li><a href="">Import Calendars</a></li>
 						</ul>
 					</li>
 				{% endif %}
+				{% if is_granted('ROLE_ADMIN') %}
+					<li class="header">Admin</li>
+					<li>
+						<a href=""><i class="icon-speedometer"></i><span>Dashboard</span></a>
+					</li>
+				{% endif %}
 				{% if is_granted('ROLE_PORTAL_USER') %}
-				<li><a href="index2.html"><i class="icon-speedometer"></i><span>Dashboard</span></a></li>
+				<li><a href=""><i class="icon-speedometer"></i><span>Dashboard</span></a></li>
 				<li><a href="index3.html"><i class="icon-diamond"></i><span>Crypto Coin</span></a></li>
 				<li><a href="../hrms/index.html"><i class="icon-rocket"></i><span>HRMS System</span></a></li>
 				<li><a href="../jobportal/index.html"><i class="icon-badge"></i><span>Job Portal</span></a></li>
