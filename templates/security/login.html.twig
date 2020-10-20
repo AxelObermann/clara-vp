@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>CLARA | Login</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="description" content="">
+    <meta name="author" content="Axel Obermann, Design by Best of Stickers">
+    
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/vendor/animate-css/vivify.min.css">
+    <link rel="stylesheet" href="assets/vendor/toastr/toastr.min.css">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="assets/css/site.min.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+
+</head>
+
+<body class="font-montserrat light_version theme-orange">
+
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+        <div class="bar4"></div>
+        <div class="bar5"></div>
+    </div>
+</div>
+
+<div class="auth-main2 particles_js">
+    <div class="auth_div vivify fadeInTop">
+        <div class="card">
+            <div class="body">
+                <div class="login-img">
+                    <img class="img-fluid" src="../assets/images/ClaraLogo.png" />
+                </div>
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                
+                {% if app.user %}
+                    <div class="mb-3">
+                        Sie sind angemeldet als {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+                <form class="form-auth-small" method="post">
+                    <div class="mb-3">
+                        <p class="lead">Bitte melden Sie sich an.</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="signin-email" class="control-label sr-only">Email</label>
+                        <input type="email" name="email" class="form-control round" id="signin-email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="signin-password" class="control-label sr-only">Password</label>
+                        <input type="password" name="password" class="form-control round" id="signin-password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" name="_remember_me"> an mich erinnnern.
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-round btn-block">LOGIN</button>
+                    <div class="mt-4">
+                        <span class="helper-text m-b-10"><i class="fa fa-lock"></i> <a href="{{ path("forgot_pass") }}">Passwort vergessen?</a></span>
+                        <span>Sie haben kein Konto <a href="{{ path('register') }}">hier erstellen</a></span>
+                    </div>
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
+                </form>
+                <div class="pattern">
+                    <span class="orange"></span>
+                    <span class="orange"></span>
+                    <span class="orange"></span>
+                    <span class="orange"></span>
+                    <span class="orange"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="particles-js"></div>
+</div>
+<!-- END WRAPPER -->
+
+<script src="assets/bundles/libscripts.bundle.js"></script>
+<script src="assets/bundles/vendorscripts.bundle.js"></script>
+<script src="assets/vendor/toastr/toastr.js"></script>
+<script src="assets/bundles/mainscripts.bundle.js"></script>
+<script>
+    $(function() {
+        toastr.options.timeOut = "false";
+        toastr.options.closeButton = true;
+        toastr.options.positionClass = 'toast-top-right';
+        {% for message in app.flashes('success') %}
+        toastr['success']('{{ message }}');
+        {% endfor %}
+        $('.btn-toastr').on('click', function() {
+            $context = $(this).data('context');
+            $message = $(this).data('message');
+            $position = $(this).data('position');
+            
+            if ($context === '') {
+                $context = 'info';
+            }
+            
+            if ($position === '') {
+                $positionClass = 'toast-bottom-right';
+            } else {
+                $positionClass = 'toast-' + $position;
+            }
+            
+            toastr.remove();
+            toastr[$context]($message, '', {
+                positionClass: $positionClass
+            });
+        });
+        
+        $('#toastr-callback1').on('click', function() {
+            $message = $(this).data('message');
+            
+            toastr.options = {
+                "timeOut": "300",
+                "onShown": function() {
+                    alert('onShown callback');
+                },
+                "onHidden": function() {
+                    alert('onHidden callback');
+                }
+            };
+            
+            toastr['info']($message);
+        });
+        
+        $('#toastr-callback2').on('click', function() {
+            $message = $(this).data('message');
+            
+            toastr.options = {
+                "timeOut": "10000",
+                "onclick": function() {
+                    alert('onclick callback');
+                },
+            };
+            
+            toastr['info']($message);
+            
+        });
+        
+        $('#toastr-callback3').on('click', function() {
+            $message = $(this).data('message');
+            
+            toastr.options = {
+                "timeOut": "10000",
+                "closeButton": true,
+                "onCloseClick": function() {
+                    alert('onCloseClick callback');
+                }
+            };
+            
+            toastr['info']($message);
+        });
+    });
+</script>
+</body>
+</html>
