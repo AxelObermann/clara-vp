@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Profile;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,12 +46,17 @@ class DefaultController extends AbstractController
      */
     public function createAdminUser(EntityManagerInterface $entityManager){
         $user = new User();
+        $profile = new Profile();
         $user->setDeleted(false);
         $user->setActive(false);
         $user->setDisplayName('Axel Obermann');
         $user->setEmail('info@bestofstickers.de');
         $user->setPassword($this->passwordEncoder->encodePassword($user,'A67l99m00@' ));
+        $user->setRoles(["ROLE_ADMIN", "ROLE_PORTAL_ADMIN"]);
+        $profile->setUser($user);
+        $user->setProfile($profile);
         $entityManager->persist($user);
+        $entityManager->persist($profile);
         $entityManager->flush();
         return $this->render('default/index.html.twig', [
             'controller_name' => 'DefaultController1',
