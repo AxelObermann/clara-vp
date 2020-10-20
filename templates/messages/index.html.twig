@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="col-md-12">
+		<div class="card">
+			<div class="mail-inbox">
+				<div class="mobile-left">
+					<a href="javascript:void(0);" class="btn btn-primary toggle-email-nav"><i class="fa fa-bars"></i></a>
+				</div>
+				<div class="body mail-left">
+					<div class="mail-compose m-b-20">
+						<a href="{{ path("nachrichten_compose") }}" class="btn btn-danger btn-block btn-round">neue Nachricht </a>
+					</div>
+					<div class="mail-side">
+						<ul class="nav">
+							<li {% if app.request.get('_route') == "nachrichten" %} class="active" {% endif %}><a href="{{ path("nachrichten") }}"><i class="icon-drawer"></i>Inbox<span class="badge badge-primary float-right">6</span></a></li>
+							<li><a href="javascript:void(0);"><i class="icon-cursor"></i>Sent<span class="badge badge-warning float-right">6</span></a></li>
+							<li><a href="javascript:void(0);"><i class="icon-envelope-open"></i>Draft</a></li>
+							<li><a href="javascript:void(0);"><i class="icon-action-redo"></i>Outbox</a></li>
+							<li><a href="javascript:void(0);"><i class="icon-trash"></i>Trash</a></li>
+						</ul>
+						<h3 class="label">Labels</h3>
+						<ul class="nav">
+							<li><a href="javascript:void(0);"><i class="fa fa-circle-o text-danger"></i>Workshop</a></li>
+							<li><a href="javascript:void(0);"><i class="fa fa-circle-o text-info"></i>Private</a></li>
+							<li><a href="javascript:void(0);"><i class="fa fa-circle-o text-dark"></i>Paypal</a></li>
+							<li><a href="javascript:void(0);"><i class="fa fa-circle-o text-primary"></i>Comapny</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="body mail-right check-all-parent">
+					{% block messageContent %}
+					
+					{% endblock messageContent %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock body %}
