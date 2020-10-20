@@ -12,7 +12,7 @@
 				<span>Willkommen,</span>
 				<a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>{{ app.user.username }}</strong></a>
 				<ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
-					<li><a href="{{ path("account") }}"><i class="icon-user"></i>Profil</a></li>
+					<li><a href=""><i class="icon-user"></i>Profil</a></li>
 					<li><a href=""><i class="icon-envelope-open"></i>Nachrichten</a></li>
 					<li><a href=""><i class="icon-settings"></i>Einstellungen</a></li>
 					<li class="divider"></li>
@@ -25,7 +25,7 @@
 				{% if is_granted('ROLE_ADMIN') %}
 					<li class="header">Admin</li>
 					<li>
-						<a href="{{ path('adminDashboard') }}" class="has-arrow"><i class="icon-speedometer"></i><span>Dashboard</span></a>
+						<a href="" class="has-arrow"><i class="icon-speedometer"></i><span>Dashboard</span></a>
 						<ul>
 							<li><a href="index.html">Import Users</a></li>
 							<li><a href="index4.html">Import Calendars</a></li>
