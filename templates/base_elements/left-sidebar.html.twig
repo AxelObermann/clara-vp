@@ -23,7 +23,7 @@
 		<nav id="left-sidebar-nav" class="sidebar-nav">
 			<ul id="main-menu" class="metismenu">
 				{% if is_granted('ROLE_PORTAL_ADMIN') %}
-					<li class="header">Admin</li>
+					<li class="header">ROOT</li>
 					<li>
 						<a href="" class="has-arrow"><i class="icon-speedometer"></i><span>Importer</span></a>
 						<ul>
@@ -35,7 +35,7 @@
 				{% if is_granted('ROLE_ADMIN') %}
 					<li class="header">Admin</li>
 					<li>
-						<a href=""><i class="icon-speedometer"></i><span>Dashboard</span></a>
+						<a href="{{ path("dashboard") }}"><i class="icon-speedometer"></i><span>Dashboard</span></a>
 					</li>
 				{% endif %}
 				{% if is_granted('ROLE_PORTAL_USER') %}
