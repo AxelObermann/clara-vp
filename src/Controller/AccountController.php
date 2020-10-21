@@ -85,4 +85,13 @@ class AccountController extends AbstractController
         return $this->render("account/forgot.html.twig",['forgotForm' => $form->createView()]);
 
     }
+
+    /**
+     * @Route ("/usersettings" , name="userSettings")
+     */
+    public function userSettings(){
+        return $this->render('default/dashboard.html.twig',[
+            'title' => 'Dashboard'
+        ]);
+    }
 }
