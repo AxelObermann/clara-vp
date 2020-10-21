@@ -4,3 +4,7 @@
 .pattern .orange {
     background: rgb(241 147 2);
 }
+
+.metismenu ul a:hover:before {
+     width: 15px;
+ }
