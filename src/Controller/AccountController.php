@@ -109,7 +109,7 @@ class AccountController extends AbstractController
      */
     public function userProfile (Request $request, EntityManagerInterface $entityManager){
         if ($request->isMethod('POST')){
-            dd($request);
+            //dd($request);
             $profile = $this->getUser()->getProfile();
             $profile->setFirstName($request->request->get('Vorname'));
             $profile->setLastName($request->request->get('Nachname'));
