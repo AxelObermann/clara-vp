@@ -142,7 +142,7 @@ class AccountController extends AbstractController
 
         if ($request->isMethod('POST')){
             if($request->request->get('oldpass') != ""){
-                swordValid($user,$request->request->get('oldpass'))){
+                if (!$this->passwordEncoder->isPasswordValid($user,$request->request->get('oldpass'))){
                     $this->addFlash('error', 'Das eingegebene Passwort stimmt nicht!');
                     return $this->render("account/profile.html.twig", [
                         'title'=>'Profil',
@@ -161,7 +161,7 @@ class AccountController extends AbstractController
 
                 }
             }
-            if (!$this->passwordEncoder->isPas
+
             $user->setDisplayName($request->request->get('displayname'));
             $user->setEmail($request->request->get('email'));
             $entityManager->flush();
