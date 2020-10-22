@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Form\UserFormType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class AccountController extends AbstractController
 {
@@ -78,13 +80,19 @@ class AccountController extends AbstractController
     public function forgotpassword(EntityManagerInterface $em,Request $request){
         $form = $this->createForm(UserFormType::class);
         $form->handleRequest($request);
+        $user = $this->getUser();
         if($form->isSubmitted() && $form->isValid()){
             dd($request);
         }
 
-        return $this->render("account/forgot.html.twig",['forgotForm' => $form->createView()]);
+
+        return $this->render("account/forgot.html.twig",[
+            'forgotForm' => $form->createView(),
+            'user' => $user]);
 
     }
+
+
 
     /**
      * @Route ("/usersettings" , name="userSettings")
@@ -93,5 +101,76 @@ class AccountController extends AbstractController
         return $this->render('default/dashboard.html.twig',[
             'title' => 'Dashboard'
         ]);
+    }
+
+    /**
+     * @Route("/userprofile", name="userprofile")
+     * @IsGranted("ROLE_USER")
+     */
+    public function userProfile (Request $request, EntityManagerInterface $entityManager){
+        if ($request->isMethod('POST')){
+            dd($request);
+            $profile = $this->getUser()->getProfile();
+            $profile->setFirstName($request->request->get('Vorname'));
+            $profile->setLastName($request->request->get('Nachname'));
+            $profile->setFirma($request->request->get('Firma'));
+            $profile->setSteuernummer($request->request->get('Steuernummer'));
+            $profile->setFinanzamt($request->request->get('Finanzamt'));
+            $profile->setIban($request->request->get('IBAN'));
+            $profile->setBic($request->request->get('BIC'));
+            $profile->setBank($request->request->get('Bank'));
+            $profile->setTelefon($request->request->get('Telefon'));
+            $profile->setPlz($request->request->get('PLZ'));
+            $profile->setOrt($request->request->get('Ort'));
+            $profile->setStrassenr($request->request->get('Strasse'));
+            $profile->getSignatur($request->request->get('Signatur'));
+            $entityManager->flush();
+
+        }
+        $user = $this->getUser();
+        return $this->render("account/profile.html.twig", [
+            'title'=>'Profil',
+            'profile' => $user->getProfile()]);
+    }
+
+    /**
+     * @Route("/userupdate", name="userupdate")
+     * @IsGranted("ROLE_USER")
+     */
+    public function userupdate (Request $request, EntityManagerInterface $entityManager){
+        $user = $this->getUser();
+
+        if ($request->isMethod('POST')){
+            if (!$this->passwordEncoder->isPasswordValid($user,$request->request->get('oldpass'))){
+                $this->addFlash('error', 'Das eingegebene Passwort stimmt nicht!');
+                return $this->render("account/profile.html.twig", [
+                    'title'=>'Profil',
+                    'profile' => $user->getProfile()]);
+            }else{
+                $pass1 = $request->request->get('newpass');
+                $pass2 = $request->request->get('confirmnewpass');
+                if ($pass1 != $pass2){
+                    $this->addFlash('error', 'Die Passwörter stimmen nicht überein!!');
+                    return $this->render("account/profile.html.twig", [
+                        'title'=>'Profil',
+                        'profile' => $user->getProfile()]);
+                }else{
+                    $user->setPassword($this->passwordEncoder->encodePassword($user, $request->request->get('newpass')));
+                }
+
+            }
+            $user->setDisplayName($request->request->get('displayname'));
+            $user->setEmail($request->request->get('email'));
+            $entityManager->flush();
+            $this->addFlash('success', 'die Änderungen wurden übernommen');
+            return $this->render("account/profile.html.twig", [
+                'title'=>'Profil',
+                'profile' => $user->getProfile()]);
+        }
+
+
+        return $this->render("account/profile.html.twig", [
+            'title'=>'Profil',
+            'profile' => $user->getProfile()]);
     }
 }
