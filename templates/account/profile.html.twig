@@ -1,0 +1,188 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+{% endblock %}
+{% block body %}
+
+<div class="row clearfix">
+	<!--<div class="col-md-12">
+		<div class="card social">
+			<div class="profile-header d-flex justify-content-between justify-content-center">
+				<div class="d-flex">
+					<div class="mr-3">
+						<img src="../assets/images/user.png" class="rounded" alt="">
+					</div>
+					<div class="details">
+						<h5 class="mb-0">Louis Pierce</h5>
+						<span class="text-light">Ui UX Designer</span>
+						<p class="mb-0"><span>Posts: <strong>321</strong></span> <span>Followers: <strong>4,230</strong></span> <span>Following: <strong>560</strong></span></p>
+					</div>
+				</div>
+				<div>
+					<button class="btn btn-primary btn-sm">Follow</button>
+					<button class="btn btn-success btn-sm">Message</button>
+				</div>
+			</div>
+		</div>
+	</div>-->
+	
+	<div class="col-xl-12 col-lg-12 col-md-12">
+		<div class="card">
+			<div class="header">
+				<h2>Profil einstellungen {{ app.user.username }}</h2>
+				<ul class="header-dropdown dropdown">
+					<li><a href="javascript:void(0);" class="full-screen"><i class="icon-frame"></i></a></li>
+				</ul>
+			</div>
+			<form class="body" enctype="multipart/form-data" name="profileForm" action="{{ path("userprofile") }}" method="post">
+				
+				<div class="row clearfix">
+				
+					<div class="col-lg-6 col-md-12">
+						<div class="form-group">
+							<input type="text" name="Vorname" value="{{ profile.firstName }}" class="form-control" placeholder="Vorname">
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-12">
+						<div class="form-group">
+							<input type="text" name="Nachname" value="{{ profile.lastName }}" class="form-control" placeholder="Nachname">
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-12">
+						<div class="form-group">
+							<input type="text" name="Firma" value="{{ profile.firma }}" class="form-control" placeholder="Firma">
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-12">
+						<div class="form-group">
+							<input type="text" name="Steuernummer" value="{{ profile.steuernummer }}" class="form-control" placeholder="Steuernummer">
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-12">
+						<div class="form-group">
+							<input type="text" name="Finanzamt" value="{{ profile.finanzamt }}" class="form-control" placeholder="Finanzamt">
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-12">
+						<div class="form-group">
+							<input type="text" name="IBAN" class="form-control" value="{{ profile.iban }}" placeholder="IBAN">
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-12">
+						<div class="form-group">
+							<input type="text" name="BIC" value="{{ profile.bic }}" class="form-control" placeholder="BIC">
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-12">
+						<div class="form-group">
+							<input type="text" name="Bank" value="{{ profile.bank }}" class="form-control" placeholder="Bank">
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-12">
+						<div class="form-group">
+							<input type="text" name="Telefon" value="{{ profile.telefon }}" class="form-control" placeholder="Telefon">
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-12">
+						<div class="form-group">
+							<input type="text" name="PLZ" value="{{ profile.plz }}" class="form-control" placeholder="PLZ">
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-12">
+						<div class="form-group">
+							<input type="text" name="Ort" value="{{ profile.ort }}" class="form-control" placeholder="Ort">
+						</div>
+					</div>
+					<div class="col-lg-12 col-md-12">
+						<div class="form-group">
+							<input type="text" name="Strasse" value="{{ profile.strassenr }}" class="form-control" placeholder="Strasse / Hausnummer">
+						</div>
+					</div>
+					<div class="col-lg-12 col-md-12">
+						<div class="form-group">
+							<textarea rows="4" name="Signatur" value="{{ profile.signatur }}" type="text" class="form-control" placeholder="Signatur"></textarea>
+						</div>
+					</div>
+					<div class="col-lg-12 col-md-12">
+						<div class="form-group">
+							<label>Profilbild: </label>
+							<img style="height: 40px;" src="/assets/images/ClaraLogo.png" data-toggle="modal" data-target=".new-project-modal">
+						</div>
+						<div class="file-upload-wrapper">
+							<input type="file" name="userimage" id="userimage" class="file-upload" />
+						</div>
+					</div>
+				</div>
+
+				<button type="submit" class="btn btn-round btn-primary">Speichern</button> &nbsp;&nbsp;
+				<button type="button" class="btn btn-round btn-default">Abbrechen</button>
+			</form>
+		</div>
+		<div class="card">
+			<div class="header">
+				<h2>Benutzer einstellungen</h2>
+				<ul class="header-dropdown dropdown">
+					<li><a href="javascript:void(0);" class="full-screen"><i class="icon-frame"></i></a></li>
+				</ul>
+			</div>
+			<div class="body">
+				<form class="body" name="passwordForm" action="{{ path("userupdate") }}" method="post">
+					<div class="row clearfix">
+						<div class="col-lg-6 col-md-12">
+							<div class="form-group">
+								<input type="text" class="form-control" name="displayname" value="{{ profile.user.displayName }}"  placeholder="Username">
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-12">
+							<div class="form-group">
+								<input type="email" class="form-control" name="email" value="{{ profile.user.email }}" placeholder="Email">
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-12">
+							<hr>
+							<h6>Change Password</h6>
+							<div class="form-group">
+								<input type="password" name="oldpass" class="form-control" placeholder="Altes Passwort">
+							</div>
+							<div class="form-group">
+								<input type="password" name="newpass" class="form-control" placeholder="neues Passwort">
+							</div>
+							<div class="form-group">
+								<input type="password" name="confirmnewpass" class="form-control" placeholder="neues Passwort bestätigen">
+							</div>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-round btn-primary">Speichern</button> &nbsp;&nbsp;
+					<button type="button" class="btn btn-round btn-default">Abbrechen</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+	<div class="modal fade new-project-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Setup New Project</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="input-group mb-3">
+						<input type="text" class="form-control" placeholder="Project Name">
+					</div>
+					<div class="dropify-wrapper"><div class="dropify-message"><span class="file-icon"></span> <p>Drag and drop a file here or click</p><p class="dropify-error">Ooops, something wrong happended.</p></div><div class="dropify-loader" style="display: none;"></div><div class="dropify-errors-container"><ul></ul></div><input type="file" class="dropify"><button type="button" class="btn btn-sm btn-primary btn-round dropify-clear">Remove</button><div class="dropify-preview" style="display: none;"><span class="dropify-render"></span><div class="dropify-infos"><div class="dropify-infos-inner"><p class="dropify-filename"><span class="dropify-filename-inner">CAR-SPECIAL-Cloud-OS10-10.app.zip</span></p><p class="dropify-infos-message">Drag and drop or click to replace</p></div></div></div></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-round btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-round btn-success">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block javascripts %}
+	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+{% endblock %}
