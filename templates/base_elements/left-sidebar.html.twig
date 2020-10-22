@@ -12,7 +12,7 @@
 				<span>Willkommen,</span>
 				<a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>{{ app.user.username }}</strong></a>
 				<ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
-					<li><a href=""><i class="icon-user"></i>Profil</a></li>
+					<li><a href="{{ path("userprofile") }}"><i class="icon-user"></i>Profil</a></li>
 					<li><a href="{{ path("nachrichten") }}"><i class="icon-envelope-open"></i>Nachrichten</a></li>
 					<li><a href="{{ path("userSettings") }}"><i class="icon-settings"></i>Einstellungen</a></li>
 					<li class="divider"></li>
