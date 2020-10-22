@@ -141,24 +141,27 @@ class AccountController extends AbstractController
         $user = $this->getUser();
 
         if ($request->isMethod('POST')){
-            if (!$this->passwordEncoder->isPasswordValid($user,$request->request->get('oldpass'))){
-                $this->addFlash('error', 'Das eingegebene Passwort stimmt nicht!');
-                return $this->render("account/profile.html.twig", [
-                    'title'=>'Profil',
-                    'profile' => $user->getProfile()]);
-            }else{
-                $pass1 = $request->request->get('newpass');
-                $pass2 = $request->request->get('confirmnewpass');
-                if ($pass1 != $pass2){
-                    $this->addFlash('error', 'Die Passwörter stimmen nicht überein!!');
+            if($request->request->get('oldpass') != ""){
+                swordValid($user,$request->request->get('oldpass'))){
+                    $this->addFlash('error', 'Das eingegebene Passwort stimmt nicht!');
                     return $this->render("account/profile.html.twig", [
                         'title'=>'Profil',
                         'profile' => $user->getProfile()]);
                 }else{
-                    $user->setPassword($this->passwordEncoder->encodePassword($user, $request->request->get('newpass')));
-                }
+                    $pass1 = $request->request->get('newpass');
+                    $pass2 = $request->request->get('confirmnewpass');
+                    if ($pass1 != $pass2){
+                        $this->addFlash('error', 'Die Passwörter stimmen nicht überein!!');
+                        return $this->render("account/profile.html.twig", [
+                            'title'=>'Profil',
+                            'profile' => $user->getProfile()]);
+                    }else{
+                        $user->setPassword($this->passwordEncoder->encodePassword($user, $request->request->get('newpass')));
+                    }
 
+                }
             }
+            if (!$this->passwordEncoder->isPas
             $user->setDisplayName($request->request->get('displayname'));
             $user->setEmail($request->request->get('email'));
             $entityManager->flush();
