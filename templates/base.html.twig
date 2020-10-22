@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/vendor/animate-css/vivify.min.css">
+    <link rel="stylesheet" href="/assets/vendor/toastr/toastr.min.css">
     {% block stylesheets %}
     {% endblock %}
     <!-- MAIN CSS -->
@@ -399,10 +400,91 @@
     </div>
 
 </div>
+
 <!-- Javascript -->
 <script src="/assets/bundles/libscripts.bundle.js"></script>
 <script src="/assets/bundles/vendorscripts.bundle.js"></script>
 <script src="/assets/bundles/mainscripts.bundle.js"></script>
+
+    <script src="assets/vendor/toastr/toastr.js"></script>
+    
+    <script>
+        $(function() {
+            toastr.options.timeOut = "false";
+            toastr.options.closeButton = true;
+            toastr.options.positionClass = 'toast-top-full-width';
+            {% for message in app.flashes('success') %}
+                toastr['success']('{{ message }}');
+            {% endfor %}
+            {% for message in app.flashes('error') %}
+                toastr['error']('{{ message }}');
+            {% endfor %}
+            $('.btn-toastr').on('click', function() {
+                $context = $(this).data('context');
+                $message = $(this).data('message');
+                $position = $(this).data('position');
+                
+                if ($context === '') {
+                    $context = 'info';
+                }
+                
+                if ($position === '') {
+                    $positionClass = 'toast-top-full-width';
+                } else {
+                    $positionClass = 'toast-' + $position;
+                }
+                
+                toastr.remove();
+                toastr[$context]($message, '', {
+                    positionClass: $positionClass
+                });
+            });
+            
+            $('#toastr-callback1').on('click', function() {
+                $message = $(this).data('message');
+                
+                toastr.options = {
+                    "timeOut": "300",
+                    "onShown": function() {
+                        alert('onShown callback');
+                    },
+                    "onHidden": function() {
+                        alert('onHidden callback');
+                    }
+                };
+                
+                toastr['info']($message);
+            });
+            
+            $('#toastr-callback2').on('click', function() {
+                $message = $(this).data('message');
+                
+                toastr.options = {
+                    "timeOut": "10000",
+                    "onclick": function() {
+                        alert('onclick callback');
+                    },
+                };
+                
+                toastr['info']($message);
+                
+            });
+            
+            $('#toastr-callback3').on('click', function() {
+                $message = $(this).data('message');
+                
+                toastr.options = {
+                    "timeOut": "10000",
+                    "closeButton": true,
+                    "onCloseClick": function() {
+                        alert('onCloseClick callback');
+                    }
+                };
+                
+                toastr['info']($message);
+            });
+        });
+    </script>
 {% block javascripts %}
 {% endblock %}
 
