@@ -50,15 +50,15 @@
 			<div class="body">
 				<p class="lead mb-3"><strong>Oops</strong>,<br> etwas vergessen?</p>
 				<p>Geben Sie die Email Adresse ein um ein neues Passwort zu erhalten.</p>
-				{{ form_start(forgotForm) }}
+				<form method="post">
 					<div class="form-group">
 						<input type="email" class="form-control round" id="signup-password" placeholder="E-mail adresse">
 					</div>
-					<button type="submit" class="btn btn-round btn-primary btn-lg btn-block">RESET PASSWORT</button>
+					<button type="submit" class="btn btn-round btn-primary btn-lg btn-block">neues Passwort senden</button>
 					<div class="bottom">
 						<span class="helper-text">doch wieder eingefallen? <a href="{{ path("app_login") }}">Login</a></span>
 					</div>
-				{{ form_end(forgotForm) }}
+				</form>
 			</div>
 		</div>
 	</div>
