@@ -6,6 +6,7 @@ use App\Entity\Profile;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -15,10 +16,15 @@ class DefaultController extends AbstractController
      * @var UserPasswordEncoderInterface
      */
     private $passwordEncoder;
+    /**
+     * @var SessionInterface
+     */
+    private $session;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder,SessionInterface $session)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->session = $session;
     }
 
     /**
@@ -36,6 +42,7 @@ class DefaultController extends AbstractController
      */
     public function dashboard()
     {
+        $this->session->set('userImage', $this->getUser()->getProfile()->getImage());
         return $this->render('default/dashboard.html.twig',[
             'title' => 'Dashboard'
         ]);
