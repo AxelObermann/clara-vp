@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+<h3>{% if countUsers is defined %}
+		{{ countUsers }} Benutzer wurden Importiert
+	{% endif %}
+	{% if countCals is defined %}
+		{{ countCals }} Kalender einträge wurden Importiert
+	{% endif %}
+</h3>
+{% endblock %}
