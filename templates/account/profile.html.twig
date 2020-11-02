@@ -1,10 +1,169 @@
-{% extends 'base.html.twig' %}
-
-{% block stylesheets %}
-	<link rel="stylesheet" href="/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+{% extends 'blank.html.twig' %}
+{% block plugins_css %}
 {% endblock %}
-{% block body %}
 
+
+{% block body %}
+	<div class="panel">
+		
+		<div class="panel-body container-fluid">
+			
+				<div class="col-lg-12">
+					<div class="example-wrap ">
+						<div class="nav-tabs-horizontal border border-dark-50 p-10" data-plugin="tabs">
+							<ul class="nav nav-tabs nav-tabs-animate " role="tablist">
+								<li class="nav-item" role="presentation"><a class="nav-link info active" data-toggle="tab" href="#profil"
+																			aria-controls="profil" role="tab">Profil</a></li>
+								<li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#benutzer"
+																			aria-controls="benutzer" role="tab">Benutzerdaten</a></li>
+								<li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#dateien"
+																			aria-controls="dateien" role="tab">Dateien / Bilder</a></li>
+							</ul>
+							<div class="tab-content pt-20">
+								<div class="tab-pane active" id="profil" role="tabpanel">
+									<form class="body" enctype="multipart/form-data" name="profileForm" action="{{ path("userprofile") }}" method="post">
+										<div class="panel-heading">
+											<h3 class="panel-title">Profiel einstellungen: {{ app.user.displayName }}</h3>
+										</div>
+										<div class="row row-lg">
+											<div class="col-lg-4 col-md-4">
+												<div class="form-group">
+													<span class="text-help">Vorname</span>
+													<input type="text" name="Vorname" value="{{ profile.firstName }}" class="form-control round" placeholder="Vorname">
+												</div>
+											</div>
+											<div class="col-lg-4 col-md-4">
+												<div class="form-group">
+													<span class="text-help">Nachname</span>
+													<input type="text" name="Nachname" value="{{ profile.lastName }}" class="form-control round" placeholder="Nachname">
+												</div>
+											</div>
+											<div class="col-lg-4 col-md-4">
+												<div class="form-group">
+													<span class="text-help">Firma</span>
+													<input type="text" name="Firma" value="{{ profile.firma }}" class="form-control round" placeholder="Firma">
+												</div>
+											</div>
+											<div class="col-lg-6 col-md-6">
+												<div class="form-group">
+													<span class="text-help">Steuernummer</span>
+													<input type="text" name="Steuernummer" value="{{ profile.steuernummer }}" class="form-control round" placeholder="Steuernummer">
+												</div>
+											</div>
+											<div class="col-lg-6 col-md-6">
+												<div class="form-group">
+													<span class="text-help">Finanzamt</span>
+													<input type="text" name="Finanzamt" value="{{ profile.finanzamt }}" class="form-control round" placeholder="Finanzamt">
+												</div>
+											</div>
+											<div class="col-lg-4 col-md-4">
+												<div class="form-group">
+													<span class="text-help">IBAN</span>
+													<input type="text" name="IBAN" class="form-control round" value="{{ profile.iban }}" placeholder="IBAN">
+												</div>
+											</div>
+											<div class="col-lg-4 col-md-4">
+												<div class="form-group">
+													<span class="text-help">BIC</span>
+													<input type="text" name="BIC" value="{{ profile.bic }}" class="form-control round" placeholder="BIC">
+												</div>
+											</div>
+											<div class="col-lg-4 col-md-4">
+												<div class="form-group">
+													<span class="text-help">Bank</span>
+													<input type="text" name="Bank" value="{{ profile.bank }}" class="form-control round" placeholder="Bank">
+												</div>
+											</div>
+											<div class="col-lg-4 col-md-4">
+												<div class="form-group">
+													<span class="text-help">Telefon</span>
+													<input type="text" name="Telefon" value="{{ profile.telefon }}" class="form-control round" placeholder="Telefon">
+												</div>
+											</div>
+											<div class="col-lg-4 col-md-4">
+												<div class="form-group">
+													<span class="text-help">PLZ</span>
+													<input type="text" name="PLZ" value="{{ profile.plz }}" class="form-control round" placeholder="PLZ">
+												</div>
+											</div>
+											<div class="col-lg-4 col-md-4">
+												<div class="form-group">
+													<span class="text-help">Ort</span>
+													<input type="text" name="Ort" value="{{ profile.ort }}" class="form-control round" placeholder="Ort">
+												</div>
+											</div>
+											<div class="col-lg-12 col-md-12">
+												<div class="form-group">
+													<span class="text-help">Strasse / Hausnummer</span>
+													<input type="text" name="Strasse" value="{{ profile.strassenr }}" class="form-control round" placeholder="Strasse / Hausnummer">
+												</div>
+											</div>
+											<div class="col-lg-12 col-md-12">
+												<div class="form-group">
+													<span class="text-help">Signatur</span>
+													<textarea rows="4" name="Signatur" value="{{ profile.signatur }}" type="text" class="form-control " placeholder="Signatur"></textarea>
+												</div>
+											</div>
+										</div>
+										<button type="submit" class="btn btn-round btn-warning text-black-50">Speichern</button> &nbsp;&nbsp;
+									</form>
+								</div>
+								<div class="tab-pane" id="benutzer" role="tabpanel">
+									<div class="panel-heading">
+										<h3 class="panel-title">Benutzer einstellungen:</h3>
+									</div>
+									<form class="body" name="passwordForm" action="{{ path("userupdate") }}" method="post">
+										<div class="row row-lg">
+											<div class="col-lg-6 col-md-6">
+												<div class="form-group">
+													<span class="text-help">Anzeigename</span>
+													<input type="text" class="form-control round" name="displayname" value="{{ profile.user.displayName }}"  placeholder="Username">
+												</div>
+											</div>
+											<div class="col-lg-6 col-md-6">
+												<div class="form-group">
+													<span class="text-help">E-Mail</span>
+													<input type="email" class="form-control round" name="email" value="{{ profile.user.email }}" placeholder="Email">
+												</div>
+											</div>
+											<div class="col-lg-4 col-md-4">
+												<hr>
+												<h6>Passwort ändern</h6>
+												<div class="form-group">
+													<input type="password" name="oldpass" class="form-control round" placeholder="Altes Passwort">
+												</div>
+												<div class="form-group">
+													<input type="password" name="newpass" class="form-control round" placeholder="neues Passwort">
+												</div>
+												<div class="form-group">
+													<input type="password" name="confirmnewpass" class="form-control round" placeholder="neues Passwort bestätigen">
+												</div>
+											</div>
+											<div class="col-lg-4 col-md-4">
+												<image src="{{ profile.image }}"/>
+											</div>
+											<div class="col-lg-4 col-md-4">
+												<input type="file" name="profilePicture">
+											</div>
+										</div>
+										<button type="submit" class="btn btn-round btn-warning text-black-50">Speichern</button> &nbsp;&nbsp;
+									</form>
+								</div>
+								<div class="tab-pane" id="dateien" role="tabpanel">
+									<form method="post" action="{{ path("temp_upload") }}" enctype="multipart/form-data">
+										<input type="file" name="profilePicture">
+										<button type="submit" class="btn btn-round btn-warning text-black-50">Upload</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+		</div>
+	</div>
+	
+	{#
 <div class="row clearfix">
 	<!--<div class="col-md-12">
 		<div class="card social">
@@ -182,7 +341,13 @@
 			</div>
 		</div>
 	</div>
+	#}
+	
 {% endblock %}
-{% block javascripts %}
-	<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+{% block plugins_js %}
+	
+	<script src="/admin/global/js/Plugin/responsive-tabs.js"></script>
+	<script src="/admin/global/js/Plugin/closeable-tabs.js"></script>
+	<script src="/admin/global/js/Plugin/tabs.js"></script>
+	
 {% endblock %}
