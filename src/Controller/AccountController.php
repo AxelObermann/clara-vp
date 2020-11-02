@@ -6,14 +6,17 @@ use App\Entity\Profile;
 use App\Entity\User;
 use App\Form\UserFormType;
 use App\Repository\UserRepository;
+use App\Service\UploaderHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use function Symfony\Component\String\u;
 
 class AccountController extends AbstractController
 {
@@ -129,7 +132,6 @@ class AccountController extends AbstractController
         }
         $user = $this->getUser();
         return $this->render("account/profile.html.twig", [
-            'title'=>'Profil',
             'profile' => $user->getProfile()]);
     }
 
@@ -145,7 +147,6 @@ class AccountController extends AbstractController
                 if (!$this->passwordEncoder->isPasswordValid($user,$request->request->get('oldpass'))){
                     $this->addFlash('error', 'Das eingegebene Passwort stimmt nicht!');
                     return $this->render("account/profile.html.twig", [
-                        'title'=>'Profil',
                         'profile' => $user->getProfile()]);
                 }else{
                     $pass1 = $request->request->get('newpass');
@@ -153,7 +154,6 @@ class AccountController extends AbstractController
                     if ($pass1 != $pass2){
                         $this->addFlash('error', 'Die Passwörter stimmen nicht überein!!');
                         return $this->render("account/profile.html.twig", [
-                            'title'=>'Profil',
                             'profile' => $user->getProfile()]);
                     }else{
                         $user->setPassword($this->passwordEncoder->encodePassword($user, $request->request->get('newpass')));
@@ -167,13 +167,36 @@ class AccountController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'die Änderungen wurden übernommen');
             return $this->render("account/profile.html.twig", [
-                'title'=>'Profil',
                 'profile' => $user->getProfile()]);
         }
 
 
         return $this->render("account/profile.html.twig", [
-            'title'=>'Profil',
             'profile' => $user->getProfile()]);
+    }
+
+    /**
+     * @Route ("/tempUpdload", name="temp_upload")
+     */
+    public function tempUpload(EntityManagerInterface $entityManager, Request $request, UploaderHelper $uploaderHelper){
+        /** @var UploadedFile $uploadedFile */
+        $uploadedFile = $request->files->get("profilePicture");
+        $user = $this->getUser();
+        if ($uploadedFile){
+            $profileImage = $uploaderHelper->uploadProfileImage($uploadedFile,$user->getId());
+            $profile = $this->getUser()->getProfile();
+            $profile->setImage($profileImage);
+            $entityManager->flush();
+        }
+
+
+        return $this->render("account/profile.html.twig", [
+            'profile' => $user->getProfile()]);
+
+
+
+        $destination = $this->getParameter('kernel.project_dir').'/public/UPLOADS';
+        $newFileName = pathinfo($uploadedFile->getClientOriginalName(),PATHINFO_FILENAME);
+        $uploadedFile->move($destination,$newFileName."-".uniqid().".".$uploadedFile->guessExtension());
     }
 }
