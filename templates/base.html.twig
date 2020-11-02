@@ -16,12 +16,12 @@
     <link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/vendor/animate-css/vivify.min.css">
     <link rel="stylesheet" href="/assets/vendor/toastr/toastr.min.css">
-    {% block stylesheets %}
-    {% endblock %}
+    
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="/assets/css/site.min.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
-
+    {% block stylesheets %}
+    {% endblock %}
 </head>
 <body class="font-montserrat light_version theme-orange">
 
@@ -405,7 +405,8 @@
 <script src="/assets/bundles/libscripts.bundle.js"></script>
 <script src="/assets/bundles/vendorscripts.bundle.js"></script>
 <script src="/assets/bundles/mainscripts.bundle.js"></script>
-
+{% block javascripts %}
+{% endblock %}
     <script src="assets/vendor/toastr/toastr.js"></script>
     
     <script>
@@ -485,8 +486,7 @@
             });
         });
     </script>
-{% block javascripts %}
-{% endblock %}
+
 
 </body>
 </html>
