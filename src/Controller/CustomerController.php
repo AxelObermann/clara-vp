@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Adress;
+use App\Entity\Customer;
 use App\Entity\DeliveryPlace;
 use App\Repository\AdressRepository;
 use App\Repository\CustomerRepository;
@@ -47,11 +49,11 @@ class CustomerController extends AbstractController
     /**
      * @Route("/customers", name="customers")
      */
-    public function index(CustomerRepository $customerRepository, EntityManagerInterface $entityManager)
+    public function index(CustomerRepository $customerRepository,UserRepository $userRepository,EntityManagerInterface $entityManager)
     {
         $conn = $entityManager->getConnection();
         $user = $this->getUser();
-
+        $users = $userRepository->findAll();
         //dd($stmt->fetchAllAssociative());
         $viewName="";
             if ($this->security->isGranted('ROLE_PORTAL_ADMIN')) {
@@ -73,6 +75,7 @@ class CustomerController extends AbstractController
         return $this->render('customer/index.html.twig', [
             'controller_name' => $viewName,
             'customers' => $stmt->fetchAllAssociative(),
+            'users' => $users,
         ]);
     }
 
@@ -242,23 +245,46 @@ class CustomerController extends AbstractController
     public function saveCustomer(Request $request,CustomerRepository $customerRepository,AdressRepository $adressRepository,EntityManagerInterface $entityManager){
 
         $rp = [];
+        $message="";
         if ($content = $request->getContent()) {
             $rp = json_decode($content, true);
         }
-        $customer = $customerRepository->find($rp['Cid']);
-        $adress = $adressRepository->find($rp['Aid']);
-        $customer->setContactPerson($rp['contactPerson']);
-        $customer->setFullName($rp['Name']);
-        $adress->setStreet($rp['street']);
-        $adress->setStreetNumber($rp['strnumber']);
-        $adress->setZip($rp['PLZ']);
-        $adress->setTown($rp['Town']);
-        $adress->setPhone($rp['phone']);
-        $adress->setFax($rp['fax']);
-        $adress->setMail($rp['mail']);
-        $entityManager->flush($customer);
-        $entityManager->flush($adress);
-        return new JsonResponse('Die Änderungen wurden übernommen!');
+
+
+        if ($rp['action'] == "new"){
+            dd($rp);
+            /*
+            $customer = new Customer();
+            $customer->setContactPerson($rp['contactPerson']);
+            $customer->setFullName($rp['Name']);
+            $entityManager->persist($customer);
+            $adress = new Adress();
+            $adress->setStreet($rp['street']);
+            $adress->setStreetNumber($rp['strnumber']);
+            $adress->setZip($rp['PLZ']);
+            $adress->setTown($rp['Town']);
+            $adress->setPhone($rp['phone']);
+            $adress->setFax($rp['fax']);
+            $adress->setMail($rp['mail']);
+            */
+        }else{
+            $customer = $customerRepository->find($rp['Cid']);
+            $adress = $adressRepository->find($rp['Aid']);
+            $customer->setContactPerson($rp['contactPerson']);
+            $customer->setFullName($rp['Name']);
+            $adress->setStreet($rp['street']);
+            $adress->setStreetNumber($rp['strnumber']);
+            $adress->setZip($rp['PLZ']);
+            $adress->setTown($rp['Town']);
+            $adress->setPhone($rp['phone']);
+            $adress->setFax($rp['fax']);
+            $adress->setMail($rp['mail']);
+            $entityManager->flush($customer);
+            $entityManager->flush($adress);
+            $message = 'Die Änderungen wurden übernommen!';
+        }
+
+        return new JsonResponse($message);
     }
 
     /**
