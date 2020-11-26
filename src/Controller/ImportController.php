@@ -308,37 +308,35 @@ class ImportController extends AbstractController
 
         $count = 0;
         $loggedUser = $this->getUser();
-        $users = $userRepository->findAll();
+        //$users = $userRepository->findAll();
         $conn = \Doctrine\DBAL\DriverManager::getConnection($this->connectionParams);
-
-        foreach ($users as $user ) {
-            if ($user->getOldid() != "") {
-                $sql = "SELECT * FROM customers where user_id=" . $user->getOldid();
-                $stmt = $conn->executeQuery($sql);
-                if ($stmt->rowCount() != 0) {
-                    while ($row = $stmt->fetchAssociative()) {
-                        //dd($row);
-                        $customer = new Customer();
-                        $customer->setFullName(utf8_encode($row['fullname']));
-                        $customer->setContactPerson(utf8_encode($row['contactPerson']));
-                        $customer->setOldId($row['id']);
-                        $customer->setUser($user);
-                        $adress = new Adress();
-                        $adress->setFax($row['fax']);
-                        $adress->setMail($row['mail']);
-                        $adress->setPhone($row['phone']);
-                        $adress->setStreet(utf8_encode($row['street']));
-                        $adress->setStreetNumber(utf8_encode($row['street_number']));
-                        $adress->setZip($row['zip']);
-                        $adress->setTown(utf8_encode($row['town']));
-                        $adress->setCustomer($customer);
-                        $adress->setAdresstype('STAMM');
-                        $entityManager->persist($customer);
-                        $entityManager->persist($adress);
-                        $entityManager->flush();
-                        $count++;
-                    }
+        $sql = "SELECT * FROM customers";
+        $stmt = $conn->executeQuery($sql);
+        if ($stmt->rowCount() != 0) {
+            while ($row = $stmt->fetchAssociative()) {
+                $user = $userRepository->findOneBy(array('oldid' => $row['user_id']));
+                if (!$user){
+                    $user = $userRepository->find(7);
                 }
+                $customer = new Customer();
+                $customer->setFullName(utf8_encode($row['fullname']));
+                $customer->setContactPerson(utf8_encode($row['contactPerson']));
+                $customer->setOldId($row['id']);
+                $customer->setUser($user);
+                $adress = new Adress();
+                $adress->setFax($row['fax']);
+                $adress->setMail($row['mail']);
+                $adress->setPhone($row['phone']);
+                $adress->setStreet(utf8_encode($row['street']));
+                $adress->setStreetNumber(utf8_encode($row['street_number']));
+                $adress->setZip($row['zip']);
+                $adress->setTown(utf8_encode($row['town']));
+                $adress->setCustomer($customer);
+                $adress->setAdresstype('STAMM');
+                $entityManager->persist($customer);
+                $entityManager->persist($adress);
+                $entityManager->flush();
+                $count++;
             }
         }
         return $this->render("import/index.html.twig",[
