@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+	<meta name="description" content="bootstrap material admin template">
+	<meta name="author" content="">
+	
+	<title>Clara</title>
+	
+	<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+	<link rel="shortcut icon" href="/assets/images/favicon.ico">
+	
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="/global/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/global/css/bootstrap-extend.min.css">
+	<link rel="stylesheet" href="/assets/css/site.min.css">
+	<link rel="stylesheet" href="/assets/css/custom.css">
+	
+	<!-- Plugins -->
+	<link rel="stylesheet" href="/global/vendor/animsition/animsition.css">
+	<link rel="stylesheet" href="/global/vendor/asscrollable/asScrollable.css">
+	<link rel="stylesheet" href="/global/vendor/switchery/switchery.css">
+	<link rel="stylesheet" href="/global/vendor/intro-js/introjs.css">
+	<link rel="stylesheet" href="/global/vendor/slidepanel/slidePanel.css">
+	<link rel="stylesheet" href="/global/vendor/jquery-mmenu/jquery-mmenu.css">
+	<link rel="stylesheet" href="/global/vendor/flag-icon-css/flag-icon.css">
+	<link rel="stylesheet" href="/global/vendor/waves/waves.css">
+	<link rel="stylesheet" href="/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css">
+	<link rel="stylesheet" href="/global/vendor/datatables.net-fixedheader-bs4/dataTables.fixedheader.bootstrap4.css">
+	<link rel="stylesheet" href="/global/vendor/datatables.net-fixedcolumns-bs4/dataTables.fixedcolumns.bootstrap4.css">
+	<link rel="stylesheet" href="/global/vendor/datatables.net-rowgroup-bs4/dataTables.rowgroup.bootstrap4.css">
+	<link rel="stylesheet" href="/global/vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.css">
+	<link rel="stylesheet" href="/global/vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.css">
+	<link rel="stylesheet" href="/global/vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.css">
+	<link rel="stylesheet" href="/global/vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.css">
+	<link rel="stylesheet" href="/assets/examples/css/tables/datatable.css">
+	<link rel="stylesheet" href="/global/vendor/toastr/toastr.css">
+	<link rel="stylesheet" href="/assets/examples/css/advanced/toastr.css">
+	<link rel="stylesheet" href="/global/vendor/bootstrap-select/bootstrap-select.css">
+	<link rel="stylesheet" href="/global/vendor/select2/select2.css">
+	<link rel="stylesheet" href="/global/vendor/multi-select/multi-select.css">
+	<!-- Fonts -->
+	<link rel="stylesheet" href="/global/fonts/font-awesome/font-awesome.css">
+	<link rel="stylesheet" href="/global/fonts/material-design/material-design.min.css">
+	<link rel="stylesheet" href="/global/fonts/brand-icons/brand-icons.min.css">
+	<link rel="stylesheet" href="/global/fonts/web-icons/web-icons.min.css">
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+	
+	<!--[if lt IE 9]>
+	<script src="/global/vendor/html5shiv/html5shiv.min.js"></script>
+	<![endif]-->
+	
+	<!--[if lt IE 10]>
+	<script src="/global/vendor/media-match/media.match.min.js"></script>
+	<script src="/global/vendor/respond/respond.min.js"></script>
+	<![endif]-->
+	
+	<!-- Scripts -->
+	<script src="/global/vendor/breakpoints/breakpoints.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.css" integrity="sha512-UrCkMTUH0evgGYJJ1Gb5XGuBXDrsSNoyN6Y6OecnEldtTg0TnqZACVJXyEY1wmvf6H8sKET/Yb85cG1xOjSnsw==" crossorigin="anonymous" />	<link rel="stylesheet" href="/global/fonts/material-design/material-design.min.css">
+	<script>
+        Breakpoints();
+	</script>
+</head>
+<body class="animsition site-navbar-small ">
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
+	
+	<div class="navbar-header">
+	<button type="button" class="navbar-toggler hamburger hamburger-close navbar-toggler-left hided"
+			data-toggle="menubar">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="hamburger-bar"></span>
+	</button>
+	<button type="button" class="navbar-toggler collapsed" data-target="#site-navbar-collapse"
+			data-toggle="collapse">
+		<i class="icon md-more" aria-hidden="true"></i>
+	</button>
+	<div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+		<img class="navbar-brand-logo" src="/assets/images/ClaraLogoXS.png" title="CLARA" style="margin-left: -10px;height: 35px;">
+		<span class="navbar-brand-text hidden-xs-down"> C.L.A.R.A.</span>
+	</div>
+	</div>
+	
+	{% include 'base_elements/navbarTop.html.twig' %}
+</nav>
+{% include 'base_elements/siteMenubar.html.twig' %}
+{#  { % include 'base_elements/siteGridMenu.html.twig' % }#}
+<div class="slidePanel slidePanel-right site-sidebar" id="site-sidebar" style="z-index: 9999;    padding-top: 50px;">
+	<form action="{{ path("fileUpload") }}" class="dropzone global">
+		<select class="form-control-lg">
+			<option value="Sonstiges">Sonstiges</option>
+			<option value="Logos">Logos</option>
+			<option value="CI">Corporate Identity</option>
+			<option value="Dokumente">Dokumente</option>
+		</select>
+		<div class="fallback">
+			<input name="file" type="file" multiple />
+		</div>
+	</form>
+
+</div>
+
+
+<!-- Page -->
+<div class="page">
+	
+	<div class="page-content">
+		{% block body %}
+		{% endblock %}
+	</div>
+</div>
+<!-- End Page -->
+
+
+<!-- Footer -->
+<footer class="site-footer">
+	<div class="site-footer-legal">© 2017 <a href="https://best-of-stickers.com" target="_blank">Best of Stickers</a></div>
+	<div class="site-footer-right">
+		Crafted with <i class="red-600 icon md-favorite"></i> by <a href="https://best-of-stickers.com" target="_blank">Best of Stickers</a>
+	</div>
+</footer>
+<!-- Core  -->
+<script src="/global/vendor/babel-external-helpers/babel-external-helpers.js"></script>
+<script src="/global/vendor/jquery/jquery.js"></script>
+<script src="/global/vendor/popper-js/umd/popper.min.js"></script>
+<script src="/global/vendor/bootstrap/bootstrap.js"></script>
+<script src="/global/vendor/animsition/animsition.js"></script>
+<script src="/global/vendor/mousewheel/jquery.mousewheel.js"></script>
+<script src="/global/vendor/asscrollbar/jquery-asScrollbar.js"></script>
+<script src="/global/vendor/asscrollable/jquery-asScrollable.js"></script>
+<script src="/global/vendor/waves/waves.js"></script>
+
+<!-- Plugins -->
+<script src="/global/vendor/jquery-mmenu/jquery.mmenu.min.all.js"></script>
+<script src="/global/vendor/switchery/switchery.js"></script>
+<script src="/global/vendor/intro-js/intro.js"></script>
+<script src="/global/vendor/screenfull/screenfull.js"></script>
+<script src="/global/vendor/slidepanel/jquery-slidePanel.js"></script>
+<script src="/global/vendor/datatables.net/jquery.dataTables.js"></script>
+<script src="/global/vendor/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<script src="/global/vendor/datatables.net-fixedheader/dataTables.fixedHeader.js"></script>
+<script src="/global/vendor/datatables.net-fixedcolumns/dataTables.fixedColumns.js"></script>
+<script src="/global/vendor/datatables.net-rowgroup/dataTables.rowGroup.js"></script>
+<script src="/global/vendor/datatables.net-scroller/dataTables.scroller.js"></script>
+<script src="/global/vendor/datatables.net-responsive/dataTables.responsive.js"></script>
+<script src="/global/vendor/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+<script src="/global/vendor/datatables.net-buttons/dataTables.buttons.js"></script>
+<script src="/global/vendor/datatables.net-buttons/buttons.html5.js"></script>
+<script src="/global/vendor/datatables.net-buttons/buttons.flash.js"></script>
+<script src="/global/vendor/datatables.net-buttons/buttons.print.js"></script>
+<script src="/global/vendor/datatables.net-buttons/buttons.colVis.js"></script>
+<script src="/global/vendor/datatables.net-buttons-bs4/buttons.bootstrap4.js"></script>
+<script src="/global/vendor/asrange/jquery-asRange.min.js"></script>
+<script src="/global/vendor/bootbox/bootbox.js"></script>
+<script src="/global/vendor/toastr/toastr.js"></script>
+
+<!-- Scripts -->
+<script src="/global/js/Component.js"></script>
+<script src="/global/js/Plugin.js"></script>
+<script src="/global/js/Base.js"></script>
+<script src="/global/js/Config.js"></script>
+
+<script src="/assets/js/Section/Menubar.js"></script>
+<script src="/assets/js/Section/Sidebar.js"></script>
+<script src="/assets/js/Section/PageAside.js"></script>
+<script src="/assets/js/Section/GridMenu.js"></script>
+
+<!-- Config -->
+<script src="/global/js/config/colors.js"></script>
+<script src="/assets/js/config/tour.js"></script>
+<script>Config.set('assets', '/assets');</script>
+
+<!-- Page -->
+<script src="/assets/js/Site.js"></script>
+<script src="/global/js/Plugin/asscrollable.js"></script>
+<script src="/global/js/Plugin/slidepanel.js"></script>
+<script src="/global/js/Plugin/switchery.js"></script>
+<script src="/global/js/Plugin/datatables.js"></script>
+<script src="/global/js/Plugin/panel.js"></script>
+
+<script src="/assets/examples/js/tables/datatable.js"></script>
+
+<script src="/global/vendor/select2/select2.full.min.js"></script>
+<script src="/global/vendor/bootstrap-tokenfield/bootstrap-tokenfield.min.js"></script>
+<script src="/global/vendor/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+<script src="/global/vendor/bootstrap-select/bootstrap-select.js"></script>
+<script src="/global/vendor/icheck/icheck.min.js"></script>
+<script src="/global/vendor/switchery/switchery.js"></script>
+<script src="/global/vendor/asrange/jquery-asRange.min.js"></script>
+<script src="/global/vendor/ionrangeslider/ion.rangeSlider.min.js"></script>
+<script src="/global/vendor/asspinner/jquery-asSpinner.min.js"></script>
+<script src="/global/vendor/clockpicker/bootstrap-clockpicker.min.js"></script>
+<script src="/global/vendor/ascolor/jquery-asColor.min.js"></script>
+<script src="/global/vendor/asgradient/jquery-asGradient.min.js"></script>
+<script src="/global/vendor/ascolorpicker/jquery-asColorPicker.min.js"></script>
+<script src="/global/vendor/bootstrap-maxlength/bootstrap-maxlength.js"></script>
+<script src="/global/vendor/jquery-knob/jquery.knob.js"></script>
+<script src="/global/vendor/bootstrap-touchspin/bootstrap-touchspin.min.js"></script>
+<script src="/global/vendor/jquery-labelauty/jquery-labelauty.js"></script>
+<script src="/global/vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+<script src="/global/vendor/timepicker/jquery.timepicker.min.js"></script>
+<script src="/global/vendor/datepair/datepair.min.js"></script>
+<script src="/global/vendor/datepair/jquery.datepair.min.js"></script>
+<script src="/global/vendor/jquery-strength/password_strength.js"></script>
+<script src="/global/vendor/jquery-strength/jquery-strength.min.js"></script>
+<script src="/global/vendor/multi-select/jquery.multi-select.js"></script>
+<script src="/global/vendor/typeahead-js/bloodhound.min.js"></script>
+<script src="/global/vendor/typeahead-js/typeahead.jquery.min.js"></script>
+<script src="/global/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+<script src="/global/js/Plugin/select2.js"></script>
+<script src="/global/js/Plugin/bootstrap-tokenfield.js"></script>
+<script src="/global/js/Plugin/bootstrap-tagsinput.js"></script>
+<script src="/global/js/Plugin/bootstrap-select.js"></script>
+<script src="/global/js/Plugin/icheck.js"></script>
+<script src="/global/js/Plugin/switchery.js"></script>
+<script src="/global/js/Plugin/asrange.js"></script>
+<script src="/global/js/Plugin/ionrangeslider.js"></script>
+<script src="/global/js/Plugin/asspinner.js"></script>
+<script src="/global/js/Plugin/clockpicker.js"></script>
+<script src="/global/js/Plugin/ascolorpicker.js"></script>
+<script src="/global/js/Plugin/bootstrap-maxlength.js"></script>
+<script src="/global/js/Plugin/jquery-knob.js"></script>
+<script src="/global/js/Plugin/bootstrap-touchspin.js"></script>
+<script src="/global/js/Plugin/card.js"></script>
+<script src="/global/js/Plugin/jquery-labelauty.js"></script>
+<script src="/global/js/Plugin/bootstrap-datepicker.js"></script>
+<script src="/global/js/Plugin/jt-timepicker.js"></script>
+<script src="/global/js/Plugin/datepair.js"></script>
+<script src="/global/js/Plugin/jquery-strength.js"></script>
+<script src="/global/js/Plugin/multi-select.js"></script>
+<script src="/global/js/Plugin/jquery-placeholder.js"></scrip
+<script src="/global/js/Plugin/toastr.js"></script>
+    <script src="/global/js/Plugin/multi-select.js"></script>
+
+<script src="/assets/examples/js/forms/advanced.js"></script>
+<script src="/assets/examples/js/uikit/icon.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js" integrity="sha512-jytq61HY3/eCNwWirBhRofDxujTCMFEiQeTe+kHR4eYLNTXrUq7kY2qQDKOUnsVAKN5XGBJjQ3TvNkIkW/itGw==" crossorigin="anonymous"></script>
+{% block siteJS %}
+{% endblock %}
+<script>
+    (function(document, window, $){
+        Dropzone.autoDiscover = false;
+        'use strict';
+
+        var Site = window.Site;
+        $(document).ready(function(){
+            Site.run();
+        });
+    })
+    (document, window, jQuery);
+
+
+    $( document ).ready(function() {
+        //alert($("#dashUserwidget").height())
+        initDropzone();
+        $('#toggleUpload').click(function () {
+            $('#site-sidebar').toggleClass( 'slidePanel-show', 1000 );
+        });
+
+
+        $(document).on("click", ".open-AddBookDialog", function () {
+
+            var myBookId = $(this).data('id');
+            $(".modal-body #userId").val( myBookId );
+            $("#todoModal").show();
+        });
+
+        $("#dropzone-form").dropzone({ /* options */ });
+    });
+
+    function initDropzone(){
+        var formElement = document.querySelector('.global');
+        if (!formElement){
+            return;
+        }
+        var dropzone = new Dropzone(formElement,{
+            paramName: 'test',
+            thumbnailWidth: 80,
+            thumbnailHeight: 80,
+            dictDefaultMessage: 'Dateien hier ablegen',
+            height: 800,
+            init: function (){
+                this.on('error', function(file, data){
+                    this.emit('error', file, data.detail);
+                });
+            }
+        });
+    }
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{% extends 'baseNew.html.twig' %}
+{% block body %}
+<div class="panel">
+	
+	<div class="panel-body container-fluid">
+		
+		<div class="col-lg-12">
+			<div class="example-wrap ">
+				<div class="nav-tabs-horizontal border border-dark-50 p-10" data-plugin="tabs">
+					<ul class="nav nav-tabs nav-tabs-animate " role="tablist">
+						<li class="nav-item" role="presentation"><a class="nav-link info active" data-toggle="tab" href="#benutzer"
+																	aria-controls="benutzer" role="tab">Benutzerdaten</a></li>
+						<li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#profil"
+																	aria-controls="profil" role="tab">Profil</a></li>
+						<li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#dateien"
+																	aria-controls="dateien" role="tab">Dateien / Bilder</a></li>
+					</ul>
+					<div class="tab-content pt-20">
+						<div class="tab-pane active" id="profil" role="tabpanel">
+							{%  include("/user/forms/profileForm.html.twig") %}
+						</div>
+						<div class="tab-pane" id="benutzer" role="tabpanel">
+							<div class="panel-heading">
+								<h3 class="panel-title">Benutzer einstellungen:</h3>
+							</div>
+							{%  include("/user/forms/userDataForm.html.twig") %}
+						</div>
+						<div class="tab-pane" id="dateien" role="tabpanel">
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	</div>
+</div>
+{% endblock %}

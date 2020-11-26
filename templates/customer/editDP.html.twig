@@ -1,0 +1,364 @@
+{% extends 'baseNew.html.twig' %}
+{% block body %}
+<div class="panel mb-0" id="customerKdlPanel">
+	<div class="panel-heading">
+		<h3 class="panel-title"><i class="site-menu-icon icon fa-users" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Lieferstelle: <span id="deliveryPlaceTitle">{{ deliverPlace.Firmenname }}</span></h3>
+		<div class="panel-actions">
+			<a class="panel-action" id="customerDeliversPlaceClose" data-toggle="panel-close" aria-hidden="true"><i class="icon md-close text-white font-size-26" aria-hidden="true"></i></a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="col-md-6 float-left">
+					<div class="panel shadow-lg" id="lieferPanel" style="margin-top: 15px;">
+						<div class="panel-heading" >
+							<h3 class="panel-title text-white">Lieferadresse</h3>
+							<div class="panel-actions text-white">
+								<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+							</div>
+						</div>
+						
+						<div class="panel-body container-fluid">
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group-sm">
+										<span class="text-help-sm">Firmenname</span>
+										<input type="text" name="Firmenname" id="Firmenname" value="{{ deliverPlace.Firmenname }}" size="50" class="form-control form-control-sm round" placeholder="Firmenname">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">Anrede</span>
+										<input type="text" name="Anrede" id="Anrede" value="{{ deliverPlace.Anrede }}" class="form-control form-control-sm round" placeholder="Anrede">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">Vorname</span>
+										<input type="text" name="Vorname" id="Vorname" value="{{ deliverPlace.Vorname }}" class="form-control form-control-sm round" placeholder="Vorname">
+									</div>
+								</div><div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">Nachname</span>
+										<input type="text" name="Nachname" id="Nachname" value="{{ deliverPlace.Nachname }}" class="form-control form-control-sm round" placeholder="Nachname">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-8 col-md-8">
+									<div class="form-group">
+										<span class="text-help-sm">Strasse</span>
+										<input type="text" name="Strasse" id="Strasse" value="{{ deliverPlace.Strasse }}" class="form-control form-control-sm round" placeholder="Strasse">
+									</div>
+								</div><div class="col-lg-4 col-md-4">
+									<div class="form-group">
+										<span class="text-help-sm">Hausnummer</span>
+										<input type="text" name="Hausnummer" id="Hausnummer" value="{{ deliverPlace.Hausnummer }}" class="form-control form-control-sm round" placeholder="Hausnummer">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-4 col-md-4">
+									<div class="form-group">
+										<span class="text-help-sm">PLZ</span>
+										<input type="text" name="PLZ" id="PLZ" value="{{ deliverPlace.PLZ }}" class="form-control form-control-sm round" placeholder="PLZ">
+									</div>
+								</div><div class="col-lg-8 col-md-8">
+									<div class="form-group">
+										<span class="text-help-sm">Ort</span>
+										<input type="text" name="Ort" id="Ort" value="{{ deliverPlace.Ort }}" class="form-control form-control-sm round" placeholder="Ort">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				
+				</div>
+				<div class="col-md-6 float-left">
+					<div class="panel shadow-lg" id="abwRePanel" style="margin-top: 15px;">
+						<div class="panel-heading">
+							<h3 class="panel-title text-white">abw. Rechnungsadresse</h3>
+							<div class="panel-actions text-white">
+								<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+							</div>
+						</div>
+						<div class="panel-body container-fluid">
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group-sm">
+										<span class="text-help-sm">Firmenname</span>
+										<input type="text" name="ReFirma" id="ReFirma" value="{{ deliverPlace.ReFirma }}" size="50" class="form-control form-control-sm round" placeholder="Firmenname">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">Anrede</span>
+										<input type="text" name="ReAnrede" id="ReAnrede" value="{{ deliverPlace.ReAnrede }}" class="form-control form-control-sm round" placeholder="Anrede">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">Vorname</span>
+										<input type="text" name="ReVorname" id="ReVorname" value="{{ deliverPlace.ReVorname }}" class="form-control form-control-sm round" placeholder="Vorname">
+									</div>
+								</div><div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">Nachname</span>
+										<input type="text" name="ReNachname" id="ReNachname" value="{{ deliverPlace.ReNachname }}" class="form-control form-control-sm round" placeholder="Nachname">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-8 col-md-8">
+									<div class="form-group">
+										<span class="text-help-sm">Strasse</span>
+										<input type="text" name="ReStrasse" id="ReStrasse" value="{{ deliverPlace.ReStrasse }}" class="form-control form-control-sm round" placeholder="Strasse">
+									</div>
+								</div><div class="col-lg-4 col-md-4">
+									<div class="form-group">
+										<span class="text-help-sm">Hausnummer</span>
+										<input type="text" name="ReHausnummer" id="ReHausnummer" value="{{ deliverPlace.ReHausnummer }}" class="form-control form-control-sm round" placeholder="Hausnummer">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-4 col-md-4">
+									<div class="form-group">
+										<span class="text-help-sm">PLZ</span>
+										<input type="text" name="RePLZ" id="RePLZ" value="{{ deliverPlace.RePLZ }}" class="form-control form-control-sm round" placeholder="PLZ">
+									</div>
+								</div><div class="col-lg-8 col-md-8">
+									<div class="form-group">
+										<span class="text-help-sm">Ort</span>
+										<input type="text" name="ReOrt" id="ReOrt" value="{{ deliverPlace.ReOrt }}" class="form-control form-control-sm round" placeholder="Ort">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="col-md-6 float-left">
+					<div class="panel shadow-lg" id="bankPanel">
+						<div class="panel-heading">
+							<h3 class="panel-title text-white">Bankverbindung</h3>
+							<div class="panel-actions text-white">
+								<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+							</div>
+						</div>
+						<div class="panel-body container-fluid">
+							<div class="row row-lg">
+								<div class="col-lg-8 col-md-8">
+									<div class="form-group-sm">
+										<span class="text-help-sm">IBAN</span>
+										<input type="text" name="IBAN" id="IBAN" value="" size="50" class="form-control form-control-sm round" placeholder="IBAN">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-8 col-md-8">
+									<div class="form-group">
+										<span class="text-help-sm">BIC</span>
+										<input type="text" name="BIC" id="BIC" value="" class="form-control form-control-sm round" placeholder="BIC">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 float-left">
+					<div class="panel shadow-lg" id="vorversorgerPanel">
+						<div class="panel-heading">
+							<h3 class="panel-title text-white">Vorversorgerdaten</h3>
+							<div class="panel-actions text-white">
+								<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+							</div>
+						</div>
+						<div class="panel-body container-fluid">
+							<div class="row row-lg">
+								<div class="col-lg-8 col-md-8">
+									<div class="form-group-sm">
+										<span class="text-help-sm">Vorversorger</span>
+										<input type="text" name="Vorversorger" id="Vorversorger" value="" size="50" class="form-control form-control-sm round" placeholder="Vorversorger">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-8 col-md-8">
+									<div class="form-group">
+										<span class="text-help-sm">Kundennummer</span>
+										<input type="text" name="Kundennummer" id="Kundennummer" value="" class="form-control form-control-sm round" placeholder="Kundennummer">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="col-md-6 float-left">
+					<div class="panel shadow-lg" id="zaehlerPanel">
+						<div class="panel-heading">
+							<h3 class="panel-title text-white">Zählerdaten</h3>
+							<div class="panel-actions text-white">
+								<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+							</div>
+						</div>
+						<div class="panel-body container-fluid">
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group-sm">
+										<span class="text-help-sm">Kundenart</span>
+										<input type="text" name="Kundenart" id="Kundenart" value="{{ deliverPlace.Kundenart }}" size="50" class="form-control form-control-sm round" placeholder="Kundenart">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group-sm">
+										<span class="text-help-sm">Verbrauch</span>
+										<input type="text" name="Verbrauch" id="Verbrauch" value="{{ deliverPlace.Verbrauch }}" size="50" class="form-control form-control-sm round" placeholder="Verbrauch">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group-sm">
+										<span class="text-help-sm">MaloID</span>
+										<input type="text" name="MaloID" id="MaloID" value="{{ deliverPlace.MaloID }}" size="50" class="form-control form-control-sm round" placeholder="MaloID">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group-sm">
+										<span class="text-help-sm">Zaehlernummer</span>
+										<input type="text" name="Zaehlernummer" id="Zaehlernummer" value="{{ deliverPlace.Zaehlernummer }}" size="50" class="form-control form-control-sm round" placeholder="Zaehlernummer">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group-sm">
+										<span class="text-help-sm">MeloID</span>
+										<input type="text" name="MeloID" id="MeloID" value="{{ deliverPlace.MeloID }}" size="50" class="form-control form-control-sm round" placeholder="MeloID">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group-sm">
+										<span class="text-help-sm">Medium</span>
+										<input type="text" name="Medium" id="Medium" value="{{ deliverPlace.Medium }}" size="50" class="form-control form-control-sm round" placeholder="Medium">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 float-left">
+					<div class="panel shadow-lg" id="akVersorgerPanel">
+						<div class="panel-heading">
+							<h3 class="panel-title text-white">aktueller Versorger</h3>
+							<div class="panel-actions text-white">
+								<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+							</div>
+						</div>
+						<div class="panel-body container-fluid">
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">Versorger</span>
+										<input type="text" name="Versorger" id="Versorger" value="{{ deliverPlace.Versorger }}" class="form-control form-control-sm round" placeholder="Versorger">
+									</div>
+								</div><div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">Tarifname</span>
+										<input type="text" name="Tarifname" id="Tarifname" value="{{ deliverPlace.Tarifname }}" class="form-control form-control-sm round" placeholder="Tarifname">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">Tarifnummer</span>
+										<input type="text" name="Tarifnummer" id="Tarifnummer" value="{{ deliverPlace.Tarifnummer }}" class="form-control form-control-sm round" placeholder="Tarifnummer">
+									</div>
+								</div><div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">VersKdNr</span>
+										<input type="text" name="VersKdNr" id="VersKdNr" value="{{ deliverPlace.VersKdNr }}" class="form-control form-control-sm round" placeholder="VersKdNr">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">Abschlussprovision</span>
+										<input type="text" name="Abschlussprovision" id="Abschlussprovision" value="{{ deliverPlace.Abschlussprovision }}" class="form-control form-control-sm round" placeholder="Abschlussprovision">
+									</div>
+								</div><div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">FolgeprovM</span>
+										<input type="text" name="FolgeprovM" id="FolgeprovM" value="{{ deliverPlace.FolgeprovM }}" class="form-control form-control-sm round" placeholder="FolgeprovM">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">SpannePKwH</span>
+										<input type="text" name="SpannePKwH" id="SpannePKwH" value="{{ deliverPlace.SpannePKwH }}" class="form-control form-control-sm round" placeholder="SpannePKwH">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">AP</span>
+										<input type="text" name="AP" id="AP" value="{{ deliverPlace.AP }}" class="form-control form-control-sm round" placeholder="AP">
+									</div>
+								</div><div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">GP</span>
+										<input type="text" name="GP" id="GP" value="{{ deliverPlace.GP }}" class="form-control form-control-sm round" placeholder="GP">
+									</div>
+								</div>
+							</div>
+							<div class="row row-lg">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">Vertragsbeginn</span>
+										<input type="text" name="Vertragsbeginn" id="Vertragsbeginn" value="{{ deliverPlace.Vertragsbeginn|date("m/d/Y") }}" class="form-control form-control-sm round" placeholder="Vertragsbeginn">
+									</div>
+								</div><div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<span class="text-help-sm">Dauer</span>
+										<input type="text" name="Dauer" id="Dauer" value="{{ deliverPlace.Dauer }}" class="form-control form-control-sm round" placeholder="Dauer">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel-footer"></div>
+</div>
+{% endblock %}

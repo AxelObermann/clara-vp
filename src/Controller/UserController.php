@@ -2,8 +2,13 @@
 
 namespace App\Controller;
 
+use App\Repository\ProfileRepository;
+use App\Repository\UserRepository;
+use App\Service\UploaderHelper;
 use App\Service\UserService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
@@ -17,5 +22,135 @@ class UserController extends AbstractController
         return $this->render('user/index.html.twig', [
             'users' => $users
         ]);
+    }
+
+    /**
+     * @Route ("/usertogglefavorite", name="user_toggle_favorite")
+     */
+    public function toggleFavorite(UserService $userService,Request $request,EntityManagerInterface $entityManager){
+        if ($request->isMethod('GET')){
+            $usertoadd = $request->query->get('id');
+            $favs = array();
+            $user = $this->getUser();
+            $favs = $user->getFavorite();
+            //dd($favs);
+
+            if (in_array($usertoadd,$favs)){
+                $index = array_search($usertoadd, $favs);
+                //dd($index);
+                unset($favs[$index]);
+                $user->setFavorite($favs);
+            }else{
+                array_push($favs,$usertoadd);
+                $user->setFavorite($favs);
+            }
+            $entityManager->flush();
+
+        }
+
+        $users = $userService->getAllUsers();
+        return $this->redirect($request->headers->get('referer'));
+    }
+
+    /**
+     * @param UserService $userService
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route ("/usertoggleactive", name="user_toggle_active")
+     */
+    public function toggleActive(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager){
+        if ($request->isMethod('GET')){
+            $userToActivate = $request->query->get('id');
+            $user = $userRepository->find($userToActivate);
+            if ($user->getActive()){
+                $user->setActive(false);
+            }else{
+                $user->setActive(true);
+            }
+            $entityManager->flush();
+        }
+        return $this->redirect($request->headers->get('referer'));
+    }
+
+    /**
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @param ProfileRepository $profileRepository
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route ("/user/edit", name="user_edit")
+     */
+    public function userEdit(Request $request, UserRepository $userRepository, ProfileRepository $profileRepository,EntityManagerInterface $entityManager,UploaderHelper $uploaderHelper){
+        if($request->isMethod('GET')){
+            $user = $userRepository->find($request->query->get('id'));
+            $profile = $user->getProfile();
+            //dd($user);
+            return $this->render('user/edit.html.twig', [
+                'user' => $user,
+                'profile' => $profile
+            ]);
+        }
+        if($request->isMethod('POST')){
+            if ($request->request->get('typ')=="profile"){
+                $profile = $profileRepository->find($request->request->get('id'));
+                $profile->setFirstName($request->request->get('Vorname'));
+                $profile->setLastName($request->request->get('Nachname'));
+                $profile->setFirma($request->request->get('Firma'));
+                $profile->setSteuernummer($request->request->get('Steuernummer'));
+                $profile->setFinanzamt($request->request->get('Finanzamt'));
+                $profile->setIban($request->request->get('IBAN'));
+                $profile->setBic($request->request->get('BIC'));
+                $profile->setBank($request->request->get('Bank'));
+                $profile->setTelefon($request->request->get('Telefon'));
+                $profile->setPlz($request->request->get('PLZ'));
+                $profile->setOrt($request->request->get('Ort'));
+                $profile->setStrassenr($request->request->get('Strasse'));
+                $profile->getSignatur($request->request->get('Signatur'));
+                $entityManager->flush();
+            }elseif ($request->request->get('typ')=="user"){
+
+                $user = $userRepository->find($request->request->get('id'));
+                $uploadedFile = $request->files->get("userImage");
+                $uploadedLogo = $request->files->get("userLogo");
+
+                if ($uploadedFile){
+                    $profileImage = $uploaderHelper->uploadProfileImage($uploadedFile,$user->getId());
+                    $profile = $user->getProfile();
+                    $profile->setImage($profileImage);
+                    $entityManager->flush();
+                }
+                if ($uploadedLogo){
+                    $profileImage = $uploaderHelper->uploadProfileImage($uploadedLogo,$user->getId());
+                    $profile = $user->getProfile();
+                    $profile->setLogo($profileImage);
+                    $entityManager->flush();
+                }
+                if($request->request->get('oldpass') != ""){
+                    if (!$this->passwordEncoder->isPasswordValid($user,$request->request->get('oldpass'))){
+                        $this->addFlash('error', 'Das eingegebene Passwort stimmt nicht!');
+                        return $this->render("account/profile.html.twig", [
+                            'profile' => $user->getProfile()]);
+                    }else{
+                        $pass1 = $request->request->get('newpass');
+                        $pass2 = $request->request->get('confirmnewpass');
+                        if ($pass1 != $pass2){
+                            $this->addFlash('error', 'Die Passwörter stimmen nicht überein!!');
+                            return $this->render("account/profile.html.twig", [
+                                'profile' => $user->getProfile()]);
+                        }else{
+                            $user->setPassword($this->passwordEncoder->encodePassword($user, $request->request->get('newpass')));
+                        }
+
+                    }
+                }
+
+                $user->setDisplayName($request->request->get('displayname'));
+                $user->setEmail($request->request->get('email'));
+                $entityManager->flush();
+            }
+
+        }
+
+        return $this->redirect($request->headers->get('referer'));
     }
 }

@@ -1,1 +1,176 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseNew.html.twig' %}
+
+{% block body %}
+{# {{ dump(app.user) }} #}
+	<div class="row" data-plugin="matchHeight" data-by-row="false">
+		<div class="col-xl-4 col-lg-4" id="dashUserwidget">
+			<div class="card shadow-lg" style="height: 500px;">
+				<div class="card" id="widgetUserList">
+					<div class="card-header cover overlay">
+						<img class="cover-image h-200" src="assets/examples/images/dashboard-header.jpg" alt="...">
+						<div class="overlay-panel vertical-align overlay-background">
+							<div class="vertical-align-middle">
+								<a class="avatar avatar-100 float-left mr-20" href="javascript:void(0)">
+									<img src="{% if app.session.get('userImage') == "" %}
+							/assets/images/avatar.jpg" alt="...">
+									{% else %}
+										{{ app.session.get('userImage') }}" alt="...">
+									{% endif %}
+								</a>
+								<div class="float-left">
+									<div class="font-size-20">{{ loggeduser.displayName }}</div>
+									<p class="mb-20 text-nowrap">
+										<span class="text-break">{{ loggeduser.email }}</span>
+									</p>
+									<!--<div class="text-nowrap font-size-18">
+										<a href="" class="white mr-10">
+											<i class="icon bd-twitter"></i>
+										</a>
+										<a href="" class="white mr-10">
+											<i class="icon bd-facebook"></i>
+										</a>
+										<a href="" class="white">
+											<i class="icon bd-dribbble"></i>
+										</a>
+									</div>-->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-block py-0">
+						<ul class="list-group list-group-full list-group-dividered mb-0">
+							{% for user in users %}
+								{% if user.id in app.user.favorite %}
+									<li class="list-group-item">
+										<div class="media">
+											<div class="pr-20">
+												<a class="avatar avatar-lg" href="javascript:void(0)">
+													<img class="img-responsive" src="
+													{% if user.getProfile.getImage == "" %}
+													/assets/images/avatar.jpg" alt="...">
+													{% else %}
+													{{ user.getProfile.getImage }}" alt="...">
+													{% endif %}
+												</a>
+												<button type="button" class="btn btn-warning btn-floating btn-xs" style="position: inherit">
+													<a data-toggle="modal" data-target="#todoModal" data-id="{{ user.id }}" style="color: #ffffff" class="open-AddBookDialog"><i class="icon md-notifications-add" style="margin: -1px 5px 0;" aria-hidden="true"></i></a>
+												</button>
+											</div>
+											<div class="media-body">
+												<h5 class="mt-0 mb-5">{{ user.displayName }}</h5>
+												<small>{{ user.email }}</small>
+											</div>
+										</div>
+									</li>
+								{% endif%}
+							{% endfor %}
+						</ul>
+						<button type="button" class="btn-raised btn btn-danger btn-floating waves-effect waves-classic waves-effect waves-light">
+							<i class="icon md-accounts-add" aria-hidden="true"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 masonry-item">
+			<div class="panel shadow-lg pb-20" id="event-list">
+				<div class="panel-heading" style="background: #f19408;">
+					<h3 class="panel-title"><i class="site-menu-icon icon md-calendar" style="font-size: 25px;top: 3px;" aria-hidden="true"></i>Termine für heute</h3>
+				</div>
+				<div class="calendar-container h-450 scrollable">
+					<div id="calendar"></div>
+				</div>
+			</div>
+		</div>
+		<!--<div class="col-xl-4 col-lg-4" id="dashUserTodos">
+			<div class="card shadow-lg" style="height: 500px;">
+				<div class="card-header-bordered p-10">
+					<h4>Todos für heute</h4>
+				</div>
+				<div class="card-body">
+				</div>
+			</div>
+		</div>-->
+		<div class="col-lg-4 masonry-item">
+			<!-- Panel To Do List -->
+			<div class="panel shadow-lg pb-20" id="todo-list">
+				<div class="panel-heading" style="background: #f19408;">
+					<h3 class="panel-title"><i class="icon md-notifications" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> zu erledigen</h3>
+					
+				</div>
+				<ul class="list-task list-group h-450 scrollable is-enabled scrollable-vertical" data-plugin="scrollable" style="position: relative;">
+					<div data-role="container" class="scrollable-container" style="height: 250px; width: 929px;">
+						<div data-role="content" class="scrollable-content" style="width: 914px;">
+							{% for todo in app.user.notifications %}
+								<li class="list-group-item task-done" data-plugin="tasklist">
+									<div class="checkbox-custom checkbox-primary">
+										<input type="checkbox" id="inputSchedule" name="inputCheckboxesSchedule">
+										<label for="inputSchedule">
+											<i class="icon wb-calendar" aria-hidden="true"></i>
+											<span>{{ todo.text }}</span>
+										</label>
+									</div>
+								</li>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="scrollable-bar scrollable-bar-vertical scrollable-bar-hide" draggable="false"><div class="scrollable-bar-handle" style="height: 92.7914px; transform: translate3d(0px, 0px, 0px);"></div></div></ul>
+			</div>
+			<!-- End Panel To Do List -->
+		</div>
+		
+	</div>
+	
+	
+	
+	<div class="modal fade modal-3d-slit" id="todoModal" aria-hidden="true"
+		 aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
+		<div class="modal-dialog modal-simple">
+			<div class="modal-content clara-modal-content">
+				<form method="post" action="{{ path("noti_create_from_dashboard") }}">
+					<div class="modal-header clara-modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+						<h4 class="modal-title clara-modal-title"><i class="icon md-notifications" aria-hidden="true" style="font-size: 25px"></i> Neues Todo anlegen</h4>
+					</div>
+					<div class="modal-body clara-modal-body">
+						<textarea rows="3" name="text" cols="70" placeholder="hier Text eingeben" required></textarea>
+						<input type="text" required name="todate" class="datepicker" data-plugin="datepicker" placeholder="erledigen bis.">
+						<input type="hidden" name="userId" id="userId" value=""/>
+					</div>
+					<div class="modal-footer">
+						<button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
+						<button type="submit" class="btn btn-warning">Speichern</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	
+	<script>
+		
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var today = moment().day();
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: false,
+				height: 410,
+				allDaySlot: false,
+                slotMinTime:'08:00:00',
+                slotMaxTime:'21:00:00',
+                firstDay: today,
+                navLinks: false, // can click day/week names to navigate views
+                editable: true,
+                weekends: false,
+				locale: "de",
+                initialView: 'timeGrid',
+                dayMaxEvents: true, // allow "more" link when too many events
+                events: ''
+            });
+
+            calendar.render();
+        });
+	</script>
+{% endblock %}

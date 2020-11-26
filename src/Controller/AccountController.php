@@ -12,6 +12,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -22,10 +23,15 @@ class AccountController extends AbstractController
 {
 
     private $passwordEncoder;
+    /**
+     * @var SessionInterface
+     */
+    private $session;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder,SessionInterface $session)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->session = $session;
     }
 
     /**
@@ -42,10 +48,11 @@ class AccountController extends AbstractController
      * @Route("/register", name="register")
      */
     public function register( EntityManagerInterface $em,Request $request, MailerInterface $mailer){
-        $form = $this->createForm(UserFormType::class);
 
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if($request->isMethod('POST')){
+            dd($request);
+        }
+        /*if($form->isSubmitted() && $form->isValid()){
             $zahl="";
             for ($i=0;$i<=4;$i++){
                 $random = random_int(1, 10);
@@ -73,8 +80,8 @@ class AccountController extends AbstractController
             $this->addFlash('success','Der Benutzer wurde angelegt');
 
             return $this->redirectToRoute("app_login");
-        }
-        return $this->render('account/register.html.twig',['registerForm' => $form->createView()]);
+        }*/
+        return $this->render('account/register.html.twig');
     }
 
     /**
@@ -112,7 +119,6 @@ class AccountController extends AbstractController
      */
     public function userProfile (Request $request, EntityManagerInterface $entityManager){
         if ($request->isMethod('POST')){
-            //dd($request);
             $profile = $this->getUser()->getProfile();
             $profile->setFirstName($request->request->get('Vorname'));
             $profile->setLastName($request->request->get('Nachname'));
@@ -139,10 +145,26 @@ class AccountController extends AbstractController
      * @Route("/userupdate", name="userupdate")
      * @IsGranted("ROLE_USER")
      */
-    public function userupdate (Request $request, EntityManagerInterface $entityManager){
+    public function userupdate (Request $request, EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper){
         $user = $this->getUser();
 
         if ($request->isMethod('POST')){
+            //dd($request);
+            $uploadedFile = $request->files->get("userImage");
+            $uploadedLogo = $request->files->get("userLogo");
+
+            if ($uploadedFile){
+                $profileImage = $uploaderHelper->uploadProfileImage($uploadedFile,$user->getId());
+                $profile = $this->getUser()->getProfile();
+                $profile->setImage($profileImage);
+                $entityManager->flush();
+            }
+            if ($uploadedLogo){
+                $profileImage = $uploaderHelper->uploadProfileImage($uploadedLogo,$user->getId());
+                $profile = $this->getUser()->getProfile();
+                $profile->setLogo($profileImage);
+                $entityManager->flush();
+            }
             if($request->request->get('oldpass') != ""){
                 if (!$this->passwordEncoder->isPasswordValid($user,$request->request->get('oldpass'))){
                     $this->addFlash('error', 'Das eingegebene Passwort stimmt nicht!');
@@ -165,6 +187,7 @@ class AccountController extends AbstractController
             $user->setDisplayName($request->request->get('displayname'));
             $user->setEmail($request->request->get('email'));
             $entityManager->flush();
+            $this->session->set('userImage', $this->getUser()->getProfile()->getImage());
             $this->addFlash('success', 'die Änderungen wurden übernommen');
             return $this->render("account/profile.html.twig", [
                 'profile' => $user->getProfile()]);
@@ -180,6 +203,7 @@ class AccountController extends AbstractController
      */
     public function tempUpload(EntityManagerInterface $entityManager, Request $request, UploaderHelper $uploaderHelper){
         /** @var UploadedFile $uploadedFile */
+
         $uploadedFile = $request->files->get("profilePicture");
         $user = $this->getUser();
         if ($uploadedFile){

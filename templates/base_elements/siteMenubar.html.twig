@@ -1,91 +1,86 @@
-<div class="site-menubar">
-	<div class="site-menubar-body">
-		<div>
-			<div>
-				<ul class="site-menu" data-plugin="menu">
-					<li class="site-menu-item {% if app.request.pathinfo  == path("dashboard")  %} active {% endif %}">
-						<a class="animsition-link" href="{{ path("dashboard") }}">
-							<i class="site-menu-icon md-view-dashboard" aria-hidden="true"></i>
-							<span class="site-menu-title">Dashboard</span>
+<div class="site-menubar" style="background: #015780;">
+	<ul class="site-menu">
+		<li class="site-menu-item {% if app.request.pathinfo  == path("dashboard")  %} active {% endif %}">
+			<a class="animsition-link" href="{{ path("dashboard") }}">
+				<i class="site-menu-icon md-view-dashboard" aria-hidden="true"></i>
+				<span class="site-menu-title">Dashboard</span>
+			</a>
+		</li>
+		{% if is_granted('ROLE_PORTAL_ADMIN') %}
+			<li class="site-menu-item has-sub">
+				<a href="javascript:void(0)">
+					<i class="site-menu-icon icon md-code-setting" aria-hidden="true"></i>
+					<span class="site-menu-title"> Importer</span>
+					<span class="site-menu-arrow"></span>
+				</a>
+				<ul class="site-menu-sub">
+					<li class="site-menu-item">
+						<a class="animsition-link" href="{{ path("importUsers") }}">
+							<span class="site-menu-title">Import Users</span>
 						</a>
 					</li>
-					{% if is_granted('ROLE_PORTAL_ADMIN') %}
-						<li class="site-menu-category">ROOT</li>
-						<li class="site-menu-item has-sub">
-							<a href="javascript:void(0)">
-								<i class="site-menu-icon icon md-code-setting" aria-hidden="true"></i>
-								<span class="site-menu-title"> Importer</span>
-								<span class="site-menu-arrow"></span>
-							</a>
-							<ul class="site-menu-sub">
-								<li class="site-menu-item">
-									<a class="animsition-link" href="{{ path("importUsers") }}">
-										<span class="site-menu-title">Import Users</span>
-									</a>
-								</li>
-								<li class="site-menu-item">
-									<a class="animsition-link" href="{{ path("importCalendars") }}">
-										<span class="site-menu-title">Import Calendars</span>
-									</a>
-								</li>
-							</ul>
-						</li>
-					{% endif %}
-					{% if is_granted('ROLE_ADMIN') %}
-						<li class="site-menu-category">Admin</li>
-						<li class="site-menu-item {% if app.request.pathinfo  == path("benutzerindex")  %} active {% endif %}">
-							<a class="animsition-link" href="{{ path("benutzerindex") }}">
-								<i class="site-menu-icon icon md-pin-account" aria-hidden="true"></i>
-								<span class="site-menu-title">Benutzer</span>
-							</a>
-						</li>
-					{% endif %}
-					{% if is_granted('ROLE_PORTAL_USER') %}
-						<li class="site-menu-category">General</li>
-						<li class="site-menu-item">
-							<a class="animsition-link" href="">
-								<i class="site-menu-icon icon md-calendar" aria-hidden="true"></i>
-								<span class="site-menu-title">Kalender</span>
-							</a>
-						</li>
-						<li class="site-menu-item">
-							<a class="animsition-link" href="">
-								<i class="site-menu-icon icon md-sun" aria-hidden="true"></i>
-								<span class="site-menu-title">Solar</span>
-							</a>
-						</li>
-					{% endif %}
+					<li class="site-menu-item">
+						<a class="animsition-link" href="{{ path("sync_users") }}">
+							<span class="site-menu-title">Sync Users</span>
+						</a>
+					</li>
+					<li class="site-menu-item ">
+						<a class="animsition-link" href="{{ path("importCalendars") }}">
+							<span class="site-menu-title">Import Calendars</span>
+						</a>
+					</li>
+					<li class="site-menu-item">
+						<a class="animsition-link" href="{{ path("importNotifications") }}">
+							<span class="site-menu-title">Import Notifications</span>
+						</a>
+					</li>
+					<li class="site-menu-item">
+						<a class="animsition-link" href="{{ path("importCustomers") }}">
+							<span class="site-menu-title">Import Customers</span>
+						</a>
+					</li>
+					<li class="site-menu-item">
+						<a class="animsition-link" href="{{ path("sync_customers") }}">
+							<span class="site-menu-title">Sync Customers</span>
+						</a>
+					</li>
+					<li class="site-menu-item">
+						<a class="animsition-link" href="{{ path("import_deliveryPlaces") }}">
+							<span class="site-menu-title">Import Kdls</span>
+						</a>
+					</li>
 				</ul>
-				<!--<div class="site-menubar-section">
-					<h5>
-						Milestone
-						<span class="float-right">30%</span>
-					</h5>
-					<div class="progress progress-xs">
-						<div class="progress-bar active" style="width: 30%;" role="progressbar"></div>
-					</div>
-					<h5>
-						Release
-						<span class="float-right">60%</span>
-					</h5>
-					<div class="progress progress-xs">
-						<div class="progress-bar progress-bar-warning" style="width: 60%;" role="progressbar"></div>
-					</div>
-				</div>-->
-			</div>
-		</div>
-	</div>
-	
-	<div class="site-menubar-footer">
-		<a href="javascript: void(0);" class="fold-show" data-placement="top" data-toggle="tooltip"
-		   data-original-title="Settings">
-			<span class="icon md-settings" aria-hidden="true"></span>
-		</a>
-		<a href="javascript: void(0);" data-placement="top" data-toggle="tooltip" data-original-title="Lock">
-			<span class="icon md-eye-off" aria-hidden="true"></span>
-		</a>
-		<a href="javascript: void(0);" data-placement="top" data-toggle="tooltip" data-original-title="Logout">
-			<span class="icon md-power" aria-hidden="true"></span>
-		</a>
-	</div>
+			</li>
+		{% endif %}
+		{% if is_granted('ROLE_ADMIN') %}
+			<li class="site-menu-item {% if app.request.pathinfo  == path("benutzerindex")  %} active {% endif %}">
+				<a class="animsition-link" href="{{ path("benutzerindex") }}">
+					<i class="site-menu-icon icon md-pin-account" aria-hidden="true"></i>
+					<span class="site-menu-title">Benutzer</span>
+				</a>
+			</li>
+		{% endif %}
+		{% if is_granted('ROLE_PORTAL_USER') %}
+			<li class="site-menu-item{% if app.request.pathinfo  == path("customers")  %} active {% endif %}">
+				<a class="animsition-link" href="{{ path('customers') }}">
+					<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>
+					<span class="site-menu-title"> Kunden</span>
+				</a>
+			</li>
+			<li class="site-menu-item{% if app.request.pathinfo  == path("calendar")  %} active {% endif %}">
+				<a class="animsition-link" href="{{ path("calendar")}}">
+					<i class="site-menu-icon icon md-calendar" aria-hidden="true"></i>
+					<span class="site-menu-title">Kalender</span>
+				</a>
+			</li>
+			<li class="site-menu-item">
+				<a class="animsition-link" href="">
+					<i class="site-menu-icon icon md-sun" aria-hidden="true"></i>
+					<span class="site-menu-title">Solar</span>
+				</a>
+			</li>
+		{% endif %}
+		
+	</ul>
 </div>
+

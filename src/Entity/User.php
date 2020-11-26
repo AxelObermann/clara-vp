@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -57,6 +59,54 @@ class User implements UserInterface
      * @ORM\OneToOne(targetEntity=Profile::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $profile;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $oldid;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $provstufe;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $created;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Calendar::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $calendars;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $parentID;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="toUser")
+     */
+    private $notifications;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $favorite = [];
+
+    /**
+     * @ORM\OneToMany(targetEntity=Customer::class, mappedBy="User")
+     */
+    private $customers;
+
+
+    public function __construct()
+    {
+        $this->calendars = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
+        $this->customers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -200,4 +250,158 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function getOldid(): ?string
+    {
+        return $this->oldid;
+    }
+
+    public function setOldid(?string $oldid): self
+    {
+        $this->oldid = $oldid;
+
+        return $this;
+    }
+
+    public function getProvstufe(): ?int
+    {
+        return $this->provstufe;
+    }
+
+    public function setProvstufe(?int $provstufe): self
+    {
+        $this->provstufe = $provstufe;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(?\DateTimeInterface $created): self
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Calendar[]
+     */
+    public function getCalendars(): Collection
+    {
+        return $this->calendars;
+    }
+
+    public function addCalendar(Calendar $calendar): self
+    {
+        if (!$this->calendars->contains($calendar)) {
+            $this->calendars[] = $calendar;
+            $calendar->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCalendar(Calendar $calendar): self
+    {
+        if ($this->calendars->contains($calendar)) {
+            $this->calendars->removeElement($calendar);
+            // set the owning side to null (unless already changed)
+            if ($calendar->getUser() === $this) {
+                $calendar->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getParentID(): ?int
+    {
+        return $this->parentID;
+    }
+
+    public function setParentID(?int $parentID): self
+    {
+        $this->parentID = $parentID;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setToUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->contains($notification)) {
+            $this->notifications->removeElement($notification);
+            // set the owning side to null (unless already changed)
+            if ($notification->getToUser() === $this) {
+                $notification->setToUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getFavorite(): ?array
+    {
+        return $this->favorite;
+    }
+
+    public function setFavorite(?array $favorite): self
+    {
+        $this->favorite = $favorite;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Customer[]
+     */
+    public function getCustomers(): Collection
+    {
+        return $this->customers;
+    }
+
+    public function addCustomer(Customer $customer): self
+    {
+        if (!$this->customers->contains($customer)) {
+            $this->customers[] = $customer;
+            $customer->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomer(Customer $customer): self
+    {
+        if ($this->customers->contains($customer)) {
+            $this->customers->removeElement($customer);
+            // set the owning side to null (unless already changed)
+            if ($customer->getUser() === $this) {
+                $customer->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

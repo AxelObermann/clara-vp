@@ -1,0 +1,64 @@
+
+<form class="body" name="passwordForm" action="{{ path("user_edit") }}" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="typ" value="user">
+	<input type="hidden" name="id" value="{{ user.id }}">
+	<div class="row row-lg">
+		<div class="col-lg-6 col-md-6">
+			<div class="form-group">
+				<span class="text-help">Anzeigename</span>
+				<input type="text" class="form-control round" name="displayname" value="{{ user.displayName }}"  placeholder="Username">
+			</div>
+		</div>
+		<div class="col-lg-6 col-md-6">
+			<div class="form-group">
+				<span class="text-help">E-Mail</span>
+				<input type="email" class="form-control round" name="email" value="{{ user.email }}" placeholder="Email">
+			</div>
+		</div>
+		<div class="col-lg-4 col-md-4">
+			<hr>
+			<h6>Passwort ändern</h6>
+			<div class="form-group">
+				<input type="password" name="oldpass" class="form-control round" placeholder="Altes Passwort">
+			</div>
+			<div class="form-group">
+				<input type="password" name="newpass" class="form-control round" placeholder="neues Passwort">
+			</div>
+			<div class="form-group">
+				<input type="password" name="confirmnewpass" class="form-control round" placeholder="neues Passwort bestätigen">
+			</div>
+		</div>
+		<div class="col-lg-8 col-md-8">
+			<div class="row-lg">
+				<div class="col-xl-6 col-md-6" style="float:right;">
+					<!-- Example Default Value -->
+					<div class="example-wrap">
+						<h4 class="example-title">Profilbild</h4>
+						<div class="example">
+							<input name="userImage" type="file" id="input-file-now-custom-1" data-plugin="dropify" data-default-file="{% if app.session.get('userImage') == "" %}
+						/assets/images/avatar.jpg" alt="...">
+							{% else %}
+								{{ profile.image }}" alt="...">
+							{% endif %}
+						
+						</div>
+					</div>
+					<!-- End Example Default Value -->
+				</div>
+				<div class="col-xl-6 col-md-6">
+					<!-- Example Default Value -->
+					<div class="example-wrap">
+						<h4 class="example-title">Logo</h4>
+						<div class="example">
+							<input name="userLogo" type="file" id="input-file-now-custom-1" data-plugin="dropify" data-default-file="{{ profile.logo }}" alt="...">
+						</div>
+					</div>
+					<!-- End Example Default Value -->
+				</div>
+				
+			</div>
+		
+		</div>
+	</div>
+	<button type="submit" class="btn btn-round btn-warning text-black-50">Speichern</button> &nbsp;&nbsp;
+</form>

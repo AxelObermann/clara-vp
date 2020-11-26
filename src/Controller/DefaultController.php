@@ -4,8 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Profile;
 use App\Entity\User;
+use App\Repository\NotificationRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -30,21 +35,38 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="default")
      */
-    public function index()
+    public function index(UserRepository $userRepository)
     {
-        return $this->render('default/index.html.twig', [
-            'controller_name' => 'DefaultController1',
-        ]);
+
+        if ($this->isGranted("ROLE_ADMIN")){
+
+            return $this->redirectToRoute('dashboard');
+        }elseif ($this->isGranted("ROLE_USER")){
+            return $this->redirectToRoute('dashboard');
+        }else{
+            return $this->render('default/index.html.twig', [
+                'controller_name' => 'DefaultController1',
+            ]);
+        }
     }
 
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard()
+    public function dashboard(UserRepository $userRepository, NotificationRepository $notificationRepository)
     {
         $this->session->set('userImage', $this->getUser()->getProfile()->getImage());
+        $loggedUser = $this->getUser();
+        $users = $userRepository->findAll();
+        $notifications = $notificationRepository->findTodayNotifications($loggedUser);
+        $allNotifications = $notificationRepository->findBy(['toUser' => $loggedUser]);
+        //dd($notifications);
         return $this->render('default/dashboard.html.twig',[
-            'title' => 'Dashboard'
+            'title' => 'Dashboard',
+            'users' => $users,
+            'loggeduser' => $loggedUser,
+            'notifications' => $notifications,
+            'allNotifications' => $allNotifications,
         ]);
     }
 
@@ -68,5 +90,16 @@ class DefaultController extends AbstractController
         return $this->render('default/index.html.twig', [
             'controller_name' => 'DefaultController1',
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @Route ("/file_upload", name="fileUpload")
+     */
+    public function fileUpload(Request $request){
+        $uploadedFile = $request->files->get("test");
+        //dump($uploadedFile);
+        return $this->redirect($request->headers->get('referer'));
+        return new JsonResponse($uploadedFile);
     }
 }

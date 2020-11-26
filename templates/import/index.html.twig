@@ -1,13 +1,29 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseNew.html.twig' %}
 
 
 
 {% block body %}
-<h3>{% if countUsers is defined %}
-		{{ countUsers }} Benutzer wurden Importiert
-	{% endif %}
-	{% if countCals is defined %}
-		{{ countCals }} Kalender einträge wurden Importiert
-	{% endif %}
-</h3>
+	<div class="panel">
+		<div class="panel-body container-fluid">
+			<h3>{% if countUsers is defined %}
+					{{ countUsers }} Benutzer wurden Importiert
+				{% endif %}
+				{% if countCals is defined %}
+					{{ countCals }} Kalender einträge wurden Importiert
+				{% endif %}
+				{% if countNotis is defined %}
+					{{ countNotis }} Notifications wurden Importiert
+				{% endif %}
+				{% if countCustomers is defined %}
+					{{ countCustomers }} Kunden wurden Importiert
+				{% endif %}
+				{% if syncUsers is defined %}
+					{{ syncUsers }} Benutzer wurden Importiert
+				{% endif %}
+				{% if countkdls is defined %}
+					{{ countkdls }} Kdls wurden Importiert
+				{% endif %}
+			</h3>
+		</div>
+	</div>
 {% endblock %}
