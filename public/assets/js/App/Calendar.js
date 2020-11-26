@@ -53,45 +53,8 @@
     }, {
       key: "handleFullcalendar",
       value: function handleFullcalendar() {
-        var myEvents = [{
-          title: 'All Day Event',
-          start: '2016-10-01'
-        }, {
-          title: 'Long Event',
-          start: '2016-10-07',
-          end: '2016-10-10',
-          backgroundColor: (0, _Config.colors)('cyan', 600),
-          borderColor: (0, _Config.colors)('cyan', 600)
-        }, {
-          id: 999,
-          title: 'Repeating Event',
-          start: '2020-11-11T16:00:00',
-          backgroundColor: (0, _Config.colors)('red', 600),
-          borderColor: (0, _Config.colors)('red', 600)
-        }, {
-          title: 'Conference',
-          start: '2016-10-11',
-          end: '2016-10-13'
-        }, {
-          title: 'Meeting',
-          start: '2016-10-12T10:30:00',
-          end: '2016-10-12T12:30:00'
-        }, {
-          title: 'Lunch',
-          start: '2016-10-12T12:00:00'
-        }, {
-          title: 'Meeting',
-          start: '2016-10-12T14:30:00'
-        }, {
-          title: 'Happy Hour',
-          start: '2016-10-12T17:30:00'
-        }, {
-          title: 'Dinner',
-          start: '2016-10-12T20:00:00'
-        }, {
-          title: 'Birthday Party',
-          start: '2016-10-13T07:00:00'
-        }];
+
+
         var myOptions = {
           header: {
             left: null,
@@ -103,6 +66,7 @@
             next: 'icon md-arrow-right'
           },
           locale: 'de',
+
           defaultDate: $('#calendar').fullCalendar('today'),
           defaultView: 'agendaWeek',
           contentHeight: 'auto',
@@ -172,7 +136,7 @@
           eventDragStop: function eventDragStop() {
             $('.site-action').data('actionBtn').hide();
           },
-          events: myEvents,
+          events: '/calendars/getEvents',
           droppable: true
         };
 
