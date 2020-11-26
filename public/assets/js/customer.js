@@ -3,6 +3,15 @@ $( document ).ready(function() {
     $('#customerDetailClose').click(function () {
         $('#customerDetail').toggleClass( 'slidePanel-show lvl1-sidePanel-show', 1000 );
         $('#customerIndexPanel').toggleClass( 'is-loading');
+        $('#userSelector').hide();
+    });
+
+    $('#newCustomer').click(function () {
+        $('#customerIndexPanel').toggleClass( 'is-loading');
+        $('#customerDetail').toggleClass( 'slidePanel-show lvl1-sidePanel-show', 1000 );
+        $('#userSelector').show();
+        $('#action').val('new');
+
     });
 
 
@@ -29,7 +38,7 @@ $( document ).ready(function() {
     });
 
     $('#customerSave').click(function () {
-        //console.log("klick save Customer");
+
         var myForm = document.getElementById('customerForm');
         var formData = new FormData(myForm),
             result = {};
@@ -114,6 +123,7 @@ function getCustomerKdl(id){
 function getCustomerWithAdress(id){
     var inner="";
     $('#customerIndexPanel').toggleClass( 'is-loading');
+    $('#action').val('edit');
     //$('#customerPanel').toggleClass( 'is-loading');
 
 
