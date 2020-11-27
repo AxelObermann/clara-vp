@@ -68,7 +68,7 @@
                             </div>
         
                             <div class="panel-body container-fluid">
-                                <form id="customerForm">
+                                <form name="customerForm" id="customerForm">
                                     <input type="hidden" name="Cid" id="customerId" value="">
                                     <input type="hidden" name="Aid" id="customerAdressId" value="">
                                     <input type="hidden" name="action" id="action" value="">
@@ -135,7 +135,8 @@
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <span class="text-help-sm">EMail</span>
-                                                            <input type="text" name="mail" id="adressMail" value="" class="form-control form-control-sm round" placeholder="EMail">
+                                                            <input type="email" name="mail" id="adressMail" value="" data-fv-field="standard_email" class="form-control form-control-sm round" placeholder="EMail">
+                                                            <span class="text-help-sm text-danger" id="adressMailError" style="display: none">das ist keine gültige E_Mail Adresse! </span>
                                                         </div>
                                                     </div>
                                                 </div>

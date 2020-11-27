@@ -10,15 +10,34 @@ $( document ).ready(function() {
 
     $('#newCustomer').click(function () {
         $('#customerIndexPanel').toggleClass( 'is-loading');
-        $('#customerDetail').toggleClass( 'slidePanel-show lvl1-sidePanel-show', 1000 );
         $('#userSelector').show();
         $('#action').val('new');
+        var t = $('#CustomerKdlTable').DataTable();
+        t
+            .clear()
+            .draw();
+        $('#CustomerTitle').text('neuer Kunde')
+        $('#customerId').val('')
+        $('#CustomerTitle').val('')
+        $('#customerFullName').val('')
+        $('#customerContactPerson').val('')
+        $('#customerAdressId').val('')
+        $('#adressStreet').val('')
+        $('#adressStreetNumber').val('')
+        $('#adressPLZ').val('')
+        $('#adressTown').val('')
+        $('#adressPhone').val('')
+        $('#adressFax').val('')
+        $('#adressMail').val('')
+        $('#customerDetail').toggleClass( 'slidePanel-show lvl1-sidePanel-show', 1000 );
 
     });
 
 
 
     $('#customerDeliversPlaceSave').click(function () {
+
+
         var myForm = document.getElementById('deliveryPlaceForm');
         var formData = new FormData(myForm),
             result = {};
@@ -41,6 +60,11 @@ $( document ).ready(function() {
 
     $('#customerSave').click(function () {
 
+        if( !ValidateEmail($('#adressMail').val())) {
+            $('#adressMail').focus();
+            $('#adressMailError').show();
+            return false;
+        }
         var myForm = document.getElementById('customerForm');
         var formData = new FormData(myForm),
             result = {};
@@ -165,7 +189,7 @@ function getCustomerWithAdress(id){
             $('#adressPhone').val(adress[0].phone)
             $('#adressFax').val(adress[0].fax)
             $('#adressMail').val(adress[0].mail)
-            console.log(adress);
+            //console.log(adress);
         }});
     $.ajax( {
         method: 'POST',
@@ -208,4 +232,14 @@ function getCustomerWithAdress(id){
     $('#customerDetail').toggleClass( 'slidePanel-show lvl1-sidePanel-show', 1000 );
 
     //$('#customerIndexPanel').toggleClass( 'is-loading');
+}
+
+function ValidateEmail(mail)
+{
+    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(customerForm.mail.value))
+    {
+        return (true)
+    }
+    toastr.error('Bitte die Eingaben überprüfen');
+    return (false)
 }

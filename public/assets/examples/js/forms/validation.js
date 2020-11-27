@@ -20,7 +20,7 @@
   // ------------------------
 
   (function () {
-    (0, _jquery.default)('#exampleFullForm').formValidation({
+    (0, _jquery.default)('#customerForm').formValidation({
       framework: "bootstrap4",
       button: {
         selector: '#validateButton1',

@@ -5,10 +5,61 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="451b4953-3ad2-4926-9ed1-f7e1f15a6471" name="Default Changelist" comment="sdf">
+      <change afterPath="$PROJECT_DIR$/migrations/Version20201127142529.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/UPLOADS/benutzerindex/BOSdas_originalNEU-5fc0f9d036486.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/UPLOADS/customers/qr-code-5fc0f6e44338f.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/UPLOADS/deliverplace/edit/454/BOSdas_originalNEU-5fc0f711338f4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/UPLOADS/user/edit/83/BOSdas_originalKarton-5fc0fbaf924ae.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/UPLOADS/user/edit/83/CI/BOSdas_originalNEU-5fc100fa75d3b.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/UPLOADS/user/edit/83/Dokumente/image0-5fc1010920b88.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/UPLOADS/user/edit/83/Logos/BOSdas_originalNEU-5fc100eb2c21f.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/UPLOADS/user/edit/83/Sonstiges/BOSdas_originalNEU-5fc100db927a3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/UPLOADS/user/edit/image0-5fc0f9ed51a67.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/UPLOADS/users/83/BOSdas_originalNEU-5fc1014b6ca84.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/css/custom.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/baseNew.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/baseNew.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base_elements/navbarTop.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base_elements/navbarTop.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/20111_Logo-SHORT-CUT-EPS--FI-5f9eeb0ac4477.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/47209_Harley_Davidson_crane_logo-5fa2d3b93d171.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/47209_Harley_Davidson_crane_logo-5fa2d3fc19fa9.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/47209_Harley_Davidson_crane_logo-5fa2d4bf7ccdb.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/47209_Harley_Davidson_crane_logo-5fa2d4f35b601.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2d50de409d.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2d64770ce8.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2d687a3546.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2d69f8a4a4.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2d6b5a9cc7.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2d6cb9e95a.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2d6d7d74f5.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2d834df1af.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2d88383b6c.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2d9f2bca2e.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2da0365627.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2da12625f0.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2dd0b75cb2.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2dd19aecaf.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2dd3a9f575.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/48454-US-ARMY-star-biohazard-skull-5fa2dd4fa5a34.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/BDEB_Logo-5f9eec2172dce.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/BDEB_Logo-5f9fc0e150b16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/BDEB_Logo-5f9fc5172888a.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/BDEB_Logo-5f9fc78dee15c.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/BDEB_Logo-5f9fd42335ec5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/BDEB_Logo-5f9fe313e42b4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/BDEB_Logo-5f9fe32d50d62.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/BDEB_Logo-5f9fe39abb4ec.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/BOSdas_originalWerbe-5fa55e6d31f99.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/BOSdas_originalWerbeOrange-5fa569c9930c7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/BOSdas_originalWerbeOrange-5fa56a33df89b.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/BOSdas_originalWerbeOrange-5fa56a4a9c88a.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/BOSdas_originalWerbeOrange-5fa56a6c6bee7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/Erich-5fa561f880aff.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/public/UPLOADS/users/83/Erich-5fc1014b6b82a.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/Erich-5fa56929e668f.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/FB_Profil-5f9fe3ba77838.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/FB_Profil-5f9fe3dee71dc.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/FB_Profil-5f9fe4072b3e8.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/UPLOADS/users/83/FB_Profil-5f9fe42401159.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/examples/js/forms/validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/examples/js/forms/validation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/js/customer.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/customer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/customer/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/customer/index.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -204,91 +255,8 @@
       <workItem from="1606132515157" duration="22308000" />
       <workItem from="1606244846715" duration="46000" />
       <workItem from="1606245005001" duration="323000" />
-      <workItem from="1606290993207" duration="35070000" />
-    </task>
-    <task id="LOCAL-00014" summary="sdf">
-      <created>1603206965197</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1603206965197</updated>
-    </task>
-    <task id="LOCAL-00015" summary="sdf">
-      <created>1603210081389</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1603210081389</updated>
-    </task>
-    <task id="LOCAL-00016" summary="sdf">
-      <created>1603210089303</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1603210089303</updated>
-    </task>
-    <task id="LOCAL-00017" summary="sdf">
-      <created>1603210097946</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1603210097946</updated>
-    </task>
-    <task id="LOCAL-00018" summary="sdf">
-      <created>1603210109631</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1603210109631</updated>
-    </task>
-    <task id="LOCAL-00019" summary="sdf">
-      <created>1603210116721</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1603210116721</updated>
-    </task>
-    <task id="LOCAL-00020" summary="sdf">
-      <created>1603210126752</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1603210126752</updated>
-    </task>
-    <task id="LOCAL-00021" summary="sdf">
-      <created>1603210134939</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1603210134939</updated>
-    </task>
-    <task id="LOCAL-00022" summary="sdf">
-      <created>1603220869790</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1603220869790</updated>
-    </task>
-    <task id="LOCAL-00023" summary="sdf">
-      <created>1603220896264</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1603220896264</updated>
-    </task>
-    <task id="LOCAL-00024" summary="sdf">
-      <created>1603220918603</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1603220918603</updated>
-    </task>
-    <task id="LOCAL-00025" summary="sdf">
-      <created>1603220947526</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1603220947526</updated>
+      <workItem from="1606290993207" duration="44975000" />
+      <workItem from="1606493412390" duration="770000" />
     </task>
     <task id="LOCAL-00026" summary="sdf">
       <created>1603220967126</created>
@@ -549,7 +517,91 @@
       <option name="project" value="LOCAL" />
       <updated>1606414062206</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="sdf">
+      <created>1606481936869</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1606481936869</updated>
+    </task>
+    <task id="LOCAL-00064" summary="sdf">
+      <created>1606481945951</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1606481945952</updated>
+    </task>
+    <task id="LOCAL-00065" summary="sdf">
+      <created>1606481959691</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1606481959692</updated>
+    </task>
+    <task id="LOCAL-00066" summary="sdf">
+      <created>1606481978542</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1606481978542</updated>
+    </task>
+    <task id="LOCAL-00067" summary="sdf">
+      <created>1606482002029</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1606482002029</updated>
+    </task>
+    <task id="LOCAL-00068" summary="sdf">
+      <created>1606484350359</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1606484350359</updated>
+    </task>
+    <task id="LOCAL-00069" summary="sdf">
+      <created>1606484397445</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1606484397445</updated>
+    </task>
+    <task id="LOCAL-00070" summary="sdf">
+      <created>1606484412018</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1606484412018</updated>
+    </task>
+    <task id="LOCAL-00071" summary="sdf">
+      <created>1606485690946</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1606485690946</updated>
+    </task>
+    <task id="LOCAL-00072" summary="sdf">
+      <created>1606486762437</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1606486762437</updated>
+    </task>
+    <task id="LOCAL-00073" summary="sdf">
+      <created>1606487395939</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1606487395939</updated>
+    </task>
+    <task id="LOCAL-00074" summary="sdf">
+      <created>1606487405548</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1606487405548</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -590,13 +642,13 @@
     <state x="1018" y="454" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.2560.1440/-2560.0.2560.1440@0.0.2560.1440" timestamp="1606386503755" />
     <state x="-1542" y="470" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.2560.1351/-2560.23.2560.1417@-2560.23.2560.1417" timestamp="1603294874333" />
     <state x="1018" y="446" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.2560.1336/-2560.25.2560.1415@0.25.2560.1336" timestamp="1605634658670" />
-    <state x="1418" y="261" key="CommitChangelistDialog2" timestamp="1606414062051">
+    <state x="1418" y="261" key="CommitChangelistDialog2" timestamp="1606487405310">
       <screen x="0" y="25" width="2560" height="1336" />
     </state>
     <state x="1418" y="254" key="CommitChangelistDialog2/0.0.2560.1440/-2560.0.2560.1440@0.0.2560.1440" timestamp="1606408240720" />
     <state x="-1142" y="273" key="CommitChangelistDialog2/0.23.2560.1351/-2560.23.2560.1417@-2560.23.2560.1417" timestamp="1603444422418" />
     <state x="1418" y="261" key="CommitChangelistDialog2/0.23.2560.1351/-2560.23.2560.1417@0.23.2560.1351" timestamp="1604397805356" />
-    <state x="1418" y="261" key="CommitChangelistDialog2/0.25.2560.1336/-2560.25.2560.1415@0.25.2560.1336" timestamp="1606414062051" />
+    <state x="1418" y="261" key="CommitChangelistDialog2/0.25.2560.1336/-2560.25.2560.1415@0.25.2560.1336" timestamp="1606487405310" />
     <state x="1038" y="420" key="NewPhpClassDialog" timestamp="1604682020964">
       <screen x="0" y="23" width="2560" height="1343" />
     </state>
@@ -635,13 +687,13 @@
     </state>
     <state x="955" y="328" key="run.anything.popup/0.23.2560.1343/-2560.23.2560.1417@0.23.2560.1343" timestamp="1604926918023" />
     <state x="955" y="328" key="run.anything.popup/0.25.2560.1336/-2560.25.2560.1415@0.25.2560.1336" timestamp="1606245164288" />
-    <state x="945" y="323" width="670" height="689" key="search.everywhere.popup" timestamp="1606321955680">
-      <screen x="0" y="0" width="2560" height="1440" />
+    <state x="945" y="325" width="670" height="639" key="search.everywhere.popup" timestamp="1606486849017">
+      <screen x="0" y="25" width="2560" height="1336" />
     </state>
     <state x="945" y="323" width="670" height="689" key="search.everywhere.popup/0.0.2560.1440/-2560.0.2560.1440@0.0.2560.1440" timestamp="1606321955680" />
     <state x="-1615" y="341" width="670" height="676" key="search.everywhere.popup/0.23.2560.1351/-2560.23.2560.1417@-2560.23.2560.1417" timestamp="1603302053212" />
     <state x="945" y="326" width="670" height="645" key="search.everywhere.popup/0.23.2560.1351/-2560.23.2560.1417@0.23.2560.1351" timestamp="1604077167026" />
     <state x="945" y="328" width="670" height="649" key="search.everywhere.popup/0.23.2560.1359/-2560.23.2560.1417@0.23.2560.1359" timestamp="1604517412454" />
-    <state x="945" y="325" width="670" height="639" key="search.everywhere.popup/0.25.2560.1336/-2560.25.2560.1415@0.25.2560.1336" timestamp="1605811604154" />
+    <state x="945" y="325" width="670" height="639" key="search.everywhere.popup/0.25.2560.1336/-2560.25.2560.1415@0.25.2560.1336" timestamp="1606486849017" />
   </component>
 </project>
