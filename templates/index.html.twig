@@ -93,12 +93,16 @@
 {#  { % include 'base_elements/siteGridMenu.html.twig' % }#}
 <div class="slidePanel slidePanel-right site-sidebar" id="site-sidebar" style="z-index: 9999;    padding-top: 50px;">
 	<form action="{{ path("fileUpload") }}" class="dropzone global">
-		<select class="form-control-lg">
-			<option value="Sonstiges">Sonstiges</option>
-			<option value="Logos">Logos</option>
-			<option value="CI">Corporate Identity</option>
-			<option value="Dokumente">Dokumente</option>
-		</select>
+		<input type="hidden" name="uploadPath" value="{{ app.request.pathinfo }}">
+		<input type="hidden" name="uploadPathOld" value="">
+		{% if app.request.pathinfo  == path("user_edit")  %}
+			<select class="form-control-lg">
+				<option value="Sonstiges">Sonstiges</option>
+				<option value="Logos">Logos</option>
+				<option value="CI">Corporate Identity</option>
+				<option value="Dokumente">Dokumente</option>
+			</select>
+		{% endif %}
 		<div class="fallback">
 			<input name="file" type="file" multiple />
 		</div>

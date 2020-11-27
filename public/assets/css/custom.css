@@ -1,6 +1,6 @@
 .page {
     position: relative;
-    min-height: calc(100% - 44px);
+    min-height: calc(100% - 65px);
     background: #bdbcbc;
 }
 .layout-full .page {

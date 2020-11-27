@@ -84,6 +84,8 @@
 {#  { % include 'base_elements/siteGridMenu.html.twig' % }#}
 <div class="slidePanel slidePanel-right site-sidebar" id="site-sidebar" style="z-index: 9999;    padding-top: 50px;">
 	<form action="{{ path("fileUpload") }}" class="dropzone global">
+		<input type="hidden" name="uploadPath" value="{{ app.request.pathinfo }}">
+		<input type="hidden" name="uploadPathOld" value="">
 		<select class="form-control-lg">
 			<option value="Sonstiges">Sonstiges</option>
 			<option value="Logos">Logos</option>

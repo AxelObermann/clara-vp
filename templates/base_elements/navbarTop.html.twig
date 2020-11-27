@@ -178,7 +178,7 @@
 					</div>
 				</div>
 			</li>
-			<li class="nav-item" id="toggleUpload">
+			<li class="nav-item" id="toggleUpload" {% if app.request.pathinfo  == path("dashboard")  %} style="display: none" {% endif %}>
 				<a class="nav-link" href="javascript:void(0)" title="Upload">
 					<i class="icon md-upload" aria-hidden="true" style="font-size: 25px"></i>
 				</a>
