@@ -96,7 +96,7 @@
 		<input type="hidden" name="uploadPath" id="uploadPath" value="{{ app.request.pathinfo }}">
 		<input type="hidden" name="uploadPathOld" id="uploadPathOld" value="">
 		{% if app.request.pathinfo  == path("user_edit")  %}
-			<select class="form-control-lg">
+			<select class="form-control-lg" name="uploaddir">
 				<option value="Sonstiges">Sonstiges</option>
 				<option value="Logos">Logos</option>
 				<option value="CI">Corporate Identity</option>
