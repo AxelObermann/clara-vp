@@ -6,6 +6,7 @@ use App\Entity\Profile;
 use App\Entity\User;
 use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
+use App\Service\UploaderHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -97,9 +98,22 @@ class DefaultController extends AbstractController
      * @Route ("/file_upload", name="fileUpload")
      */
     public function fileUpload(Request $request){
+        dd($request);
         $uploadedFile = $request->files->get("test");
         //dump($uploadedFile);
         return $this->redirect($request->headers->get('referer'));
         return new JsonResponse($uploadedFile);
+    }
+
+    /**
+     * @param Request $request
+     * @Route ("/file_upload_ajax", name="fileUploadAjax")
+     */
+    public function fileUploadAjax(Request $request,UploaderHelper $uploaderHelper){
+        //dd($request);
+        $uploadedFile = $request->files->get("test");
+//        dd($uploadedFile);
+//        return $this->redirect($request->headers->get('referer'));
+        return new JsonResponse($uploaderHelper->uploadAjaxFile($uploadedFile, $request->request->get('uploadPath')));
     }
 }
