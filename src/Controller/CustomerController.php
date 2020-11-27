@@ -242,7 +242,7 @@ class CustomerController extends AbstractController
      * @param Request $request
      * @Route ("/customer/saveCustomer/")
      */
-    public function saveCustomer(Request $request,CustomerRepository $customerRepository,AdressRepository $adressRepository,EntityManagerInterface $entityManager){
+    public function saveCustomer(Request $request,CustomerRepository $customerRepository,AdressRepository $adressRepository,EntityManagerInterface $entityManager,UserRepository $userRepository){
 
         $rp = [];
         $message="";
@@ -252,13 +252,15 @@ class CustomerController extends AbstractController
 
 
         if ($rp['action'] == "new"){
-            dd($rp);
-            /*
+            //dd($rp);
+            $user = $userRepository->find($rp['user']);
             $customer = new Customer();
+            $customer->setUser($user);
             $customer->setContactPerson($rp['contactPerson']);
             $customer->setFullName($rp['Name']);
             $entityManager->persist($customer);
             $adress = new Adress();
+            $adress->setCustomer($customer);
             $adress->setStreet($rp['street']);
             $adress->setStreetNumber($rp['strnumber']);
             $adress->setZip($rp['PLZ']);
@@ -266,7 +268,10 @@ class CustomerController extends AbstractController
             $adress->setPhone($rp['phone']);
             $adress->setFax($rp['fax']);
             $adress->setMail($rp['mail']);
-            */
+            $adress->setAdresstype('STAMM');
+            $entityManager->persist($adress);
+            $entityManager->flush($customer,$adress);
+            $message = 'Der Kunde wurde angelegt!';
         }else{
             $customer = $customerRepository->find($rp['Cid']);
             $adress = $adressRepository->find($rp['Aid']);
