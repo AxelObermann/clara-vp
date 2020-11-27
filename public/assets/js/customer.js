@@ -1,6 +1,8 @@
 $( document ).ready(function() {
 
     $('#customerDetailClose').click(function () {
+        $('#uploadPath').val('/customers');
+        $('#uploadPathOld').val('');
         $('#customerDetail').toggleClass( 'slidePanel-show lvl1-sidePanel-show', 1000 );
         $('#customerIndexPanel').toggleClass( 'is-loading');
         $('#userSelector').hide();
@@ -61,11 +63,15 @@ $( document ).ready(function() {
     });
 
     $('#customerDeliversPlaceClose').click(function () {
+        $('#uploadPath').val($('#uploadPathOld').val());
+        $('#uploadPathOld').val('');
         $('#customerDeliversPlace').toggleClass( 'slidePanel-show lvl2-sidePanel-show', 1000 );
     });
 });
 
 function getCustomerKdl(id){
+    $('#uploadPathOld').val($('#uploadPath').val());
+    $('#uploadPath').val('/deliverplace/edit/'+id);
     $.ajax( {
         method: 'POST',
         url: '/customer/get_kdl/'+id,
@@ -124,6 +130,8 @@ function getCustomerWithAdress(id){
     var inner="";
     $('#customerIndexPanel').toggleClass( 'is-loading');
     $('#action').val('edit');
+    $('#uploadPathOld').val($('#uploadPath').val());
+    $('#uploadPath').val('/customer/edit/'+id);
     //$('#customerPanel').toggleClass( 'is-loading');
 
 
