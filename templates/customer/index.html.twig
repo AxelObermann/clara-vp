@@ -146,7 +146,7 @@
                                             <span class="text-help-sm">Benutzer</span>
                                             <select data-style="warning" class="text-white" name="user" data-plugin="selectpicker" data-live-search="true">
                                                 {% for user in users %}
-                                                    <option value="{{ user.id }}">{{ user.email }}</option>
+                                                    <option value="{{ user.id }}" {% if user == app.user %} selected {% endif %}>{{ user.email }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
