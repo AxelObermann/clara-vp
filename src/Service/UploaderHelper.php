@@ -32,4 +32,12 @@ class UploaderHelper
         return $this->uploadsDBPath.'/users/'.$userID.'/'.$newFileName;
     }
 
+    public function uploadAjaxFile(UploadedFile $uploadedFile,$uploadPathFromAjax):string{
+        $destination = $this->uploadsPath.$uploadPathFromAjax.'/';
+        $newFileName = pathinfo($uploadedFile->getClientOriginalName(),PATHINFO_FILENAME)."-".uniqid().".".$uploadedFile->guessExtension();
+        $uploadedFile->move($destination,$newFileName);
+
+        return true;
+    }
+
 }
