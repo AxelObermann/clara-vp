@@ -112,8 +112,15 @@ class DefaultController extends AbstractController
     public function fileUploadAjax(Request $request,UploaderHelper $uploaderHelper){
         //dd($request);
         $uploadedFile = $request->files->get("test");
+        $test='';
+        if($request->request->get('uploadPath') == '/user/edit'){
+            $upp = $request->request->get('uploadPath').'/'.$this->getUser()->getId().'/'.$request->request->get('uploaddir');
+            $test = $uploaderHelper->uploadAjaxFile($uploadedFile, $upp);
+        }else{
+            $test = $uploaderHelper->uploadAjaxFile($uploadedFile, $request->request->get('uploadPath'));
+        }
 //        dd($uploadedFile);
 //        return $this->redirect($request->headers->get('referer'));
-        return new JsonResponse($uploaderHelper->uploadAjaxFile($uploadedFile, $request->request->get('uploadPath')));
+        return new JsonResponse($test);
     }
 }
