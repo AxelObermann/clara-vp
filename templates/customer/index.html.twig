@@ -4,6 +4,9 @@
     <div class="panel shadow-lg " id="customerIndexPanel" style="border: 3px solid #f19408;">
         <header class="panel-heading">
             <h3 class="panel-title"><i class="site-menu-icon icon fa-users" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Kunden</h3>
+            {% if is_granted('ROLE_ADMIN') %}<div class="panel-actions">
+                <a href="{{ path('customers_show_deleted') }}" class="btn btn-sm btn-icon btn-pure btn-default" onclick="" data-toggle="tooltip" data-original-title="gelöschte Kunden anzeigen"><i class="icon fa-trash text-white font-size-26" aria-hidden="true"></i></a>
+            </div>{% endif %}
         </header>
         <div class="panel-body">
             <div class="row">
@@ -33,8 +36,8 @@
                         <td>{{ customer.mail }}</td>
                         
                         <td>
-                            <a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerWithAdress({{ customer.id }})" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-26" aria-hidden="true"></i></a>
-                            {% if is_granted('ROLE_ADMIN') %}<a href="#" data-toggle="tooltip" data-original-title="Remove"><i class="icon md-delete danger text-danger font-size-26" aria-hidden="true"></i></a>{% endif %}
+                            <a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerWithAdress({{ customer.id }}, {% if 'show_deleted' in app.request.pathinfo %} 1 {% else %} 0 {% endif %})" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-26" aria-hidden="true"></i></a>
+                            {% if is_granted('ROLE_ADMIN') %}<a href="#" data-toggle="tooltip" data-original-title="Remove" onclick="deleteCustomer({{ customer.id }})"><i class="icon md-delete danger text-danger font-size-26" aria-hidden="true"></i></a>{% endif %}
                            {#  {% if is_granted('ROLE_PORTAL_ADMIN') %}<a href="/customer/importkdls/{{ customer.old_id }}" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="tooltip" data-original-title="Import Kdls"><i class="icon md-link" aria-hidden="true" style="font-size: 26px;"></i></a>{% endif %}#}
                         </td>
                     </tr>
@@ -212,6 +215,7 @@
                     </button>
                 </h3>
                 <div class="panel-actions">
+                    <a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="" data-toggle="tooltip" data-original-title="neuer Vertrag"><i class="icon md-copy success text-info font-size-26" aria-hidden="true"></i></a>
                     <a class="panel-action" id="customerDeliversPlaceSave" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>
                     <a class="panel-action" id="customerDeliversPlaceClose" data-toggle="panel-close" aria-hidden="true"><i class="icon md-close text-white font-size-26" aria-hidden="true"></i></a>
                 </div>
@@ -580,7 +584,59 @@
 
 {% block siteJS %}
     <script>
+        {% if 'show_deleted' in app.request.pathinfo %}
+
+        async function move(id) {
+            const {value: fruit} = await Swal.fire({
+                title: 'Lieferstelle '+id+' verschieben',
+                icon: 'question',
+                text: 'zu Benutzer verschieben...',
+                input: 'select',
+                inputOptions: {
+            
+                    {% for user in users %}
+                    '{{ user.id }}': '{{ user.email }}',
+                    {% endfor %}
+                },
+                inputPlaceholder: 'Benutzer auswählen...',
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    return new Promise((resolve) => {
+                        if (value === '') {
+                            resolve("Bitte benutzer auswählen")
+                        }else{
+                            resolve()
+                        }
+                    })
+                }
+            })
+            //console.log(value);
     
+            if (fruit) {
+                $.ajax( {
+                    method: 'POST',
+                    url: '/deliveryPlace/move/'+fruit+','+id,
+                    dataType: 'json',
+                    complete: function (data){
+                        //console.log('complete');
+                        var adress = JSON.parse(data.responseText);
+                        $('#customerAdressId').val(adress[0].id)
+                        $('#adressStreet').val(adress[0].street)
+                        $('#adressStreetNumber').val(adress[0].streetNumber)
+                        $('#adressPLZ').val(adress[0].zip)
+                        $('#adressTown').val(adress[0].town)
+                        $('#adressPhone').val(adress[0].phone)
+                        $('#adressFax').val(adress[0].fax)
+                        $('#adressMail').val(adress[0].mail)
+                        //console.log(adress);
+                    }});
+                Swal.fire({icon: 'error',
+                title:'Vertrag verschieben',
+                icon: 'success',
+                text:`You selected: ${fruit}`});
+            }
+        }
+        {% endif %}
     </script>
     <script src="/assets/js/customer.js"></script>
 {% endblock %}
