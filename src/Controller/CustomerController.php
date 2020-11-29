@@ -57,18 +57,51 @@ class CustomerController extends AbstractController
         //dd($stmt->fetchAllAssociative());
         $viewName="";
             if ($this->security->isGranted('ROLE_PORTAL_ADMIN')) {
-                $query = 'SELECT *, (SELECT count(*) FROM delivery_place WHERE delivery_place.customer_id=customer.id) as kdl FROM customer INNER JOIN adress WHERE customer.id = adress.customer_id AND adress.adresstype = "STAMM"';
+                $query = 'SELECT *, (SELECT count(*) FROM delivery_place WHERE delivery_place.customer_id=customer.id) as kdl FROM customer INNER JOIN adress WHERE deleted=0 AND customer.id = adress.customer_id AND adress.adresstype = "STAMM"';
                 $viewName = "Portal admin";
 
             }elseif ($this->security->isGranted('ROLE_ADMIN')){
-                $query = 'SELECT *, (SELECT count(*) FROM delivery_place WHERE delivery_place.customer_id=customer.id) as kdl FROM customer INNER JOIN adress WHERE customer.id = adress.customer_id AND adress.adresstype = "STAMM"';
+                $query = 'SELECT *, (SELECT count(*) FROM delivery_place WHERE delivery_place.customer_id=customer.id) as kdl FROM customer INNER JOIN adress WHERE deleted=0 AND customer.id = adress.customer_id AND adress.adresstype = "STAMM"';
                 $viewName = "admin";
 
             }elseif ($this->security->isGranted('ROLE_PORTAL_USER')){
-                $query = 'SELECT *, (SELECT count(*) FROM delivery_place WHERE delivery_place.customer_id=customer.id) as kdl FROM customer  INNER JOIN adress WHERE customer.user_id='.$user->getId().' AND customer.id = adress.customer_id AND adress.adresstype = "STAMM"';
+                $query = 'SELECT *, (SELECT count(*) FROM delivery_place WHERE delivery_place.customer_id=customer.id) as kdl FROM customer  INNER JOIN adress WHERE deleted=0 AND customer.user_id='.$user->getId().' AND customer.id = adress.customer_id AND adress.adresstype = "STAMM"';
                 $viewName = "admin";
 
             }
+
+        $stmt =$conn->executeQuery($query);
+        $stmt->execute();
+        return $this->render('customer/index.html.twig', [
+            'controller_name' => $viewName,
+            'customers' => $stmt->fetchAllAssociative(),
+            'users' => $users,
+        ]);
+    }
+
+    /**
+     * @Route("/customers/show_deleted", name="customers_show_deleted")
+     */
+    public function showDeleted(CustomerRepository $customerRepository,UserRepository $userRepository,EntityManagerInterface $entityManager)
+    {
+        $conn = $entityManager->getConnection();
+        $user = $this->getUser();
+        $users = $userRepository->findAll();
+        //dd($stmt->fetchAllAssociative());
+        $viewName="";
+        if ($this->security->isGranted('ROLE_PORTAL_ADMIN')) {
+            $query = 'SELECT *, (SELECT count(*) FROM delivery_place WHERE delivery_place.customer_id=customer.id) as kdl FROM customer INNER JOIN adress WHERE deleted=1 AND customer.id = adress.customer_id AND adress.adresstype = "STAMM"';
+            $viewName = "Portal admin";
+
+        }elseif ($this->security->isGranted('ROLE_ADMIN')){
+            $query = 'SELECT *, (SELECT count(*) FROM delivery_place WHERE delivery_place.customer_id=customer.id) as kdl FROM customer INNER JOIN adress WHERE deleted=1 AND customer.id = adress.customer_id AND adress.adresstype = "STAMM"';
+            $viewName = "admin";
+
+        }elseif ($this->security->isGranted('ROLE_PORTAL_USER')){
+            $query = 'SELECT *, (SELECT count(*) FROM delivery_place WHERE delivery_place.customer_id=customer.id) as kdl FROM customer  INNER JOIN adress WHERE deleted=1 AND customer.user_id='.$user->getId().' AND customer.id = adress.customer_id AND adress.adresstype = "STAMM"';
+            $viewName = "admin";
+
+        }
 
         $stmt =$conn->executeQuery($query);
         $stmt->execute();
@@ -217,6 +250,20 @@ class CustomerController extends AbstractController
 
     /**
      * @param $id
+     * @param CustomerRepository $customerRepository
+     * @param DeliveryPlaceRepository $deliveryPlaceRepository
+     * @Route ("/customer/delete/{id}")
+     */
+    public function getDelete($id, CustomerRepository $customerRepository,DeliveryPlaceRepository $deliveryPlaceRepository,EntityManagerInterface $entityManager){
+        $customer = $customerRepository->find($id);
+        $customer->setDeleted(true);
+        $entityManager->flush();
+        //$kdls = $deliveryPlaceRepository->getKdls($id);
+        return new JsonResponse('Der Kunde wurde gelöscht.');
+    }
+
+    /**
+     * @param $id
      * @param DeliveryPlaceRepository $deliveryPlaceRepository
      * @Route ("/customer/get_kdl/{id}")
      */
@@ -342,4 +389,5 @@ class CustomerController extends AbstractController
         $entityManager->flush($dePLace);
         return new JsonResponse('Die Änderungen wurden übernommen!');
     }
+
 }
