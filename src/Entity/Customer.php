@@ -55,6 +55,11 @@ class Customer
      */
     private $deliveryPlaces;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $deleted;
+
     public function __construct()
     {
         $this->adress = new ArrayCollection();
@@ -181,6 +186,18 @@ class Customer
                 $deliveryPlace->setCustomer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(?bool $deleted): self
+    {
+        $this->deleted = $deleted;
 
         return $this;
     }
