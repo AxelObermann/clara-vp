@@ -105,6 +105,11 @@ class User implements UserInterface
      */
     private $deliverPlaceCheck;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $confirmed;
+
 
     public function __construct()
     {
@@ -423,6 +428,18 @@ class User implements UserInterface
         if ($deliverPlaceCheck->getAssignedTo() !== $newAssignedTo) {
             $deliverPlaceCheck->setAssignedTo($newAssignedTo);
         }
+
+        return $this;
+    }
+
+    public function getConfirmed(): ?bool
+    {
+        return $this->confirmed;
+    }
+
+    public function setConfirmed(?bool $confirmed): self
+    {
+        $this->confirmed = $confirmed;
 
         return $this;
     }
