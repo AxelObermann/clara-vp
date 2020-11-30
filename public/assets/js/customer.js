@@ -231,6 +231,7 @@ function getCustomerWithAdress(id,test){
     var inner="";
     $('#customerIndexPanel').toggleClass( 'is-loading');
     $('#action').val('edit');
+    $('#DPCustomerID').val(id);
     $('#uploadPathOld').val($('#uploadPath').val());
     $('#uploadPath').val('/customer/edit/'+id);
     //$('#customerPanel').toggleClass( 'is-loading');
