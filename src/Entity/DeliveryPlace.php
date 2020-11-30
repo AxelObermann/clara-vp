@@ -390,9 +390,15 @@ class DeliveryPlace
      */
     private $notifications;
 
+    /**
+     * @ORM\OneToMany(targetEntity=DeliverPlaceCheck::class, mappedBy="deliveryPlace")
+     */
+    private $deliverPlaceChecks;
+
     public function __construct()
     {
         $this->notifications = new ArrayCollection();
+        $this->deliverPlaceChecks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1301,6 +1307,37 @@ class DeliveryPlace
             // set the owning side to null (unless already changed)
             if ($notification->getDelveryPlace() === $this) {
                 $notification->setDelveryPlace(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DeliverPlaceCheck[]
+     */
+    public function getDeliverPlaceChecks(): Collection
+    {
+        return $this->deliverPlaceChecks;
+    }
+
+    public function addDeliverPlaceCheck(DeliverPlaceCheck $deliverPlaceCheck): self
+    {
+        if (!$this->deliverPlaceChecks->contains($deliverPlaceCheck)) {
+            $this->deliverPlaceChecks[] = $deliverPlaceCheck;
+            $deliverPlaceCheck->setDeliveryPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeliverPlaceCheck(DeliverPlaceCheck $deliverPlaceCheck): self
+    {
+        if ($this->deliverPlaceChecks->contains($deliverPlaceCheck)) {
+            $this->deliverPlaceChecks->removeElement($deliverPlaceCheck);
+            // set the owning side to null (unless already changed)
+            if ($deliverPlaceCheck->getDeliveryPlace() === $this) {
+                $deliverPlaceCheck->setDeliveryPlace(null);
             }
         }
 
