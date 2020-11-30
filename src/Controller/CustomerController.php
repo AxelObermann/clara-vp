@@ -343,12 +343,23 @@ class CustomerController extends AbstractController
      * @param Request $request
      * @Route ("/customer/saveDeliveryPlace/")
      */
-    public function saveDeliveryPlace(Request $request,DeliveryPlaceRepository $deliveryPlaceRepository ,EntityManagerInterface $entityManager){
+    public function saveDeliveryPlace(CustomerRepository $customerRepository,Request $request,DeliveryPlaceRepository $deliveryPlaceRepository ,EntityManagerInterface $entityManager){
         $rp = [];
+        $dePLace = null;
+        $message = "";
         if ($content = $request->getContent()) {
             $rp = json_decode($content, true);
         }
-        $dePLace = $deliveryPlaceRepository->find($rp['dpId']);
+        if($rp['actionDP'] == 'new'){
+            $dePLace = new DeliveryPlace();
+            $dePLace->setCustomer($customerRepository->find($rp['DPCustomerID']));
+            $dePLace->setDeleted(false);
+            $dePLace->setInbelieferung(false);
+            $message = 'Die Lieferstelle wurde angelegt';
+        }else{
+            $dePLace = $deliveryPlaceRepository->find($rp['dpId']);
+            $message = 'Die Änderungen wurden übernommen!';
+        }
         $dePLace->setFirmenname($rp['Firmenname']);
         $dePLace->setAnrede($rp['Anrede']);
         $dePLace->setVorname($rp['Vorname']);
@@ -386,8 +397,10 @@ class CustomerController extends AbstractController
         $dePLace->setGP($rp['GP']);
         $dePLace->setVertragsbeginn($rp['Vertragsbeginn']);
         $dePLace->setDauer($rp['Dauer']);
+        $entityManager->persist($dePLace);
         $entityManager->flush($dePLace);
-        return new JsonResponse('Die Änderungen wurden übernommen!');
+
+        return new JsonResponse($message);
     }
 
 }
