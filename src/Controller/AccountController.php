@@ -50,20 +50,17 @@ class AccountController extends AbstractController
     public function register( EntityManagerInterface $em,Request $request, MailerInterface $mailer){
 
         if($request->isMethod('POST')){
-            dd($request);
-        }
-        /*if($form->isSubmitted() && $form->isValid()){
             $zahl="";
             for ($i=0;$i<=4;$i++){
                 $random = random_int(1, 10);
                 $zahl = $zahl.$random;
             }
-            $data = $form->getData();
             $user = new User();
             $profile = new Profile();
             $profile->setUser($user);
-            $user->setEmail($data["email"]);
-            $user->setPassword($this->passwordEncoder->encodePassword($user, $data['password']));
+            $user->setEmail($request->get('email'));
+            $user->setPassword($this->passwordEncoder->encodePassword($user, $request->get('password')));
+            $user->setDisplayName($request->get('name'));
             $user->setActive(false);
             $user->setDeleted(false);
             $user->setRegistrationCode($zahl);
@@ -72,18 +69,34 @@ class AccountController extends AbstractController
             $em->flush();
             $email = (new TemplatedEmail())
                 ->from('vp@energie-ew.de')
-                ->to($data["email"])
+                ->to($request->get('email'))
                 ->subject('Konto bestätigung')
                 ->htmlTemplate("email/registration.html.twig")
-                ->context(["zahl" => $zahl]);
+                ->context(["zahl" => $zahl,'mail' => $request->get('email')]);
+
             $mailer->send($email);
             $this->addFlash('success','Der Benutzer wurde angelegt');
 
             return $this->redirectToRoute("app_login");
-        }*/
+        }
+
         return $this->render('account/register.html.twig');
     }
 
+    /**
+     * @param Request $request
+     * @Route("/registerconfirm/{mail}")
+     */
+    public function confirmRegistration(Request $request,UserRepository $userRepository){
+
+        $user = $userRepository->findBy(array('email' => $request->attributes->get('mail')));
+        if ($user){
+            dd($user);
+        }else{
+            return $this->redirectToRoute("default");
+        }
+
+    }
     /**
      * @Route ("/forgot" , name="forgot_pass")
      */
