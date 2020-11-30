@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DeliveryPlaceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -382,6 +384,16 @@ class DeliveryPlace
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $Bic;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="delveryPlace")
+     */
+    private $notifications;
+
+    public function __construct()
+    {
+        $this->notifications = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -1260,6 +1272,37 @@ class DeliveryPlace
     public function setBic(?string $Bic): self
     {
         $this->Bic = $Bic;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setDelveryPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->contains($notification)) {
+            $this->notifications->removeElement($notification);
+            // set the owning side to null (unless already changed)
+            if ($notification->getDelveryPlace() === $this) {
+                $notification->setDelveryPlace(null);
+            }
+        }
 
         return $this;
     }

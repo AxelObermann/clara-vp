@@ -71,6 +71,16 @@ class Notification
      */
     private $description;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="notifications")
+     */
+    private $customer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=DeliveryPlace::class, inversedBy="notifications")
+     */
+    private $delveryPlace;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -178,6 +188,30 @@ class Notification
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getDelveryPlace(): ?DeliveryPlace
+    {
+        return $this->delveryPlace;
+    }
+
+    public function setDelveryPlace(?DeliveryPlace $delveryPlace): self
+    {
+        $this->delveryPlace = $delveryPlace;
 
         return $this;
     }

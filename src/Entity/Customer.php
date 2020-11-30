@@ -60,11 +60,17 @@ class Customer
      */
     private $deleted;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="customer")
+     */
+    private $notifications;
+
     public function __construct()
     {
         $this->adress = new ArrayCollection();
         $this->adresses = new ArrayCollection();
         $this->deliveryPlaces = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -198,6 +204,37 @@ class Customer
     public function setDeleted(?bool $deleted): self
     {
         $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->contains($notification)) {
+            $this->notifications->removeElement($notification);
+            // set the owning side to null (unless already changed)
+            if ($notification->getCustomer() === $this) {
+                $notification->setCustomer(null);
+            }
+        }
 
         return $this;
     }
