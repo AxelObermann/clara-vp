@@ -33,7 +33,49 @@ $( document ).ready(function() {
 
     });
 
-
+    $('#newDeliveryPlace').click(function () {
+        $('#actionDP').val('new');
+        $('#deliveryPlaceTitle').text('Neue Lieferstelle');
+        $('#dpId').val('');
+        $('#Firmenname').val('');
+        $('#Anrede').val('');
+        $('#Vorname').val('');
+        $('#Nachname').val('');
+        $('#Strasse').val('');
+        $('#Hausnummer').val('');
+        $('#PLZ').val('');
+        $('#Ort').val('');
+        $('#ReFirma').val('');
+        $('#ReAnrede').val('');
+        $('#ReVorname').val('');
+        $('#ReNachname').val('');
+        $('#ReStrasse').val('');
+        $('#ReHausnummer').val('');
+        $('#RePLZ').val('');
+        $('#ReOrt').val('');
+        $('#IBAN').val('');
+        $('#BIC').val('');
+        $('#Vorversorger').val('');
+        $('#Kundennummer').val('');
+        $('#Kundenart').val('');
+        $('#Verbrauch').val('');
+        $('#MaloID').val('');
+        $('#Zaehlernummer').val('');
+        $('#MeloID').val('');
+        $('#Medium').val('');
+        $('#Versorger').val('');
+        $('#Tarifname').val('');
+        $('#Tarifnummer').val('');
+        $('#VersKdNr').val('');
+        $('#Abschlussprovision').val('');
+        $('#FolgeprovM').val('');
+        $('#SpannePKwH').val('');
+        $('#AP').val('');
+        $('#GP').val('');
+        $('#Vertragsbeginn').val('');
+        $('#Dauer').val('');
+        $('#customerDeliversPlace').toggleClass( 'slidePanel-show lvl2-sidePanel-show', 1000 );
+    });
 
     $('#customerDeliversPlaceSave').click(function () {
 
@@ -56,6 +98,7 @@ $( document ).ready(function() {
                 //console.log(JSON.parse(data.responseText));
                 toastr.success(JSON.parse(data.responseText));
             }});
+            $('#action').val('');
     });
 
     $('#customerSave').click(function () {
@@ -97,6 +140,7 @@ $( document ).ready(function() {
 });
 
 function getCustomerKdl(id){
+    $('#action').val('');
     $('#uploadPathOld').val($('#uploadPath').val());
     $('#uploadPath').val('/deliverplace/edit/'+id);
     $.ajax( {
@@ -240,9 +284,11 @@ function getCustomerWithAdress(id,test){
             if (kdls.length != 0){
                 kdls.forEach(function(obj) {
                     if (test){
-                        aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a><a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="move('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon icon md-accounts-list-alt font-size-20" aria-hidden="true"></i></a>';
+                        aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>' +
+                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="move('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon icon md-accounts-list-alt font-size-20" aria-hidden="true"></i></a>';
                     }else{
-                        aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>';
+                        aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>' +
+                            '<a href="#" data-toggle="modal" data-target="#newCheck" data-id="'+obj.id+'" class="btn btn-sm btn-icon btn-pure btn-default" onclick="" data-toggle="tooltip" data-original-title="neuer Ablese Termin"><i class="icon icon md-collection-item-9-plus font-size-20" aria-hidden="true"></i></a>';
 
                     }
 
@@ -274,6 +320,8 @@ function getCustomerWithAdress(id,test){
 
     //$('#customerIndexPanel').toggleClass( 'is-loading');
 }
+
+
 
 function ValidateEmail(mail)
 {
