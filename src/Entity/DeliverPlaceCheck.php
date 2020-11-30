@@ -38,6 +38,22 @@ class DeliverPlaceCheck
      */
     private $deliveryPlace;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $created;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $updated;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $updatedFrom;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,6 +103,42 @@ class DeliverPlaceCheck
     public function setDeliveryPlace(?DeliveryPlace $deliveryPlace): self
     {
         $this->deliveryPlace = $deliveryPlace;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(?\DateTimeInterface $created): self
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    public function getUpdated(): ?\DateTimeInterface
+    {
+        return $this->updated;
+    }
+
+    public function setUpdated(?\DateTimeInterface $updated): self
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    public function getUpdatedFrom(): ?User
+    {
+        return $this->updatedFrom;
+    }
+
+    public function setUpdatedFrom(User $updatedFrom): self
+    {
+        $this->updatedFrom = $updatedFrom;
 
         return $this;
     }
