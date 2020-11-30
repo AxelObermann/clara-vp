@@ -87,15 +87,25 @@ class AccountController extends AbstractController
      * @param Request $request
      * @Route("/registerconfirm/{mail}")
      */
-    public function confirmRegistration(Request $request,UserRepository $userRepository){
+    public function confirmRegistration(Request $request,UserRepository $userRepository, EntityManagerInterface $entityManager){
 
-        $user = $userRepository->findBy(array('email' => $request->attributes->get('mail')));
-        if ($user){
-            dd($user);
+        if($request->isMethod('POST')){
+            $user = $userRepository->findBy(array('email' => $request->get('email'),'registrationCode' => $request->get('code')));
+            $user[0]->setConfirmed(true);
+            $user[0]->setCreated(new \DateTime('now'));
+            $entityManager->flush();
+            return $this->render("account/confirmSuccess.html.twig");
         }else{
-            return $this->redirectToRoute("default");
-        }
+            $user = $userRepository->findBy(array('email' => $request->attributes->get('mail')));
+            if ($user){
+                return $this->render("account/confirm.html.twig",[
+                    'user' => $user]);
 
+            }else{
+                return $this->redirectToRoute("default");
+
+            }
+        }
     }
     /**
      * @Route ("/forgot" , name="forgot_pass")
