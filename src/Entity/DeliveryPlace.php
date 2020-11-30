@@ -346,7 +346,7 @@ class DeliveryPlace
     private $SpannePKwH;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $oldId;
 
