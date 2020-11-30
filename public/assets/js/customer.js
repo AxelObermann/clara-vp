@@ -91,6 +91,9 @@ $( document ).ready(function() {
         $('#uploadPathOld').val('');
         $('#customerDeliversPlace').toggleClass( 'slidePanel-show lvl2-sidePanel-show', 1000 );
     });
+
+
+
 });
 
 function getCustomerKdl(id){
@@ -150,7 +153,37 @@ function getCustomerKdl(id){
     $('#customerDeliversPlace').toggleClass( 'slidePanel-show lvl2-sidePanel-show', 1000 );
     //console.log(id);
 }
-function getCustomerWithAdress(id){
+
+function deleteCustomer(id){
+
+    var test = swal({
+        title: "Bist Du sicher?",
+        text: "Das Du den Kunden löschen willst",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-warning",
+        confirmButtonText: 'Ja ich will!',
+        closeOnConfirm: false //closeOnCancel: false
+
+    }, function () {
+        var kdl ="";
+        $.ajax( {
+                method: 'POST',
+                url: '/customer/delete/'+id,
+                dataType: 'json',
+                complete: function (data){
+                    //console.log('complete');
+                    kdl = JSON.parse(data.responseText);
+                    console.log(kdl);
+                    swal("Gelöscht", kdl, "success");
+                }});
+
+    })
+    ;
+
+}
+function getCustomerWithAdress(id,test){
+    var aktionCell="";
     var inner="";
     $('#customerIndexPanel').toggleClass( 'is-loading');
     $('#action').val('edit');
@@ -206,6 +239,13 @@ function getCustomerWithAdress(id){
                 .draw();
             if (kdls.length != 0){
                 kdls.forEach(function(obj) {
+                    if (test){
+                        aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a><a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="move('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon icon md-accounts-list-alt font-size-20" aria-hidden="true"></i></a>';
+                    }else{
+                        aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>';
+
+                    }
+
                     t.row.add( [
                         obj.Tarifnummer,
                         obj.Firmenname,
@@ -220,8 +260,9 @@ function getCustomerWithAdress(id){
                         obj.Verbrauch,
                         obj.Versorger,
                         obj.Zaehlernummer,
-                        '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-26" aria-hidden="true"></i></a>'
-                    ] ).draw( false );
+                        aktionCell
+
+                ] ).draw( false );
 
 
                     //console.log(obj);
