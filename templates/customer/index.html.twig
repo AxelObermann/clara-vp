@@ -166,6 +166,7 @@
                         <div class="panel-heading" >
                             <h3 class="panel-title text-white"><i class="site-menu-icon icon fa-map-marker" aria-hidden="true" style="font-size: 25px;top: 3px;"></i>Lieferstellen</h3>
                             <div class="panel-actions text-white">
+                                <a class="panel-action text-white" aria-expanded="true" aria-hidden="true" id="newDeliveryPlace"><img style="width: 30px;" src="{{ asset('assets/images/MapPlus.svg') }}"></a>
                                 <a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
                             </div>
                         </div>
@@ -223,6 +224,7 @@
             <div class="panel-body">
                 <form id="deliveryPlaceForm">
                     <input type="hidden" name="dpId" id="dpId" value="">
+                    <input type="hidden" name="action" id="actionDP" value="">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-6 float-left">
@@ -579,7 +581,30 @@
         </div>
     </div>
     
-    
+    <div class="modal fade modal-3d-slit" id="newCheck" aria-hidden="true"
+         aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple">
+            <div class="modal-content clara-modal-content">
+                <form method="post" action="">
+                    <div class="modal-header clara-modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title clara-modal-title"><i class="icon md-notifications" aria-hidden="true" style="font-size: 25px"></i> Neuer Ablese Termin</h4>
+                    </div>
+                    <div class="modal-body clara-modal-body">
+                        <textarea rows="3" name="text" cols="70" placeholder="hier Text eingeben" required></textarea>
+                        <input type="text" required name="todate" class="datepicker" data-plugin="datepicker" placeholder="erledigen bis.">
+                        <input type="hidden" name="userId" id="userId" value=""/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" class="btn btn-warning">Speichern</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block siteJS %}
