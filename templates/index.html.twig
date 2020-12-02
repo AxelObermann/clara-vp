@@ -19,6 +19,7 @@
 	<link rel="stylesheet" href="/assets/css/custom.css">
 	
 	<!-- Plugins -->
+	<link rel="stylesheet" href="/global/vendor/bootstrap-datepicker/bootstrap-datepicker.css">
 	<link rel="stylesheet" href="/global/vendor/animsition/animsition.css">
 	<link rel="stylesheet" href="/global/vendor/asscrollable/asScrollable.css">
 	<link rel="stylesheet" href="/global/vendor/switchery/switchery.css">
@@ -122,6 +123,29 @@
 	</div>
 </div>
 <!-- End Page -->
+<div class="modal fade modal-3d-slit" id="todoModalGlobal" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
+	<div class="modal-dialog modal-simple">
+		<div class="modal-content clara-modal-content">
+			<form method="post" action="{{ path("noti_create_global") }}" id="globalTodoForm">
+				<div class="modal-header clara-modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+					<h4 class="modal-title clara-modal-title"><i class="icon md-notifications" aria-hidden="true" style="font-size: 25px"></i> Neues Todo anlegen</h4>
+				</div>
+				<div class="modal-body clara-modal-body">
+					<textarea rows="3" name="text" cols="70" placeholder="hier Text eingeben" required></textarea>
+					<input type="text" required name="todate" class="datepicker" data-plugin="datepicker" placeholder="erledigen bis.">
+					<input type="hidden" name="userId" id="toDoUserId" value=""/>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
+					<button type="submit" class="btn btn-warning">Speichern</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 
 
 <!-- Footer -->
@@ -242,7 +266,7 @@
 <script src="/global/js/Plugin/multi-select.js"></script>
 <script src="/global/js/Plugin/jquery-placeholder.js"></scrip
 <script src="/global/js/Plugin/toastr.js"></script>
-    <script src="/global/vendor/bootbox/bootbox.js"></script>
+<script src="/global/vendor/bootbox/bootbox.js"></script>
 <script src="/global/vendor/bootstrap-sweetalert/sweetalert.js"></script>
 <script src="/global/js/Plugin/bootbox.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -274,7 +298,7 @@
 
 
         $(document).on("click", ".open-AddBookDialog", function () {
-
+			console.log('MODAL')
             var myBookId = $(this).data('id');
             $(".modal-body #userId").val( myBookId );
             $("#todoModal").show();
