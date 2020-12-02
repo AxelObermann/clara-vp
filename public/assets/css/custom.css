@@ -3,6 +3,9 @@
     min-height: calc(100% - 65px);
     background: #bdbcbc;
 }
+.text-warning{
+    color:#f19408;
+}
 .layout-full .page {
     height: 100%;
     padding: 0;
