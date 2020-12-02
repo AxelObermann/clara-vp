@@ -8,11 +8,18 @@ use App\Service\UploaderHelper;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
+
+    public function __construct(string $uploadsPath,string  $uploadsDBPath){
+
+        $this->uploadsPath = $uploadsPath;
+        $this->uploadsDBPath = $uploadsDBPath;
+    }
     /**
      * @Route("/benutzerindex", name="benutzerindex")
      */
@@ -84,13 +91,26 @@ class UserController extends AbstractController
         if($request->isMethod('GET')){
             $user = $userRepository->find($request->query->get('id'));
             $profile = $user->getProfile();
-            //dd($user);
+            //dd($this->uploadsPath);
+            $finder = new Finder();
+            $contents = null;
+
+            if(file_exists($this->uploadsPath.'/user/edit/'.$user->getId())){
+                $finder->in($this->uploadsPath.'/user/edit/'.$user->getId()."/*" );
+                foreach ($finder as $directory) {
+                    //dump($directory->getPath()."/".$directory->getFilename());
+                    $contents[] = $directory->getRealPath()."/".$directory->getFilename();
+                }
+            }
+
             return $this->render('user/edit.html.twig', [
                 'user' => $user,
-                'profile' => $profile
+                'profile' => $profile,
+                'files' => $contents
             ]);
         }
         if($request->isMethod('POST')){
+
             if ($request->request->get('typ')=="profile"){
                 $profile = $profileRepository->find($request->request->get('id'));
                 $profile->setFirstName($request->request->get('Vorname'));
@@ -146,6 +166,8 @@ class UserController extends AbstractController
 
                 $user->setDisplayName($request->request->get('displayname'));
                 $user->setEmail($request->request->get('email'));
+                $user->setRoles($request->request->get('rollen'));
+                //dd($request->request->get('rollen'));
                 $entityManager->flush();
             }
 
