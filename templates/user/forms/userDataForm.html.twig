@@ -27,6 +27,17 @@
 			<div class="form-group">
 				<input type="password" name="confirmnewpass" class="form-control round" placeholder="neues Passwort bestätigen">
 			</div>
+			{% if is_granted('ROLE_ADMIN') %}
+			<div class="form-group">
+				<span class="text-help">Rollen</span>
+				<select id="UserRoleSelect" multiple name="rollen[]">
+					<option value="ROLE_ADMIN" {% if "ROLE_ADMIN" in user.roles %} selected {% endif %}>ROLE_ADMIN</option>
+					<option value="ROLE_PORTAL_USER" {% if "ROLE_PORTAL_USER" in user.roles %} selected {% endif %}>ROLE_PORTAL_USER</option>
+					<option value="ROLE_USER" {% if "ROLE_USER" in user.roles %} selected {% endif %}>ROLE_USER</option>
+					<option value="ROLE_FACILITY" {% if "ROLE_FACILITY" in user.roles %} selected {% endif %}>ROLE_FACILITY</option>
+				</select>
+			</div>
+			{% endif %}
 		</div>
 		<div class="col-lg-8 col-md-8">
 			<div class="row-lg">
@@ -59,6 +70,7 @@
 			</div>
 		
 		</div>
+		
 	</div>
 	<button type="submit" class="btn btn-round btn-warning text-black-50">Speichern</button> &nbsp;&nbsp;
 </form>

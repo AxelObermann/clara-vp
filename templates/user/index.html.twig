@@ -56,7 +56,8 @@
 						<td>
 							{% if is_granted('ROLE_PORTAL_ADMIN') or is_granted('ROLE_ADMIN') %}
 							<a href="{{ path('user_edit') }}?id={{ user.id }}" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="tooltip" data-original-title="bearbeiten"><i class="icon md-edit success text-success font-size-26" aria-hidden="true"></i></a>
-							<a href="#" data-toggle="tooltip" data-original-title="löschen" class="btn btn-sm btn-icon btn-pure btn-danger on-default remove-row"><i class="icon md-delete danger text-danger font-size-26" aria-hidden="true"></i></a>
+							<a href="#" data-toggle="tooltip" data-original-title="löschen" class="btn btn-sm btn-icon btn-pure btn-danger on-default remove-row animation-hover animation-scale"><i class="icon md-delete danger text-danger font-size-26" aria-hidden="true"></i></a>
+							<a href="#" data-toggle="modal" data-target="#todoModal" data-id="{{ user.id }}" class="btn btn-sm btn-icon btn-pure btn-danger on-default open-AddBookDialog animation-shake animation-hover"><i class="icon md-notifications-add font-size-26" aria-hidden="true" style="color:#f19408;"></i></a>
 							{% endif %}
 						</td>
 					</tr>
@@ -65,4 +66,31 @@
 			</table>
 		</div>
 	</div>
+	
+	
+	<div class="modal fade modal-3d-slit" id="todoModal" aria-hidden="true"
+		 aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
+		<div class="modal-dialog modal-simple">
+			<div class="modal-content clara-modal-content">
+				<form method="post" action="{{ path("noti_create_from_dashboard") }}">
+					<div class="modal-header clara-modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+						<h4 class="modal-title clara-modal-title"><i class="icon md-notifications" aria-hidden="true" style="font-size: 25px"></i> Neues Todo anlegen</h4>
+					</div>
+					<div class="modal-body clara-modal-body">
+						<textarea rows="3" name="text" cols="70" placeholder="hier Text eingeben" required></textarea>
+						<input type="text" required name="todate" class="datepicker" data-plugin="datepicker" placeholder="erledigen bis.">
+						<input type="hidden" name="userId" id="userId" value=""/>
+					</div>
+					<div class="modal-footer">
+						<button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
+						<button type="submit" class="btn btn-warning">Speichern</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 {% endblock %}
