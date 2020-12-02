@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Notification;
+use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,5 +47,15 @@ class NotificationController extends AbstractController
             //dd($request);
         }
         return $this->redirect($request->headers->get('referer'));
+    }
+
+    /**
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @param NotificationRepository $notificationRepository
+     * @Route ("/createToDo", name="noti_create_global")
+     */
+    public function createToDo(Request $request, UserRepository $userRepository, NotificationRepository $notificationRepository){
+
     }
 }
