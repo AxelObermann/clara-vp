@@ -80,6 +80,14 @@ class CustomerController extends AbstractController
     }
 
     /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     */
+    public function edit(){
+        return $this->render('customer/edit.html.twig');
+    }
+
+    /**
      * @Route("/customers/show_deleted", name="customers_show_deleted")
      */
     public function showDeleted(CustomerRepository $customerRepository,UserRepository $userRepository,EntityManagerInterface $entityManager)
@@ -305,6 +313,7 @@ class CustomerController extends AbstractController
             $customer->setUser($user);
             $customer->setContactPerson($rp['contactPerson']);
             $customer->setFullName($rp['Name']);
+            $customer->setDeleted(false);
             $entityManager->persist($customer);
             $adress = new Adress();
             $adress->setCustomer($customer);

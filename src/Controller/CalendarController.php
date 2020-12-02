@@ -36,15 +36,15 @@ class CalendarController extends AbstractController
             //echo "**".$event->getStart()->format("Y-m-d H:i:s");
             if($event->getAllday() == 1) {
                 $allday = true;
-                $end = $event->getStart()->format("Y-m-dTH:i:s");
+                $end = $event->getStart()->format("Y-m-d H:i:s");
             } else {
                 $allday = false;
-                $end = $event->getEnd()->format("Y-m-dTH:i:s");
+                $end = $event->getEnd()->format("Y-m-d H:i:s");
             }
             $data[] = array(
                 'id' => $event->getId(),
                 'title'=>$event->getTitle(),
-                'start'=>$event->getStart()->format("Y-m-dTH:i:s"),
+                'start'=>$event->getStart()->format("Y-m-d H:i:s"),
                 'end' => $end,
                 'allDay' => $allday,
                 'details' => $event->getDetails(),
@@ -79,15 +79,15 @@ class CalendarController extends AbstractController
             //echo "**".$event->start;
             if ($event->getAllday() == 1) {
                 $allday = true;
-                $end = $event->getStart()->format("Y-m-dTH:i:s");
+                $end = $event->getStart()->format("Y-m-d H:i:s");
             } else {
                 $allday = false;
-                $end = $event->getEnd()->format("Y-m-dTH:i:s");
+                $end = $event->getEnd()->format("Y-m-d H:i:s");
             }
             $data[] = array(
                 'id' => $event->getId(),
                 'title' => $event->getTitle(),
-                'start' => $event->getStart()->format("Y-m-dTH:i:s"),
+                'start' => $event->getStart()->format("Y-m-d H:i:s"),
                 'end' => $end,
                 'allDay' => $allday,
                 'details' => $event->getDetails(),

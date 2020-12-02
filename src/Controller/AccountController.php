@@ -93,6 +93,7 @@ class AccountController extends AbstractController
             $user = $userRepository->findBy(array('email' => $request->get('email'),'registrationCode' => $request->get('code')));
             $user[0]->setConfirmed(true);
             $user[0]->setCreated(new \DateTime('now'));
+            $entityManager->persist($user[0]);
             $entityManager->flush();
             return $this->render("account/confirmSuccess.html.twig");
         }else{
