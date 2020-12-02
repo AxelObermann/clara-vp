@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CustomerRepository;
 use App\Repository\ProfileRepository;
 use App\Repository\UserRepository;
 use App\Service\UploaderHelper;
@@ -87,26 +88,27 @@ class UserController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route ("/user/edit", name="user_edit")
      */
-    public function userEdit(Request $request, UserRepository $userRepository, ProfileRepository $profileRepository,EntityManagerInterface $entityManager,UploaderHelper $uploaderHelper){
+    public function userEdit(CustomerRepository $customerRepository,Request $request, UserRepository $userRepository, ProfileRepository $profileRepository,EntityManagerInterface $entityManager,UploaderHelper $uploaderHelper){
         if($request->isMethod('GET')){
             $user = $userRepository->find($request->query->get('id'));
             $profile = $user->getProfile();
+            $customers = $customerRepository->findAll();
             //dd($this->uploadsPath);
             $finder = new Finder();
             $contents = null;
-
             if(file_exists($this->uploadsPath.'/user/edit/'.$user->getId())){
                 $finder->in($this->uploadsPath.'/user/edit/'.$user->getId()."/*" );
                 foreach ($finder as $directory) {
                     //dump($directory->getPath()."/".$directory->getFilename());
-                    $contents[] = $directory->getRealPath()."/".$directory->getFilename();
+                    $contents[] = array('pfad' => $directory->getRealPath(),'datei' =>$directory->getFilename());
                 }
             }
 
             return $this->render('user/edit.html.twig', [
                 'user' => $user,
                 'profile' => $profile,
-                'files' => $contents
+                'files' => $contents,
+                'customers' => $customers
             ]);
         }
         if($request->isMethod('POST')){

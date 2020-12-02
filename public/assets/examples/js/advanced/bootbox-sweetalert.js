@@ -138,6 +138,20 @@
         swal("Deleted!", "Your imaginary file has been deleted!", "success");
       });
     });
+    (0, _jquery.default)('.deleteCustomer').on("click", function () {
+      swal({
+        title: "Bist Du sicher?",
+        text: "Das Du den Kunden löschen willst",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-warning",
+        confirmButtonText: 'Ja ich will!',
+        closeOnConfirm: false //closeOnCancel: false
+
+      }, function () {
+        swal("Gelöscht", "der Kunde wurde gelöscht", "success");
+      });
+    });
     (0, _jquery.default)('#exampleWarningCancel').on("click", function () {
       swal({
         title: "Are you sure?",

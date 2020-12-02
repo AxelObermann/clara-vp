@@ -33,10 +33,18 @@
 				<select id="UserRoleSelect" multiple name="rollen[]">
 					<option value="ROLE_ADMIN" {% if "ROLE_ADMIN" in user.roles %} selected {% endif %}>ROLE_ADMIN</option>
 					<option value="ROLE_PORTAL_USER" {% if "ROLE_PORTAL_USER" in user.roles %} selected {% endif %}>ROLE_PORTAL_USER</option>
-					<option value="ROLE_USER" {% if "ROLE_USER" in user.roles %} selected {% endif %}>ROLE_USER</option>
-					<option value="ROLE_FACILITY" {% if "ROLE_FACILITY" in user.roles %} selected {% endif %}>ROLE_FACILITY</option>
+					<option value="ROLE_FACILITY_MANAGER" {% if "ROLE_FACILITY_MANAGER" in user.roles %} selected {% endif %}>Verwalter</option>
+					<option value="ROLE_FACILITY" {% if "ROLE_FACILITY" in user.roles %} selected {% endif %}>Ableser</option>
 				</select>
 			</div>
+				<div class="form-group">
+					<span class="text-help">Sieht Lieferstellen von:</span>
+					<select data-style="warning" class="text-white" name="customer" data-plugin="selectpicker" data-live-search="true">
+						{% for customer in customers %}
+							<option value="{{ customer.id }}" >{{ customer.fullName }}</option>
+						{% endfor %}
+					</select>
+				</div>
 			{% endif %}
 		</div>
 		<div class="col-lg-8 col-md-8">
@@ -46,7 +54,7 @@
 					<div class="example-wrap">
 						<h4 class="example-title">Profilbild</h4>
 						<div class="example">
-							<input name="userImage" type="file" id="input-file-now-custom-1" data-plugin="dropify" data-default-file="{% if app.session.get('userImage') == "" %}
+							<input name="userImage" type="file" id="userImage" data-plugin="dropify" data-default-file="{% if app.session.get('userImage') == "" %}
 						/assets/images/avatar.jpg" alt="...">
 							{% else %}
 								{{ profile.image }}" alt="...">
@@ -61,7 +69,7 @@
 					<div class="example-wrap">
 						<h4 class="example-title">Logo</h4>
 						<div class="example">
-							<input name="userLogo" type="file" id="input-file-now-custom-1" data-plugin="dropify" data-default-file="{{ profile.logo }}" alt="...">
+							<input name="userLogo" type="file" id="userLogo" data-plugin="dropify" data-default-file="{{ profile.logo }}" alt="...">
 						</div>
 					</div>
 					<!-- End Example Default Value -->

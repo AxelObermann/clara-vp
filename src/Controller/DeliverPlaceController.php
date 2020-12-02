@@ -6,9 +6,12 @@ use App\Repository\CustomerRepository;
 use App\Repository\DeliveryPlaceRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
 
 class DeliverPlaceController extends AbstractController
 {
@@ -33,6 +36,26 @@ class DeliverPlaceController extends AbstractController
 
         $params = explode(',', $params);
         dd($params);
+
+    }
+
+    /**
+     * @param DeliveryPlaceRepository $deliveryPlaceRepository
+     * @Route("createAutoToDo")
+     */
+    public function createAutomatedToDo(DeliveryPlaceRepository $deliveryPlaceRepository){
+        $heute = new \DateTime();
+        $date = new \DateTime();
+        $interval = new \DateInterval('P21D');
+
+        $date->add($interval);
+        $maketodos = $deliveryPlaceRepository->findBy(array('stab' => $date));
+
+        dump($heute->format('Y-m-d'));
+        dump($date->format('Y-m-d'));
+        dump($maketodos);
+        die();
+        return new JsonResponse($heute->format('Y-m-d'));
 
     }
 }

@@ -395,6 +395,16 @@ class DeliveryPlace
      */
     private $deliverPlaceChecks;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $stab;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="deliveryPlaces")
+     */
+    private $facilityUser;
+
     public function __construct()
     {
         $this->notifications = new ArrayCollection();
@@ -1340,6 +1350,30 @@ class DeliveryPlace
                 $deliverPlaceCheck->setDeliveryPlace(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStab(): ?\DateTimeInterface
+    {
+        return $this->stab;
+    }
+
+    public function setStab(?\DateTimeInterface $stab): self
+    {
+        $this->stab = $stab;
+
+        return $this;
+    }
+
+    public function getFacilityUser(): ?User
+    {
+        return $this->facilityUser;
+    }
+
+    public function setFacilityUser(?User $facilityUser): self
+    {
+        $this->facilityUser = $facilityUser;
 
         return $this;
     }

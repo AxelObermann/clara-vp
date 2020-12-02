@@ -21,7 +21,7 @@ class NotificationRepository extends ServiceEntityRepository
 
     public function findTodayNotifications($user)
     {
-        // dd($user);
+         //dd($user->getId());
         $date = new \Datetime;
         $from = new \DateTime($date->format("Y-m-d")." 00:00:00");
         $to   = new \DateTime($date->format("Y-m-d")." 23:59:59");
@@ -30,7 +30,7 @@ class NotificationRepository extends ServiceEntityRepository
         $qb
             ->andWhere('e.doneUntil BETWEEN :from AND :to')
             ->andWhere('e.toUser = :user')
-            ->setParameter('user', $user )
+            ->setParameter('user', $user->getId() )
             ->setParameter('from', $from )
             ->setParameter('to', $to)
         ;

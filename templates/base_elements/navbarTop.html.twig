@@ -55,7 +55,7 @@
 				<div class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
 					<div class="dropdown-menu-header">
 						<h5>To Do´s</h5>
-						<span class="badge badge-round badge-warning">{{ app.user.notifications|length }}</span>
+						<span class="badge badge-round badge-warning">{% if app.user.notifications %}{{ app.user.notifications|length }}{% endif %}</span>
 					</div>
 					
 					<div class="list-group">

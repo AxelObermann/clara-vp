@@ -74,6 +74,7 @@ $( document ).ready(function() {
         $('#GP').val('');
         $('#Vertragsbeginn').val('');
         $('#Dauer').val('');
+        $('#stab').val('');
         $('#customerDeliversPlace').toggleClass( 'slidePanel-show lvl2-sidePanel-show', 1000 );
     });
 
@@ -189,6 +190,7 @@ function getCustomerKdl(id){
             $('#GP').val(kdl[0].GP);
             $('#Vertragsbeginn').val(kdl[0].Vertragsbeginn.date);
             $('#Dauer').val(kdl[0].Dauer);
+            $('#stab').val(kdl[0].stab.date);
             //console.log($.datepicker.formatDate('yy-mm-dd', new Date()))
             //console.log(kdl[0]);
 

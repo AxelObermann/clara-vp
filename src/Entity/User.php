@@ -110,12 +110,18 @@ class User implements UserInterface
      */
     private $confirmed;
 
+    /**
+     * @ORM\OneToMany(targetEntity=DeliveryPlace::class, mappedBy="facilityUser")
+     */
+    private $deliveryPlaces;
+
 
     public function __construct()
     {
         $this->calendars = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->customers = new ArrayCollection();
+        $this->deliveryPlaces = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -440,6 +446,36 @@ class User implements UserInterface
     public function setConfirmed(?bool $confirmed): self
     {
         $this->confirmed = $confirmed;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DeliveryPlace[]
+     */
+    public function getDeliveryPlaces(): Collection
+    {
+        return $this->deliveryPlaces;
+    }
+
+    public function addDeliveryPlace(DeliveryPlace $deliveryPlace): self
+    {
+        if (!$this->deliveryPlaces->contains($deliveryPlace)) {
+            $this->deliveryPlaces[] = $deliveryPlace;
+            $deliveryPlace->setFacilityUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeliveryPlace(DeliveryPlace $deliveryPlace): self
+    {
+        if ($this->deliveryPlaces->removeElement($deliveryPlace)) {
+            // set the owning side to null (unless already changed)
+            if ($deliveryPlace->getFacilityUser() === $this) {
+                $deliveryPlace->setFacilityUser(null);
+            }
+        }
 
         return $this;
     }

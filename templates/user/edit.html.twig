@@ -5,7 +5,7 @@
 		<h3 class="panel-title"><i class="site-menu-icon icon md-pin-account" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Benutzer einstellungen:  {{ user.displayName }}</h3>
 	</header>
 	<div class="panel-body">
-		<div class="panel pt-10" id="UserDataPanel">
+		<div class="panel pt-10 shadow-lg" id="UserDataPanel">
 			<div class="panel-heading text-white">
 				<h3 class="panel-title">Benutzerdaten: </h3>
 				<div class="panel-actions text-white">
@@ -17,7 +17,7 @@
 				
 			</div>
 		</div>
-		<div class="panel" id="UserProfilePanel">
+		<div class="panel shadow-lg" id="UserProfilePanel">
 			<div class="panel-heading">
 				<h3 class="panel-title">Profil:</h3>
 				<div class="panel-actions text-white">
@@ -28,6 +28,76 @@
 				{%  include("/user/forms/profileForm.html.twig") %}
 			</div>
 		</div>
+		{% if files %}
+		<div class="panel shadow-lg" id="UserFilesPanel">
+			<div class="panel-heading">
+				<h3 class="panel-title">Dateien:</h3>
+				<div class="panel-actions text-white">
+					<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="example-wrap pt-10">
+					<div class="nav-tabs-horizontal" data-plugin="tabs">
+						<ul class="nav nav-tabs" role="tablist">
+							<li class="nav-item" role="presentation"><a class="nav-link active show" data-toggle="tab" href="#CI" aria-controls="exampleTabsOne" role="tab" aria-selected="true">CI</a></li>
+							<li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#Dokumente" aria-controls="exampleTabsTwo" role="tab" aria-selected="false">Dokumente</a></li>
+							<li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#Logos" aria-controls="exampleTabsThree" role="tab" aria-selected="false">Logos</a></li>
+							<li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#Sonstige" aria-controls="exampleTabsFour" role="tab" aria-selected="false">Sonstige</a></li>
+							<li class="dropdown nav-item" role="presentation" style="display: none;">
+								<a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#" aria-expanded="false">Menu </a>
+								<div class="dropdown-menu" role="menu">
+									<a class="dropdown-item" data-toggle="tab" href="#exampleTabsOne" aria-controls="exampleTabsOne" role="tab">Home</a>
+									<a class="dropdown-item" data-toggle="tab" href="#exampleTabsTwo" aria-controls="exampleTabsTwo" role="tab">Components</a>
+									<a class="dropdown-item" data-toggle="tab" href="#exampleTabsThree" aria-controls="exampleTabsThree" role="tab">Css</a>
+									<a class="dropdown-item" data-toggle="tab" href="#exampleTabsFour" aria-controls="exampleTabsFour" role="tab">Javascript</a>
+								</div>
+							</li>
+						</ul>
+						<div class="tab-content pt-20">
+							<div class="tab-pane active show" id="CI" role="tabpanel">
+								<table class="table table-striped">
+								{% for datei in files %}
+									{% if '/CI' in datei.pfad %}
+										<tr><td><a href="{{ datei.pfad|replace({'/Volumes/DEV/DEVELOPMENT/clara-vp/public':''}) }}/{{ datei.datei }}" target="_blank">{{ datei.datei }}</a></td></tr>
+									{% endif %}
+								{% endfor %}
+								</table>
+							</div>
+							<div class="tab-pane" id="Dokumente" role="tabpanel">
+								<table class="table table-striped">
+								{% for datei in files %}
+									{% if '/Dokumente' in datei.pfad %}
+										<tr><td><a href="{{ datei.pfad|replace({'/Volumes/DEV/DEVELOPMENT/clara-vp/public':''}) }}/{{ datei.datei }}" target="_blank">{{ datei.datei }}</a></td></tr>
+									{% endif %}
+								{% endfor %}
+								</table>
+							</div>
+							<div class="tab-pane" id="Logos" role="tabpanel">
+								<table class="table table-striped">
+								{% for datei in files %}
+									{% if '/Logos' in datei.pfad %}
+										<tr><td><a href="{{ datei.pfad|replace({'/Volumes/DEV/DEVELOPMENT/clara-vp/public':''}) }}/{{ datei.datei }}" target="_blank">{{ datei.datei }}</a></td></tr>
+									{% endif %}
+								{% endfor %}
+								</table>
+							</div>
+							<div class="tab-pane" id="Sonstige" role="tabpanel">
+								<table class="table table-striped">
+								{% for datei in files %}
+									{% if '/Sonstiges' in datei.pfad %}
+										<tr><td><a href="{{ datei.pfad|replace({'/Volumes/DEV/DEVELOPMENT/clara-vp/public':''}) }}/{{ datei.datei }}" target="_blank">{{ datei.datei }}</a></td></tr>
+									{% endif %}
+								{% endfor %}
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		{% endif %}
 	</div>
 </div>
 		

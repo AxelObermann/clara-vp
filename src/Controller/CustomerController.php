@@ -406,6 +406,7 @@ class CustomerController extends AbstractController
         $dePLace->setGP($rp['GP']);
         $dePLace->setVertragsbeginn($rp['Vertragsbeginn']);
         $dePLace->setDauer($rp['Dauer']);
+        $dePLace->setStab(new \DateTime($rp['stab']));
         $entityManager->persist($dePLace);
         $entityManager->flush($dePLace);
 

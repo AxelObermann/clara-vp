@@ -53,7 +53,7 @@
 													{% endif %}
 												</a>
 												<button type="button" class="btn btn-warning btn-floating btn-xs" style="position: inherit">
-													<a data-toggle="modal" data-target="#todoModal" data-id="{{ user.id }}" style="color: #ffffff" class="open-AddBookDialog"><i class="icon md-notifications-add" style="margin: -1px 5px 0;" aria-hidden="true"></i></a>
+													<a data-toggle="modal" data-target="#todoModal" data-id="{{ user.id }}" style="color: #ffffff" class="open-AddBookDialog animation-shake animation-hover"><i class="icon md-notifications-add" style="margin: -1px 5px 0;" aria-hidden="true"></i></a>
 												</button>
 											</div>
 											<div class="media-body">
@@ -101,7 +101,7 @@
 				<ul class="list-task list-group h-450 scrollable is-enabled scrollable-vertical" data-plugin="scrollable" style="position: relative;">
 					<div data-role="container" class="scrollable-container" style="height: 250px; width: 929px;">
 						<div data-role="content" class="scrollable-content" style="width: 914px;">
-							{% for todo in app.user.notifications %}
+							{% for todo in notifications %}
 								<li class="list-group-item task-done" data-plugin="tasklist">
 									<div class="checkbox-custom checkbox-primary">
 										<input type="checkbox" id="inputSchedule" name="inputCheckboxesSchedule">

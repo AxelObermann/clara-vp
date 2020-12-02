@@ -114,7 +114,7 @@ class DefaultController extends AbstractController
         $uploadedFile = $request->files->get("test");
         $test='';
         if($request->request->get('uploadPath') == '/user/edit'){
-            $upp = $request->request->get('uploadPath').'/'.$this->getUser()->getId().'/'.$request->request->get('uploaddir');
+            $upp = $request->request->get('uploadPath').'/'.$request->request->get('Userid').'/'.$request->request->get('uploaddir');
             $test = $uploaderHelper->uploadAjaxFile($uploadedFile, $upp);
         }else{
             $test = $uploaderHelper->uploadAjaxFile($uploadedFile, $request->request->get('uploadPath'));
