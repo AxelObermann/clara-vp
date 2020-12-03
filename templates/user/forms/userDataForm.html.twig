@@ -30,7 +30,7 @@
 			{% if is_granted('ROLE_ADMIN') %}
 			<div class="form-group">
 				<span class="text-help">Rollen</span>
-				<select id="UserRoleSelect" multiple name="rollen[]">
+				<select id="UserRoleSelect" data-plugin="selectpicker" multiple name="rollen[]">
 					<option value="ROLE_ADMIN" {% if "ROLE_ADMIN" in user.roles %} selected {% endif %}>ROLE_ADMIN</option>
 					<option value="ROLE_PORTAL_USER" {% if "ROLE_PORTAL_USER" in user.roles %} selected {% endif %}>ROLE_PORTAL_USER</option>
 					<option value="ROLE_FACILITY_MANAGER" {% if "ROLE_FACILITY_MANAGER" in user.roles %} selected {% endif %}>Verwalter</option>
@@ -40,9 +40,9 @@
 				{% if 'ROLE_FACILITY_MANAGER' in user.roles %}
 					<div class="form-group">
 						<span class="text-help">Sieht Lieferstellen von:</span>
-						<select data-style="warning" class="text-white" name="customer" data-plugin="selectpicker" data-live-search="true">
+						<select data-style="warning" multiple class="text-white" name="allowedCustomer[]" data-plugin="selectpicker" data-live-search="true">
 							{% for customer in customers %}
-								<option value="{{ customer.id }}" >{{ customer.fullName }}</option>
+								<option value="{{ customer.id }}" {% if customer.id in user.allowedCustomer %}selected{% endif %}>{{ customer.fullName }} </option>
 							{% endfor %}
 						</select>
 					</div>
