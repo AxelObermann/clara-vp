@@ -3,8 +3,58 @@
 {% block body %}
 {# {{ dump(app.user) }} #}
 	<div class="row" data-plugin="matchHeight" data-by-row="false">
-		<div class="col-xl-4 col-lg-4" id="dashUserwidget">
-			<div class="card shadow-lg" style="height: 500px;">
+	<div class="col-xl-4 col-lg-4" id="dashUserwidget">
+		<div class="panel shadow-lg pb-20 h-500" id="UserDash">
+			<div class="panel-heading h-80" style="background: #f19408;">
+				<a class="avatar avatar-35 float-left mr-20 mt-15 ml-20" href="javascript:void(0)">
+					<img src="{% if app.session.get('userImage') == "" %}
+							/assets/images/avatar.jpg" alt="...">
+					{% else %}
+						{{ app.session.get('userImage') }}" alt="...">
+					{% endif %}</a>
+				<h3 class="panel-title pt-25">{{ loggeduser.displayName }}<span class="font-size-12 pl-10 text-white" >{{ loggeduser.email }}</span></h3>
+				
+				<div class="panel-actions text-white">
+					<button type="button" class="btn-raised btn btn-danger btn-floating waves-effect waves-classic waves-effect waves-light waves-effect waves-classic waves-effect waves-classic animation-hover animation-shake" id="customerAddTodo" style="height: 30px;width: 30px;font-size: 23px;">
+						<a data-toggle="modal" data-target="#todoModal" data-id="{{ loggeduser.id }}" style="color: #ffffff" class="open-AddBookDialog animation-shake animation-hover"><i class="icon md-notifications-add" style="margin: -1px 5px 0;" aria-hidden="true"></i></i></a>
+					</button>
+				</div>
+			</div>
+			<div class="panel-body">
+				<ul class="list-group list-group-full list-group-dividered mb-0">
+					{% for user in users %}
+						{% if user.id in app.user.favorite %}
+							<li class="list-group-item">
+								<div class="media">
+									<div class="pr-20">
+										<a class="avatar avatar-lg" href="javascript:void(0)">
+											<img class="img-responsive" src="
+													{% if user.getProfile.getImage == "" %}
+													/assets/images/avatar.jpg" alt="...">
+											{% else %}
+												{{ user.getProfile.getImage }}" alt="...">
+											{% endif %}
+										</a>
+									</div>
+									<div class="media-body">
+										<h5 class="mt-0 mb-5">{{ user.displayName }}</h5>
+										<small>{{ user.email }}</small>
+									</div>
+									<div class="media-item-actions">
+										<button type="button" class="btn btn-warning btn-floating btn-xs" style="position: inherit">
+											<a data-toggle="modal" data-target="#todoModal" data-id="{{ user.id }}" style="color: #ffffff" class="open-AddBookDialog animation-shake animation-hover"><i class="icon md-notifications-add" style="margin: -1px 5px 0;" aria-hidden="true"></i></a>
+										</button>
+									</div>
+								</div>
+							</li>
+						{% endif%}
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+		{#  <div class="col-xl-4 col-lg-4" id="dashUserwidget">
+			<div class="card shadow-lg h-500" >
 				<div class="card" id="widgetUserList">
 					<div class="card-header cover overlay">
 						<img class="cover-image h-200" src="assets/examples/images/dashboard-header.jpg" alt="...">
@@ -71,10 +121,10 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>#}
 		<div class="col-lg-4 masonry-item">
 			<div class="panel shadow-lg pb-20 h-500" id="event-list">
-				<div class="panel-heading" style="background: #f19408;">
+				<div class="panel-heading h-80" style="background: #f19408;">
 					<h3 class="panel-title"><i class="site-menu-icon icon md-calendar" style="font-size: 25px;top: 3px;" aria-hidden="true"></i>Termine für heute</h3>
 				</div>
 				<div class="panel-body">
@@ -96,9 +146,8 @@
 		<div class="col-lg-4 masonry-item">
 			<!-- Panel To Do List -->
 			<div class="panel shadow-lg pb-20 h-500" id="todo-list">
-				<div class="panel-heading" style="background: #f19408;">
+				<div class="panel-heading h-80" style="background: #f19408;">
 					<h3 class="panel-title"><i class="icon md-notifications" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> zu erledigen</h3>
-					
 				</div>
 				<ul class="list-task list-group  scrollable is-enabled scrollable-vertical" data-plugin="scrollable" style="position: relative;">
 					<div data-role="container" class="scrollable-container" style="height: 250px; width: 929px;">
