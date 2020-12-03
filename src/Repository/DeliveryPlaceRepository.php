@@ -23,6 +23,7 @@ class DeliveryPlaceRepository extends ServiceEntityRepository
     public function getKdls($id){
         return $this->createQueryBuilder('d')
             ->andWhere('d.customer = :val')
+            ->andWhere('d.deleted = 0')
             ->setParameter('val', $id)
             ->getQuery()
             ->getArrayResult()
