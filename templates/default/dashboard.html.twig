@@ -73,12 +73,14 @@
 			</div>
 		</div>
 		<div class="col-lg-4 masonry-item">
-			<div class="panel shadow-lg pb-20" id="event-list">
+			<div class="panel shadow-lg pb-20 h-500" id="event-list">
 				<div class="panel-heading" style="background: #f19408;">
 					<h3 class="panel-title"><i class="site-menu-icon icon md-calendar" style="font-size: 25px;top: 3px;" aria-hidden="true"></i>Termine für heute</h3>
 				</div>
-				<div class="calendar-container h-450 scrollable">
-					<div id="calendar"></div>
+				<div class="panel-body">
+					<div class="calendar-container  scrollable pb-20">
+						<div id="calendar"></div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -93,12 +95,12 @@
 		</div>-->
 		<div class="col-lg-4 masonry-item">
 			<!-- Panel To Do List -->
-			<div class="panel shadow-lg pb-20" id="todo-list">
+			<div class="panel shadow-lg pb-20 h-500" id="todo-list">
 				<div class="panel-heading" style="background: #f19408;">
 					<h3 class="panel-title"><i class="icon md-notifications" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> zu erledigen</h3>
 					
 				</div>
-				<ul class="list-task list-group h-450 scrollable is-enabled scrollable-vertical" data-plugin="scrollable" style="position: relative;">
+				<ul class="list-task list-group  scrollable is-enabled scrollable-vertical" data-plugin="scrollable" style="position: relative;">
 					<div data-role="container" class="scrollable-container" style="height: 250px; width: 929px;">
 						<div data-role="content" class="scrollable-content" style="width: 914px;">
 							{% for todo in notifications %}
