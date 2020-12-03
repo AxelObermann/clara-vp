@@ -238,4 +238,5 @@ class Customer
 
         return $this;
     }
+
 }

@@ -130,7 +130,7 @@ class UserController extends AbstractController
                 $profile->getSignatur($request->request->get('Signatur'));
                 $entityManager->flush();
             }elseif ($request->request->get('typ')=="user"){
-
+//dd($request);
                 $user = $userRepository->find($request->request->get('id'));
                 $uploadedFile = $request->files->get("userImage");
                 $uploadedLogo = $request->files->get("userLogo");
@@ -165,7 +165,7 @@ class UserController extends AbstractController
 
                     }
                 }
-
+                $user->setAllowedCustomer($request->request->get('allowedCustomer'));
                 $user->setDisplayName($request->request->get('displayname'));
                 $user->setEmail($request->request->get('email'));
                 $user->setRoles($request->request->get('rollen'));

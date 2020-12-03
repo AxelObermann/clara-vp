@@ -115,6 +115,11 @@ class User implements UserInterface
      */
     private $deliveryPlaces;
 
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $allowedCustomer = [];
+
 
     public function __construct()
     {
@@ -476,6 +481,18 @@ class User implements UserInterface
                 $deliveryPlace->setFacilityUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAllowedCustomer(): ?array
+    {
+        return $this->allowedCustomer;
+    }
+
+    public function setAllowedCustomer(?array $allowedCustomer): self
+    {
+        $this->allowedCustomer = $allowedCustomer;
 
         return $this;
     }
