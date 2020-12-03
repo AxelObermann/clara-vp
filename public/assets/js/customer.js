@@ -204,35 +204,48 @@ function getCustomerKdl(id){
 }
 
 function deleteCustomer(id){
-console.log(id)
-    var test = swal({
-        title: "Bist Du sicher?",
-        text: "Das Du den Kunden löschen willst",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-warning",
-        confirmButtonText: 'Ja ich will!',
-        closeOnConfirm: false //closeOnCancel: false
 
-    }, function () {
-        var kdl ="";
-        $.ajax( {
+    var customerTable = $('#customerTable').DataTable();
+
+    $('#customerTable').on( 'click', 'tbody tr', function () {
+        var table = this;
+//console.log(id)
+        var test = swal({
+            title: "Bist Du sicher?",
+            text: "Das Du den Kunden löschen willst",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-warning",
+            confirmButtonText: 'Ja ich will!',
+            closeOnConfirm: false //closeOnCancel: false
+
+        }, function () {
+            var kdl ="";
+            $.ajax( {
                 method: 'POST',
                 url: '/customer/delete/'+id,
                 dataType: 'json',
                 complete: function (data){
                     //console.log('complete');
                     kdl = JSON.parse(data.responseText);
-                    console.log(kdl);
+                    //console.log(kdl);
+                    customerTable.row($(table).closest("tr")) .remove().draw();
                     swal("Gelöscht", kdl, "success");
                 }});
-    })
-    ;
+        });
+    });
+
+
 
 }
 
 function deleteDeliveryPlace(id){
-    var test = swal({
+    var CustomerKdlTable = $('#CustomerKdlTable').DataTable();
+
+    $('#CustomerKdlTable').on( 'click', 'tbody tr', function () {
+        var table = this;
+        var kdl = "";
+        var test = swal({
             title: "Bist Du sicher?",
             text: "Das Du die Lieferstelle löschen willst",
             type: "warning",
@@ -248,14 +261,16 @@ function deleteDeliveryPlace(id){
                 url: '/customer/deleteDP/'+id,
                 dataType: 'json',
                 complete: function (data){
-                    //console.log('complete');
+                    console.log('complete');
                     kdl = JSON.parse(data.responseText);
-                    console.log(kdl);
+                    CustomerKdlTable.row($(table).closest("tr")) .remove().draw();
                     swal("Gelöscht", kdl, "success");
                 }});
 
-        })
-    ;
+        });
+
+    } );
+
 }
 
 function getCustomerWithAdress(id,test){
