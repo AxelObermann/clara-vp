@@ -80,7 +80,6 @@ $( document ).ready(function() {
 
     $('#customerDeliversPlaceSave').click(function () {
 
-
         var myForm = document.getElementById('deliveryPlaceForm');
         var formData = new FormData(myForm),
             result = {};
@@ -90,6 +89,8 @@ $( document ).ready(function() {
             result[entry[0]] = entry[1];
         }
         result = JSON.stringify(result)
+        $('#actionDP').val('');
+
         $.ajax( {
             method: 'POST',
             url: '/customer/saveDeliveryPlace/',
@@ -97,9 +98,10 @@ $( document ).ready(function() {
             data: result,
             complete: function (data){
                 //console.log(JSON.parse(data.responseText));
+                $('#actionDP').val('');
                 toastr.success(JSON.parse(data.responseText));
             }});
-            $('#action').val('');
+
     });
 
     $('#customerSave').click(function () {
@@ -118,7 +120,7 @@ $( document ).ready(function() {
             result[entry[0]] = entry[1];
         }
         result = JSON.stringify(result)
-
+        $('#action').val('');
         $.ajax( {
             method: 'POST',
             url: '/customer/saveCustomer/',
@@ -126,6 +128,7 @@ $( document ).ready(function() {
             data: result,
             complete: function (data){
                 //console.log(JSON.parse(data.responseText));
+                $('#action').val('');
                 toastr.success(JSON.parse(data.responseText));
             }});
     });
@@ -201,7 +204,7 @@ function getCustomerKdl(id){
 }
 
 function deleteCustomer(id){
-
+console.log(id)
     var test = swal({
         title: "Bist Du sicher?",
         text: "Das Du den Kunden löschen willst",
@@ -223,11 +226,38 @@ function deleteCustomer(id){
                     console.log(kdl);
                     swal("Gelöscht", kdl, "success");
                 }});
-
     })
     ;
 
 }
+
+function deleteDeliveryPlace(id){
+    var test = swal({
+            title: "Bist Du sicher?",
+            text: "Das Du die Lieferstelle löschen willst",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-warning",
+            confirmButtonText: 'Ja ich will!',
+            closeOnConfirm: false //closeOnCancel: false
+
+        }, function () {
+            var kdl ="";
+            $.ajax( {
+                method: 'POST',
+                url: '/customer/deleteDP/'+id,
+                dataType: 'json',
+                complete: function (data){
+                    //console.log('complete');
+                    kdl = JSON.parse(data.responseText);
+                    console.log(kdl);
+                    swal("Gelöscht", kdl, "success");
+                }});
+
+        })
+    ;
+}
+
 function getCustomerWithAdress(id,test){
     var aktionCell="";
     var inner="";
@@ -288,10 +318,12 @@ function getCustomerWithAdress(id,test){
                 kdls.forEach(function(obj) {
                     if (test){
                         aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>' +
-                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="move('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon icon md-accounts-list-alt font-size-20" aria-hidden="true"></i></a>';
+                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="move('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>'+
+                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon icon md-accounts-list-alt font-size-20" aria-hidden="true"></i></a>';
                     }else{
                         aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>' +
-                            '<a href="#" data-toggle="modal" data-target="#newCheck" data-id="'+obj.id+'" class="btn btn-sm btn-icon btn-pure btn-default" onclick="" data-toggle="tooltip" data-original-title="neuer Ablese Termin"><i class="icon icon md-collection-item-9-plus font-size-20" aria-hidden="true"></i></a>';
+                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>'+
+                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="move('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon icon md-accounts-list-alt font-size-20" aria-hidden="true"></i></a>';
 
                     }
 
