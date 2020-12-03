@@ -272,6 +272,21 @@ class CustomerController extends AbstractController
 
     /**
      * @param $id
+     * @param CustomerRepository $customerRepository
+     * @param DeliveryPlaceRepository $deliveryPlaceRepository
+     * @Route ("/customer/deleteDP/{id}")
+     */
+    public function deleteDeliveryPlace($id, CustomerRepository $customerRepository,DeliveryPlaceRepository $deliveryPlaceRepository,EntityManagerInterface $entityManager){
+        $dp = $deliveryPlaceRepository->find($id);
+        $dp->setDeleted(true);
+        $entityManager->flush();
+        //$kdls = $deliveryPlaceRepository->getKdls($id);
+        return new JsonResponse('Die Lieferstelle wurde gelöscht wurde gelöscht.');
+    }
+
+
+    /**
+     * @param $id
      * @param DeliveryPlaceRepository $deliveryPlaceRepository
      * @Route ("/customer/get_kdl/{id}")
      */
@@ -291,6 +306,18 @@ class CustomerController extends AbstractController
             'deliverPlace' => $kdl[0]
         ]);
         //return new JsonResponse($kdl);
+    }
+
+    /**
+     * @param $id
+     * @param UserRepository $userRepository
+     * @Route ("/customer/getfm/{id}")
+     */
+    public function getFacilityManager($id,Request $request,UserRepository $userRepository){
+        //dd($request->get('id'));
+
+        $fmuser = $userRepository->findFacilityManager($request->get('id'));
+        dd($fmuser);
     }
 
     /**
