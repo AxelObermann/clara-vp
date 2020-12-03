@@ -333,7 +333,7 @@ function getCustomerWithAdress(id,test){
                 kdls.forEach(function(obj) {
                     if (test){
                         aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>' +
-                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="move('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>'+
+                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>'+
                             '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon icon md-accounts-list-alt font-size-20" aria-hidden="true"></i></a>';
                     }else{
                         aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>' +
