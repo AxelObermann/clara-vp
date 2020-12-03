@@ -19,6 +19,14 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function findFacilityManager($id){
+        return $this->createQueryBuilder('u')
+            ->where('u.allowedCustomer LIKE :tag')
+            ->setParameter('tag', '%"' . $id . '"%' )
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findImportedUsers(){
         return $this->createQueryBuilder('u')
             ->select('u.oldid')
