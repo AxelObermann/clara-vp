@@ -196,9 +196,36 @@ function getCustomerKdl(id){
             $('#stab').val(kdl[0].stab.date);
             //console.log($.datepicker.formatDate('yy-mm-dd', new Date()))
             //console.log(kdl[0]);
-
         }});
+    $.ajax( {
+        method: 'POST',
+        //url: '/customer/getfm/'+175,
+        url: '/customer/getfm/'+$('#customerId').val(),
+        dataType: 'json',
+        complete: function (data){
+            var optionsadd="";
+            if(data.responseText=='false'){
+                console.log('Nein')
+            }else{
 
+                var mitarbeiter = JSON.parse(data.responseText);
+                $('#kdlFacilityUserSelectWrap').show();
+                //console.log(mitarbeiter)
+                if (mitarbeiter.length != 0){
+                    mitarbeiter.forEach(function(obj) {
+//                        console.log(obj);
+                        //$("<option/>").val(option.id).text(option.title).appendTo('#facUserSelect');
+                        $('#facUserSelect').append('<option value="'+obj.id+'">'+obj.displayName+'</option>');
+                        $("#facUserSelect").val(obj.id);
+                        $("#facUserSelect").selectpicker("refresh");
+                        //optionsadd = optionsadd + '<option value="'+obj.id+'">'+obj.displayName+'</option>';
+                    });
+                };
+                console.log(optionsadd);
+                //$('#facUserSelect').innerHTML =optionsadd;
+
+            }
+        }});
     $('#customerDeliversPlace').toggleClass( 'slidePanel-show lvl2-sidePanel-show', 1000 );
     //console.log(id);
 }
@@ -323,7 +350,7 @@ function getCustomerWithAdress(id,test){
         complete: function (data){
             //console.log('complete');
             var kdls = JSON.parse(data.responseText);
-            console.log(kdls);
+            //console.log(kdls);
             var t = $('#CustomerKdlTable').DataTable();
             rows = t
                 .rows()
