@@ -317,7 +317,11 @@ class CustomerController extends AbstractController
         //dd($request->get('id'));
 
         $fmuser = $userRepository->findFacilityManager($request->get('id'));
-        dd($fmuser);
+        if ($fmuser){
+            return new JsonResponse($fmuser);
+        }else{
+            return new JsonResponse(false);
+        }
     }
 
     /**
