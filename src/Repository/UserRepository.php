@@ -24,7 +24,8 @@ class UserRepository extends ServiceEntityRepository
             ->where('u.allowedCustomer LIKE :tag')
             ->setParameter('tag', '%"' . $id . '"%' )
             ->getQuery()
-            ->getResult();
+            ->getArrayResult();
+//            ->getResult();
     }
 
     public function findImportedUsers(){
