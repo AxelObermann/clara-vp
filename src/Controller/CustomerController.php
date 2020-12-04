@@ -383,13 +383,15 @@ class CustomerController extends AbstractController
      * @param Request $request
      * @Route ("/customer/saveDeliveryPlace/")
      */
-    public function saveDeliveryPlace(CustomerRepository $customerRepository,Request $request,DeliveryPlaceRepository $deliveryPlaceRepository ,EntityManagerInterface $entityManager){
+    public function saveDeliveryPlace(UserRepository $userRepository,CustomerRepository $customerRepository,Request $request,DeliveryPlaceRepository $deliveryPlaceRepository ,EntityManagerInterface $entityManager){
         $rp = [];
         $dePLace = null;
         $message = "";
         if ($content = $request->getContent()) {
             $rp = json_decode($content, true);
         }
+
+
         if($rp['actionDP'] == 'new'){
             $dePLace = new DeliveryPlace();
             $dePLace->setCustomer($customerRepository->find($rp['DPCustomerID']));
@@ -399,6 +401,10 @@ class CustomerController extends AbstractController
         }else{
             $dePLace = $deliveryPlaceRepository->find($rp['dpId']);
             $message = 'Die Änderungen wurden übernommen!';
+        }
+        if (isset($rp['facilityUserId'])){
+            $facilityUser = $userRepository->find($rp['facilityUserId']);
+            $dePLace->setFacilityUser($facilityUser);
         }
         $dePLace->setFirmenname($rp['Firmenname']);
         $dePLace->setAnrede($rp['Anrede']);
