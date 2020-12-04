@@ -50,10 +50,7 @@
     <div class="slidePanel slidePanel-right site-sidebar lvl1-sidePanel" id="customerDetail" style="overflow-y: scroll; overflow: scroll;border-left: 3px solid #f19408;">
         <div class="panel mb-0" id="customerPanel">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="site-menu-icon icon fa-users" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Kunde: <span id="CustomerTitle"></span>
-                    <button type="button" class="btn-raised btn btn-danger btn-floating waves-effect waves-classic waves-effect waves-light waves-effect waves-classic waves-effect waves-classic" id="customerAddTodo" style="height: 30px;width: 30px;font-size: 23px;">
-                        <i class="icon md-notifications-add" aria-hidden="true" style="margin-right: unset;left: -1px;top: -3px;"></i>
-                    </button></h3>
+                <h3 class="panel-title"><i class="site-menu-icon icon fa-users" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Kunde: <span id="CustomerTitle"></span></h3>
                 <div class="panel-actions">
                     <a class="panel-action" id="customerSave" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>
                     <a class="panel-action" id="customerDetailClose" data-toggle="panel-close" aria-hidden="true"><i class="icon md-close text-white font-size-26" aria-hidden="true"></i></a>
@@ -210,11 +207,7 @@
         <div class="panel mb-0" id="customerKdlPanel">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    <i class="site-menu-icon icon fa-map-marker" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Lieferstelle: <span id="deliveryPlaceTitle"></span>
-                    <button type="button" class="btn-raised btn btn-danger btn-floating waves-effect waves-classic waves-effect waves-light waves-effect waves-classic waves-effect waves-classic" id="kdlAddTodo" style="height: 30px;width: 30px;font-size: 23px;">
-                        <i class="icon md-notifications-add" aria-hidden="true" style="margin-right: unset;left: -1px;top: -3px;"></i>
-                    </button>
-                </h3>
+                    <i class="site-menu-icon icon fa-map-marker" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Lieferstelle: <span id="deliveryPlaceTitle"></span></h3>
                 <div class="panel-actions">
                     <a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="" data-toggle="tooltip" data-original-title="neuer Vertrag"><i class="icon md-copy success text-info font-size-26" aria-hidden="true"></i></a>
                     <a class="panel-action" id="customerDeliversPlaceSave" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>
@@ -490,6 +483,14 @@
                                                 <div class="form-group-sm">
                                                     <span class="text-help-sm">Stichtag Abrechnung</span>
                                                     <input type="text" name="stab" id="stab" value="" data-plugin="datepicker" size="50" class="form-control form-control-sm round" placeholder="Stichtag">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="form-group-sm" id="kdlFacilityUserSelectWrap" style="display: none">
+                                                    <span class="text-help-sm">Zugewieserner Mitarbeiter</span>
+                                                    <select data-style="warning" class="text-white" name="" id="facUserSelect" data-plugin="selectpicker">
+                                                    
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
