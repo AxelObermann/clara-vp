@@ -205,6 +205,9 @@ function getCustomerKdl(id){
         complete: function (data){
             var optionsadd="";
             if(data.responseText=='false'){
+                $('#facUserSelect').empty();
+                $("#facUserSelect").selectpicker("refresh");
+                $('#kdlFacilityUserSelectWrap').hide();
                 console.log('Nein')
             }else{
 
@@ -212,6 +215,8 @@ function getCustomerKdl(id){
                 $('#kdlFacilityUserSelectWrap').show();
                 //console.log(mitarbeiter)
                 if (mitarbeiter.length != 0){
+                    $('#facUserSelect').empty();
+
                     mitarbeiter.forEach(function(obj) {
 //                        console.log(obj);
                         //$("<option/>").val(option.id).text(option.title).appendTo('#facUserSelect');
