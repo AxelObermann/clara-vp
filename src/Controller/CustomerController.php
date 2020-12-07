@@ -52,7 +52,7 @@ class CustomerController extends AbstractController
     public function index(CustomerRepository $customerRepository,UserRepository $userRepository,EntityManagerInterface $entityManager)
     {
         $conn = $entityManager->getConnection();
-        $user = $this->getUser();
+        $user = $userRepository->find($this->getUser()->getId());
         $users = $userRepository->findAll();
         //dd($stmt->fetchAllAssociative());
         $viewName="";
@@ -68,10 +68,22 @@ class CustomerController extends AbstractController
                 $query = 'SELECT *, (SELECT count(*) FROM delivery_place WHERE delivery_place.customer_id=customer.id) as kdl FROM customer  INNER JOIN adress WHERE deleted=0 AND customer.user_id='.$user->getId().' AND customer.id = adress.customer_id AND adress.adresstype = "STAMM"';
                 $viewName = "admin";
 
+            }elseif ($this->security->isGranted('ROLE_FACILITY_MANAGER')){
+                $test = null;
+                foreach ($user->getAllowedCustomer() as $cust){
+                    //dd($cust);
+                    $test .= $cust.",";
+                }
+                $test = substr($test,0,strlen($test)-1);
+                //dd($test);
+                $query = 'SELECT *, (SELECT count(*) FROM delivery_place WHERE delivery_place.customer_id=customer.id) as kdl FROM customer  INNER JOIN adress WHERE deleted=0 AND customer.id in ('.$test.')  AND customer.id = adress.customer_id AND adress.adresstype = "STAMM"';
+                $viewName = "admin";
             }
 
         $stmt =$conn->executeQuery($query);
         $stmt->execute();
+
+        //dd($stmt->fetchAllAssociative());
         return $this->render('customer/index.html.twig', [
             'controller_name' => $viewName,
             'customers' => $stmt->fetchAllAssociative(),

@@ -63,7 +63,7 @@ class DefaultController extends AbstractController
         $allNotifications = $notificationRepository->findBy(['toUser' => $loggedUser]);
         //dd($notifications);
         return $this->render('default/dashboard.html.twig',[
-            'title' => 'Dashboard',
+
             'users' => $users,
             'loggeduser' => $loggedUser,
             'notifications' => $notifications,
