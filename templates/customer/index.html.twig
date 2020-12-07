@@ -4,11 +4,14 @@
     <div class="panel shadow-lg " id="customerIndexPanel" style="border: 3px solid #f19408;">
         <header class="panel-heading">
             <h3 class="panel-title"><i class="site-menu-icon icon fa-users" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Kunden</h3>
-            {% if is_granted('ROLE_ADMIN') %}<div class="panel-actions">
-                <a href="{{ path('customers_show_deleted') }}" class="btn btn-sm btn-icon btn-pure btn-default" onclick="" data-toggle="tooltip" data-original-title="gelöschte Kunden anzeigen"><i class="icon fa-trash text-white font-size-26" aria-hidden="true"></i></a>
-            </div>{% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="panel-actions">
+                    <a href="{{ path('customers_show_deleted') }}" class="btn btn-sm btn-icon btn-pure btn-default" onclick="" data-toggle="tooltip" data-original-title="gelöschte Kunden anzeigen"><i class="icon fa-trash text-white font-size-26" aria-hidden="true"></i></a>
+                </div>
+            {% endif %}
         </header>
         <div class="panel-body">
+            {% if is_granted('ROLE_ADMIN') %}
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-15 pt-10">
@@ -19,6 +22,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             <table class="table table-hover dataTable table-striped w-full" cellspacing="0" data-plugin="dataTable" id="customerTable">
                 <thead>
                 <tr>
@@ -52,7 +56,8 @@
             <div class="panel-heading">
                 <h3 class="panel-title"><i class="site-menu-icon icon fa-users" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Kunde: <span id="CustomerTitle"></span></h3>
                 <div class="panel-actions">
-                    <a class="panel-action" id="customerSave" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>
+                    {% if is_granted('ROLE_ADMIN') %}<a class="panel-action" id="customerAddFacility" data-toggle="tooltip" data-original-title="neuen Mitarbeiter anlegen" aria-hidden="true"><i class="icon fa-user-secret text-white font-size-26" aria-hidden="true"></i></a>
+                    <a class="panel-action" id="customerSave" data-toggle="tooltip" data-original-title="Speichern" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>{% endif %}
                     <a class="panel-action" id="customerDetailClose" data-toggle="panel-close" aria-hidden="true"><i class="icon md-close text-white font-size-26" aria-hidden="true"></i></a>
                 </div>
             </div>
@@ -163,7 +168,7 @@
                         <div class="panel-heading" >
                             <h3 class="panel-title text-white"><i class="site-menu-icon icon fa-map-marker" aria-hidden="true" style="font-size: 25px;top: 3px;"></i>Lieferstellen</h3>
                             <div class="panel-actions text-white">
-                                <a class="panel-action text-white" aria-expanded="true" aria-hidden="true" id="newDeliveryPlace"><img style="width: 30px;" src="{{ asset('assets/images/MapPlus.svg') }}"></a>
+                                {% if is_granted('ROLE_ADMIN') %}<a class="panel-action text-white" aria-expanded="true" aria-hidden="true" id="newDeliveryPlace"><img style="width: 30px;" src="{{ asset('assets/images/MapPlus.svg') }}"></a>{% endif %}
                                 <a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
                             </div>
                         </div>
@@ -209,8 +214,8 @@
                 <h3 class="panel-title">
                     <i class="site-menu-icon icon fa-map-marker" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Lieferstelle: <span id="deliveryPlaceTitle"></span></h3>
                 <div class="panel-actions">
-                    <a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="" data-toggle="tooltip" data-original-title="neuer Vertrag"><i class="icon md-copy success text-info font-size-26" aria-hidden="true"></i></a>
-                    <a class="panel-action" id="customerDeliversPlaceSave" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>
+                    {% if is_granted('ROLE_ADMIN') %}<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="" data-toggle="tooltip" data-original-title="neuer Vertrag"><i class="icon md-copy success text-info font-size-26" aria-hidden="true"></i></a>
+                    <a class="panel-action" id="customerDeliversPlaceSave" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>{% endif %}
                     <a class="panel-action" id="customerDeliversPlaceClose" data-toggle="panel-close" aria-hidden="true"><i class="icon md-close text-white font-size-26" aria-hidden="true"></i></a>
                 </div>
             </div>
@@ -615,10 +620,13 @@
             </div>
         </div>
     </div>
+   
 {% endblock %}
 
 {% block siteJS %}
     <script>
+        var testrole = "{{ app.user.roles[0] }}";
+    
         {% if 'show_deleted' in app.request.pathinfo %}
 
         async function move(id) {
