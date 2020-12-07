@@ -74,7 +74,14 @@
 				</a>
 			</li>
 		{% endif %}
-		
+		{% if is_granted('ROLE_FACILITY_MANAGER') %}
+			<li class="site-menu-item{% if 'customer' in app.request.pathinfo %} active {% endif %}">
+				<a class="animsition-link" href="{{ path('customers') }}">
+					<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>
+					<span class="site-menu-title"> Kunden</span>
+				</a>
+			</li>
+		{% endif %}
 	</ul>
 </div>
 
