@@ -87,7 +87,7 @@
 					</div>
 				</div>
 			</li>
-			<li class="nav-item dropdown">
+			{# <li class="nav-item dropdown">
 				<a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" title="Messages"
 				   aria-expanded="false" data-animation="scale-up" role="button">
 					<i class="icon md-email" aria-hidden="true" style="font-size: 25px"></i>
@@ -183,6 +183,12 @@
 					</div>
 				</div>
 			</li>
+			<li class="nav-item" id="toggleUpload" {% if app.request.pathinfo  == path("dashboard")  %} style="display: none" {% endif %}>
+				<a class="nav-link" href="javascript:void(0)" title="Upload">
+					<i class="icon md-upload" aria-hidden="true" style="font-size: 25px"></i>
+				</a>
+				
+			</li> #}
 			<li class="nav-item" id="toggleUpload" {% if app.request.pathinfo  == path("dashboard")  %} style="display: none" {% endif %}>
 				<a class="nav-link" href="javascript:void(0)" title="Upload">
 					<i class="icon md-upload" aria-hidden="true" style="font-size: 25px"></i>
