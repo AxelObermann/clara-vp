@@ -1,0 +1,79 @@
+
+<form class="body" name="passwordForm" action="{{ path("user_add") }}" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="typ" value="user">
+	<input type="hidden" name="id" value="">
+	<div class="row row-lg">
+		<div class="col-lg-6 col-md-6">
+			<div class="form-group">
+				<span class="text-help">Anzeigename</span>
+				<input type="text" class="form-control round" name="displayname" value=""  placeholder="Username">
+			</div>
+		</div>
+		<div class="col-lg-6 col-md-6">
+			<div class="form-group">
+				<span class="text-help">E-Mail</span>
+				<input type="email" class="form-control round" name="email" value="" placeholder="Email">
+			</div>
+		</div>
+	</div>
+	<div class="row row-lg">
+		<div class="col-lg-4 col-md-4">
+			<div class="form-group">
+				<input type="text" name="provstufe" class="form-control round" placeholder="Provisions Stufe">
+			</div>
+			<h6>Passwort</h6>
+			<div class="form-group">
+				<input type="password" name="newpass" class="form-control round" placeholder="neues Passwort">
+			</div>
+			<div class="form-group">
+				<input type="password" name="confirmnewpass" class="form-control round" placeholder="neues Passwort bestätigen">
+			</div>
+			{% if is_granted('ROLE_ADMIN') %}
+			<div class="form-group">
+				<span class="text-help">Rollen</span>
+				<select id="UserRoleSelect" data-plugin="selectpicker" multiple name="rollen[]">
+					<option value="ROLE_ADMIN" >ROLE_ADMIN</option>
+					<option value="ROLE_PORTAL_USER">ROLE_PORTAL_USER</option>
+					<option value="ROLE_FACILITY_MANAGER" >Verwalter</option>
+					<option value="ROLE_FACILITY" >Ableser</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<span class="text-help">gehört zu:</span>
+				<select data-style="warning"  class="text-white" name="parentuser" data-plugin="selectpicker" data-live-search="true">
+					{% for benutzer in users %}
+						<option value="{{ benutzer.id }}">{{ benutzer.displayName }} </option>
+					{% endfor %}
+				</select>
+			</div>
+			{% endif %}
+		</div>
+		<div class="col-lg-8 col-md-8">
+			<div class="row-lg">
+				<div class="col-xl-6 col-md-6" style="float:right;">
+					<!-- Example Default Value -->
+					<div class="example-wrap">
+						<h4 class="example-title">Profilbild</h4>
+						<div class="example">
+							<input name="userImage" type="file" id="userImage" data-plugin="dropify" data-default-file="" alt="...">
+						</div>
+					</div>
+					<!-- End Example Default Value -->
+				</div>
+				<div class="col-xl-6 col-md-6">
+					<!-- Example Default Value -->
+					<div class="example-wrap">
+						<h4 class="example-title">Logo</h4>
+						<div class="example">
+							<input name="userLogo" type="file" id="userLogo" data-plugin="dropify" data-default-file="" alt="...">
+						</div>
+					</div>
+					<!-- End Example Default Value -->
+				</div>
+				
+			</div>
+		
+		</div>
+		
+	</div>
+	<button type="submit" class="btn btn-round btn-warning text-black-50">Speichern</button> &nbsp;&nbsp;

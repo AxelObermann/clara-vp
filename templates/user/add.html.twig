@@ -1,0 +1,35 @@
+{% extends 'baseNew.html.twig' %}
+{% block body %}
+<div class="panel shadow-lg" style="border: 3px solid #f19408;">
+	<header class="panel-heading">
+		<h3 class="panel-title"><i class="site-menu-icon icon md-pin-account" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Neuen Benutzer anlegen:</h3>
+	</header>
+	<div class="panel-body">
+		<div class="panel pt-10 shadow-lg" id="UserDataPanel">
+			<div class="panel-heading text-white">
+				<h3 class="panel-title">Benutzerdaten: </h3>
+				<div class="panel-actions text-white">
+					<a href="#" class="panel-action" data-toggle="panel-collapse"><i class="icon wb-minus font-size-24 text-white" aria-hidden="true"></i></a>
+				</div>
+			</div>
+			<div class="panel-body">
+				{%  include("/user/forms/newuserDataForm.html.twig") %}
+				
+			</div>
+		</div>
+		<div class="panel shadow-lg" id="UserProfilePanel">
+			<div class="panel-heading">
+				<h3 class="panel-title">Profil:</h3>
+				<div class="panel-actions text-white">
+					<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+				</div>
+			</div>
+			<div class="panel-body">
+				{%  include("/user/forms/newprofileForm.html.twig") %}
+			</div>
+		</div>
+	</div>
+</div>
+		
+
+{% endblock %}
