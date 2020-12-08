@@ -367,10 +367,10 @@ function getCustomerWithAdress(id,test){
                 kdls.forEach(function(obj) {
                     if (test){
                         aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>' +
-                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>'+
-                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon icon md-accounts-list-alt font-size-20" aria-hidden="true"></i></a>';
+                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>';
                     }else{
-                        aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>';
+                        aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>' +
+                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>';
                     }
 
                     t.row.add( [
@@ -402,7 +402,57 @@ function getCustomerWithAdress(id,test){
     //$('#customerIndexPanel').toggleClass( 'is-loading');
 }
 
+function createFCTodo(){
+    //console.log("todoerstellen");
+    var toUser = $('#facUserSelect').val();
+    var adresse = $('#ReFirma').val()+"<br>"+$('#ReStrasse').val()+" "+$('#ReFirma').val()+"<br>"+$('#RePLZ').val()+" "+$('#ReOrt').val();
+    var zaehler = $('#Zaehlernummer').val();
+    var medium = $('#Medium').val();
+    var doneUntil = $('#doneUntil').val();
 
+    if (doneUntil==""){
+        swal(
+            'Kein Datum',
+            'Ein Datum ist für das anlegen eines Todos erforderlich!',
+            'error'
+        )
+        $('#doneUntil').focus();
+        return false;
+    }
+    doneUntil = doneUntil.replace("/","-");
+    doneUntil = doneUntil.replace("/","-");
+    console.log(doneUntil);
+    var DPCustomerID = $('#DPCustomerID').val();
+    var dpId = $('#dpId').val();
+    if (medium=="fa-flash"){
+        medium = "Strom";
+    }
+    if (medium=="fa-fire"){
+        medium = "Gas";
+    }
+
+    var jsonstring = '{"toUser":"'+toUser+'","Name" : "'+adresse+'","Zaehler":"'+zaehler+'","Art":"'+medium+'","Customer":"'+DPCustomerID+'","DP":"'+dpId+'","doneUntil":"'+doneUntil+'"}';
+    var myForm = document.getElementById('deliveryPlaceForm');
+    var formData = new FormData(myForm),
+        result = {};
+
+    for (var entry of formData.entries())
+    {
+        result[entry[0]] = entry[1];
+    }
+    result = JSON.stringify(result)
+
+
+    $.ajax({
+        url: "/customer/sendTodo",
+        type: "POST",
+        data:result,
+        contentType: "application/json",
+        complete: function (){
+            console.log("erledigt")
+        }
+    });
+}
 
 function ValidateEmail(mail)
 {

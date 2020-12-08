@@ -17,7 +17,7 @@
                         
                        
                         <ul class="list-group">
-                            {% for noti in fromme %}
+                            {% for noti in tome %}
                                 <li class="list-group-item">
                                     <div class="media">
                                         <div class="pr-0 pr-sm-20 align-self-center">
@@ -55,7 +55,7 @@
                                             </div>
                                         </div>
                                         <div class="pl-0 pl-sm-20 mt-15 mt-sm-0 align-self-center">
-                                            <button type="button" class="btn btn-outline btn-success btn-sm">Follow</button>
+                                            <a href="/notification/markasseen/{{ noti.id }}"> <button type="button" class="btn btn-outline btn-warning btn-sm">Erledigt</button></a>
                                         </div>
                                     </div>
                                 </li>
@@ -66,8 +66,8 @@
                     
                     <div class="tab-pane animation-fade" id="vonmir" role="tabpanel">
                         <ul class="list-group">
-                            
-                            {% for noti in tome %}
+                           
+                            {% for noti in fromme %}
                             <li class="list-group-item">
                                 <div class="media">
                                     <div class="pr-0 pr-sm-20 align-self-center">
@@ -105,7 +105,7 @@
                                         </div>
                                     </div>
                                     <div class="pl-0 pl-sm-20 mt-15 mt-sm-0 align-self-center">
-                                        <button type="button" class="btn btn-outline btn-success btn-sm">Follow</button>
+                                        <a href="/notification/markasseen/{{ noti.id }}"> <button type="button" class="btn btn-outline btn-warning btn-sm">Erledigt</button></a>
                                     </div>
                                 </div>
                             </li>

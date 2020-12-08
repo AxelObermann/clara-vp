@@ -17,14 +17,16 @@ class NotificationController extends AbstractController
     /**
      * @Route("/notification", name="notification")
      */
-    public function index(NotificationRepository  $notificationRepository)
+    public function index(NotificationRepository  $notificationRepository, UserRepository $userRepository)
     {
-        $tome = $notificationRepository->findBy(array('toUser'=> $this->getUser()->getId()));
-        $fromme = $notificationRepository->findBy(array('fromUser'=> $this->getUser()->getId()));
-        $allreadydone = $notificationRepository->findBy(array('seen'=> 1));
+        $user = $userRepository->find($this->getUser());
+        $tome = $notificationRepository->findBy(array('toUser'=> $user,'seen'=> 0), array('doneUntil'=>'DESC'));
+        //dd($tome);
+        $fromMe = $notificationRepository->findBy(array('fromUser'=> $user,'seen'=> 0), array('doneUntil'=>'DESC'));
+        $allreadydone = $notificationRepository->findBy(array('seen'=> 1,'toUser'=> $user), array('doneUntil'=>'DESC'));
         return $this->render('notification/index.html.twig', [
             'tome' => $tome,
-            'fromme' => $fromme,
+            'fromme' => $fromMe,
             'allreadydone' => $allreadydone,
             'controller_name' => 'NotificationController',
         ]);
@@ -63,5 +65,17 @@ class NotificationController extends AbstractController
      */
     public function createToDo(Request $request, UserRepository $userRepository, NotificationRepository $notificationRepository){
 
+    }
+
+    /**
+     * @param NotificationRepository $notificationRepository
+     * @param EntityManagerInterface $entityManager
+     * @Route ("/notification/markasseen/{id}")
+     */
+    public function markAsSeen($id,Request $request,NotificationRepository $notificationRepository,EntityManagerInterface $entityManager){
+        $noti = $notificationRepository->find($id);
+        $noti->setSeen(1);
+        $entityManager->flush();
+        return $this->redirect($request->headers->get('referer'));
     }
 }
