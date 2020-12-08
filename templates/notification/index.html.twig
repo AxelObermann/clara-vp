@@ -1,20 +1,168 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Hello NotificationController!{% endblock %}
+{% extends 'index.html.twig' %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Volumes/DEV/DEVELOPMENT/clara-vp/src/Controller/NotificationController.php'|file_link(0) }}">src/Controller/NotificationController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Volumes/DEV/DEVELOPMENT/clara-vp/templates/notification/index.html.twig'|file_link(0) }}">templates/notification/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="panel shadow-lg">
+        <header class="panel-heading">
+            <h3 class="panel-title"><i class="site-menu-icon icon md-notifications" aria-hidden="true" style="font-size: 25px;top: 3px;"></i>Meine Todos</h3>
+        </header>
+        <div class="panel-body pt-30">
+            <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
+                <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                    <li class="nav-item" role="presentation"><a class="active nav-link" data-toggle="tab" href="#fuermich" aria-controls="all_contacts" role="tab">für Mich</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#vonmir" aria-controls="my_contacts" role="tab">von Mir</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#erledigt" aria-controls="google_contacts" role="tab">Erledigt</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane animation-fade active" id="fuermich" role="tabpanel">
+                        
+                       
+                        <ul class="list-group">
+                            {% for noti in fromme %}
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="pr-0 pr-sm-20 align-self-center">
+                                            <div class="avatar avatar-online">
+                                                <img src="{{ noti.fromUser.profile.image }}" alt="...">
+                                                <i></i>
+                                            </div>
+                                        </div>
+                                        <div class="media-body align-self-center">
+                                            <h5 class="mt-0 mb-5">
+                                                {{ noti.fromUser.displayName }}
+                                                <small>{{ noti.text }} </small>
+                                            </h5>
+                                            <p>
+                                                <i class="icon icon-color wb-map" aria-hidden="true"></i>{{ noti.description|replace({'<br>' : ' , ','<br' : ' , '}) }}
+                                            </p>
+                                            <div>
+                                                <a class="text-action text-black-50" href="javascript:void(0)">
+                                                    <i class="icon wb-calendar" aria-hidden="true"></i><span class="text-dark">{{ noti.doneUntil|date("d.m.Y") }}</span>
+                                                </a>
+                                                <!--
+												<a class="text-action" href="javascript:void(0)">
+													<i class="icon icon-color wb-mobile" aria-hidden="true"></i>
+												</a>
+												<a class="text-action" href="javascript:void(0)">
+													<i class="icon icon-color bd-twitter" aria-hidden="true"></i>
+												</a>
+												<a class="text-action" href="javascript:void(0)">
+													<i class="icon icon-color bd-facebook" aria-hidden="true"></i>
+												</a>
+												<a class="text-action" href="javascript:void(0)">
+													<i class="icon icon-color bd-dribbble" aria-hidden="true"></i>
+												</a>
+												-->
+                                            </div>
+                                        </div>
+                                        <div class="pl-0 pl-sm-20 mt-15 mt-sm-0 align-self-center">
+                                            <button type="button" class="btn btn-outline btn-success btn-sm">Follow</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        
+                    </div>
+                    
+                    <div class="tab-pane animation-fade" id="vonmir" role="tabpanel">
+                        <ul class="list-group">
+                            
+                            {% for noti in tome %}
+                            <li class="list-group-item">
+                                <div class="media">
+                                    <div class="pr-0 pr-sm-20 align-self-center">
+                                        <div class="avatar avatar-online">
+                                            <img src="{{ noti.fromUser.profile.image }}" alt="...">
+                                            <i></i>
+                                        </div>
+                                    </div>
+                                    <div class="media-body align-self-center">
+                                        <h5 class="mt-0 mb-5">
+                                            {{ noti.fromUser.displayName }}
+                                            <small>{{ noti.text }} </small>
+                                        </h5>
+                                        <p>
+                                            <i class="icon icon-color wb-map" aria-hidden="true"></i>{{ noti.description|replace({'<br>' : ' , ','<br' : ' , '}) }}
+                                        </p>
+                                        <div>
+                                            <a class="text-action text-black-50" href="javascript:void(0)">
+                                                <i class="icon wb-calendar" aria-hidden="true"></i><span class="text-dark">{{ noti.doneUntil|date("d.m.Y") }}</span>
+                                            </a>
+                                            <!--
+                                            <a class="text-action" href="javascript:void(0)">
+                                                <i class="icon icon-color wb-mobile" aria-hidden="true"></i>
+                                            </a>
+                                            <a class="text-action" href="javascript:void(0)">
+                                                <i class="icon icon-color bd-twitter" aria-hidden="true"></i>
+                                            </a>
+                                            <a class="text-action" href="javascript:void(0)">
+                                                <i class="icon icon-color bd-facebook" aria-hidden="true"></i>
+                                            </a>
+                                            <a class="text-action" href="javascript:void(0)">
+                                                <i class="icon icon-color bd-dribbble" aria-hidden="true"></i>
+                                            </a>
+                                            -->
+                                        </div>
+                                    </div>
+                                    <div class="pl-0 pl-sm-20 mt-15 mt-sm-0 align-self-center">
+                                        <button type="button" class="btn btn-outline btn-success btn-sm">Follow</button>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        
+                    </div>
+                    
+                    <div class="tab-pane animation-fade" id="erledigt" role="tabpanel">
+                        <ul class="list-group">
+                            {% for noti in allreadydone %}
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="pr-0 pr-sm-20 align-self-center">
+                                            <div class="avatar avatar-online">
+                                                <img src="{{ noti.fromUser.profile.image }}" alt="...">
+                                                <i></i>
+                                            </div>
+                                        </div>
+                                        <div class="media-body align-self-center">
+                                            <h5 class="mt-0 mb-5">
+                                                {{ noti.fromUser.displayName }}
+                                                <small>{{ noti.text }} </small>
+                                            </h5>
+                                            <p>
+                                                <i class="icon icon-color wb-map" aria-hidden="true"></i>{{ noti.description|replace({'<br>' : ' , ','<br' : ' , '}) }}
+                                            </p>
+                                            <div>
+                                                <a class="text-action text-black-50" href="javascript:void(0)">
+                                                    <i class="icon wb-calendar" aria-hidden="true"></i><span class="text-dark">{{ noti.doneUntil|date("d.m.Y") }}</span>
+                                                </a>
+                                                <!--
+												<a class="text-action" href="javascript:void(0)">
+													<i class="icon icon-color wb-mobile" aria-hidden="true"></i>
+												</a>
+												<a class="text-action" href="javascript:void(0)">
+													<i class="icon icon-color bd-twitter" aria-hidden="true"></i>
+												</a>
+												<a class="text-action" href="javascript:void(0)">
+													<i class="icon icon-color bd-facebook" aria-hidden="true"></i>
+												</a>
+												<a class="text-action" href="javascript:void(0)">
+													<i class="icon icon-color bd-dribbble" aria-hidden="true"></i>
+												</a>
+												-->
+                                            </div>
+                                        </div>
+                                        <div class="pl-0 pl-sm-20 mt-15 mt-sm-0 align-self-center">
+                                            <button type="button" class="btn btn-outline btn-success btn-sm">Follow</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
