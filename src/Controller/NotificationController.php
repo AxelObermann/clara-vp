@@ -17,9 +17,15 @@ class NotificationController extends AbstractController
     /**
      * @Route("/notification", name="notification")
      */
-    public function index()
+    public function index(NotificationRepository  $notificationRepository)
     {
+        $tome = $notificationRepository->findBy(array('toUser'=> $this->getUser()->getId()));
+        $fromme = $notificationRepository->findBy(array('fromUser'=> $this->getUser()->getId()));
+        $allreadydone = $notificationRepository->findBy(array('seen'=> 1));
         return $this->render('notification/index.html.twig', [
+            'tome' => $tome,
+            'fromme' => $fromme,
+            'allreadydone' => $allreadydone,
             'controller_name' => 'NotificationController',
         ]);
     }
