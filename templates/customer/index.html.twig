@@ -56,8 +56,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title"><i class="site-menu-icon icon fa-users" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Kunde: <span id="CustomerTitle"></span></h3>
                 <div class="panel-actions">
-                    {% if is_granted('ROLE_ADMIN') %}<a class="panel-action" id="customerAddFacility" data-toggle="tooltip" data-original-title="neuen Mitarbeiter anlegen" aria-hidden="true"><i class="icon fa-user-secret text-white font-size-26" aria-hidden="true"></i></a>
-                    <a class="panel-action" id="customerSave" data-toggle="tooltip" data-original-title="Speichern" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>{% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}<a class="panel-action" id="customerSave" data-toggle="tooltip" data-original-title="Speichern" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>{% endif %}
                     <a class="panel-action" id="customerDetailClose" data-toggle="panel-close" aria-hidden="true"><i class="icon md-close text-white font-size-26" aria-hidden="true"></i></a>
                 </div>
             </div>
@@ -496,6 +495,20 @@
                                                     <select data-style="warning" class="text-white" name="facilityUserId" id="facUserSelect" data-plugin="selectpicker">
                                                     
                                                     </select>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="form-group-sm">
+                                                    <span class="text-help-sm">Zu erledigen bis:</span>
+                                                    <input type="text" name="doneUntil" id="doneUntil" value="" data-plugin="datepicker" size="50" class="form-control form-control-sm round" placeholder="Datum für Todo">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="form-group-sm" style="padding-top: 25px;">
+                                                    <button type="button" id="createManualTodo" class="btn btn-warning btn-floating btn-xs  animation-shake animation-hover" style="position: inherit">
+                                                        <a onclick="createFCTodo()" style="color: #ffffff" class="animation-shake animation-hover"><i class="icon md-notifications-add animation-shake animation-hover" style="margin: -1px 5px 0;" aria-hidden="true"></i></a>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -626,7 +639,7 @@
 {% block siteJS %}
     <script>
         var testrole = "{{ app.user.roles[0] }}";
-    
+    console.log(testrole);
         {% if 'show_deleted' in app.request.pathinfo %}
 
         async function move(id) {
