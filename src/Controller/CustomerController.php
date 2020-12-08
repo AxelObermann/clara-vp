@@ -5,15 +5,18 @@ namespace App\Controller;
 use App\Entity\Adress;
 use App\Entity\Customer;
 use App\Entity\DeliveryPlace;
+use App\Entity\Notification;
 use App\Repository\AdressRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\DeliveryPlaceRepository;
+use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\String_;
 use phpDocumentor\Reflection\Types\This;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -462,4 +465,36 @@ class CustomerController extends AbstractController
         return new JsonResponse($message);
     }
 
+    /**
+     * @param Request $request
+     * @param NotificationRepository $notificationRepository
+     * @param UserRepository $userRepository
+     * @param DeliveryPlaceRepository $deliveryPlaceRepository
+     * @Route ("/customer/sendTodo")
+     */
+    public function sendManualTodo(CustomerRepository $customerRepository,Request $request,NotificationRepository $notificationRepository,UserRepository $userRepository,DeliveryPlaceRepository $deliveryPlaceRepository,EntityManagerInterface $entityManager){
+        $rp = [];
+        if ($content = $request->getContent()) {
+            $rp = json_decode($content, true);
+        }
+        //dd($rp);
+        $fromUser = $userRepository->find($this->getUser()->getId());
+        $toUser = $userRepository->find($rp['facilityUserId']);
+        $customer = $customerRepository->find($rp['DPCustomerID']);
+        $deliveryPlace = $deliveryPlaceRepository->find($rp['dpId']);
+        $notification = new Notification();
+        $notification->setCreatedAt(new \DateTime());
+        $notification->setUpdatedAt(new \DateTime());
+        $notification->setCustomer($customer);
+        $notification->setDelveryPlace($deliveryPlace);
+        $notification->setFromUser($fromUser);
+        $notification->setToUser($toUser);
+        $notification->setText("Neuer Ablesetermin");
+        $notification->setDescription($rp['Firmenname']."<br".$rp['Strasse']." ".$rp['Hausnummer']."<br>".$rp['PLZ']." ".$rp['Ort']."<br> Zählernummer:".$rp['Zaehlernummer']);
+        $notification->setLink("");
+        $notification->setDoneUntil(new \DateTime($rp['doneUntil']));
+        $entityManager->persist($notification);
+        $entityManager->flush();
+
+    }
 }
