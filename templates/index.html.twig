@@ -139,6 +139,14 @@
 				</div>
 				<div class="modal-body clara-modal-body">
 					<textarea rows="3" name="text" cols="70" placeholder="hier Text eingeben" required></textarea>
+					<select name="notiType" class="selectpicker">
+						<option value="5">welcher Typ</option>
+						<option value="1">Anrufen</option>
+						<option value="2">Termin vereinbaren</option>
+						<option value="3">Angebot unterbreiten</option>
+						<option value="4">Ablesung</option>
+						<option value="5">Sonstige Wiedervorlage</option>
+					</select>
 					<input type="text" required name="todate" class="datepicker" data-plugin="datepicker" placeholder="erledigen bis.">
 					<input type="hidden" name="userId" id="toDoUserId" value=""/>
 				</div>
