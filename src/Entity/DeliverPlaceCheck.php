@@ -43,11 +43,6 @@ class DeliverPlaceCheck
      */
     private $updated;
 
-    /**
-     * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $updatedFrom;
 
     public function getId(): ?int
     {
@@ -114,15 +109,4 @@ class DeliverPlaceCheck
         return $this;
     }
 
-    public function getUpdatedFrom(): ?User
-    {
-        return $this->updatedFrom;
-    }
-
-    public function setUpdatedFrom(User $updatedFrom): self
-    {
-        $this->updatedFrom = $updatedFrom;
-
-        return $this;
-    }
 }
