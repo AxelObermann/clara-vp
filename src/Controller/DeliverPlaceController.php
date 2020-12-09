@@ -29,14 +29,16 @@ class DeliverPlaceController extends AbstractController
      * @param DeliveryPlaceRepository $deliveryPlaceRepository
      * @param Request $request
      * @param EntityManagerInterface $entityManager
-     * @Route ("deliverPlace_move_customer/{id}")
+     * @Route ("deliverPlace_move_customer")
      */
     public function moveDPCustomer(CustomerRepository $customerRepository, DeliveryPlaceRepository $deliveryPlaceRepository, Request $request, EntityManagerInterface $entityManager){
-        $params = $request->get('id');
-
-        $params = explode(',', $params);
-        dd($params);
-
+        //dd($request);
+        $dplace = $deliveryPlaceRepository->find($request->get('dlid'));
+        $toCustomer = $customerRepository->find($request->get('toCustomer'));
+        $dplace->setCustomer($toCustomer);
+        $entityManager->flush();
+        $this->addFlash('success', 'Die Lieferstelle wurde verschoben');
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**
