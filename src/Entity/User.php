@@ -101,11 +101,6 @@ class User implements UserInterface
     private $customers;
 
     /**
-     * @ORM\OneToOne(targetEntity=DeliverPlaceCheck::class, mappedBy="assignedTo", cascade={"persist", "remove"})
-     */
-    private $deliverPlaceCheck;
-
-    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $confirmed;
@@ -420,24 +415,6 @@ class User implements UserInterface
             if ($customer->getUser() === $this) {
                 $customer->setUser(null);
             }
-        }
-
-        return $this;
-    }
-
-    public function getDeliverPlaceCheck(): ?DeliverPlaceCheck
-    {
-        return $this->deliverPlaceCheck;
-    }
-
-    public function setDeliverPlaceCheck(?DeliverPlaceCheck $deliverPlaceCheck): self
-    {
-        $this->deliverPlaceCheck = $deliverPlaceCheck;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newAssignedTo = null === $deliverPlaceCheck ? null : $this;
-        if ($deliverPlaceCheck->getAssignedTo() !== $newAssignedTo) {
-            $deliverPlaceCheck->setAssignedTo($newAssignedTo);
         }
 
         return $this;

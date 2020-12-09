@@ -28,11 +28,6 @@ class DeliverPlaceCheck
     private $wert;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="deliverPlaceCheck", cascade={"persist", "remove"})
-     */
-    private $assignedTo;
-
-    /**
      * @ORM\ManyToOne(targetEntity=DeliveryPlace::class, inversedBy="deliverPlaceChecks")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -79,18 +74,6 @@ class DeliverPlaceCheck
     public function setWert(string $wert): self
     {
         $this->wert = $wert;
-
-        return $this;
-    }
-
-    public function getAssignedTo(): ?User
-    {
-        return $this->assignedTo;
-    }
-
-    public function setAssignedTo(?User $assignedTo): self
-    {
-        $this->assignedTo = $assignedTo;
 
         return $this;
     }
