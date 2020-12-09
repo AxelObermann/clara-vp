@@ -1,0 +1,89 @@
+{% extends 'index.html.twig' %}
+
+{% block body %}
+    <div class="panel shadow-lg">
+        <header class="panel-heading">
+            <h3 class="panel-title"><i class="site-menu-icon icon md-notifications" aria-hidden="true" style="font-size: 25px;top: 3px;"></i>Meine Todos</h3>
+        </header>
+        <div class="panel-body pt-30">
+            <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
+                <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                    <li class="nav-item" role="presentation"><a class="active nav-link" data-toggle="tab" href="#fuermich" aria-controls="all_contacts" role="tab">für Mich</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane animation-fade active" id="fuermich" role="tabpanel">
+                        
+                       
+                        <ul class="list-group">
+                            {% for noti in tome %}
+                                
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        {% if noti.type == "1" %}
+                                            <div style="width: 20px;background-color: #3f51b5;height: 99px;margin-right: 5px;"></div>
+                                        {% elseif noti.type == "2"%}
+                                            <div style="width: 20px;background-color: #f19408;height: 99px;margin-right: 5px;"></div>
+                                        {% elseif noti.type == "3"%}
+                                            <div style="width: 20px;background-color: #ffeb3b;height: 99px;margin-right: 5px;"></div>
+                                        {% elseif noti.type == "4"%}
+                                            <div style="width: 20px;background-color: #17B3A3;height: 99px;margin-right: 5px;"></div>
+                                        {% elseif noti.type == "5"%}
+                                            <div style="width: 20px;background-color: #C7C9CB;height: 99px;margin-right: 5px;"></div>
+                                        {% elseif noti.type == ""%}
+                                            <div style="width: 20px;background-color: #C7C9CB;height: 99px;margin-right: 5px;"></div>
+                                        {% endif %}
+                                        <div class="pr-0 pr-sm-20 align-self-center">
+                                            <div class="avatar avatar-online">
+                                                <img src="{{ noti.fromUser.profile.image }}" alt="...">
+                                                <i></i>
+                                            </div>
+                                        </div>
+                                        <div class="media-body align-self-center">
+                                            <h5 class="mt-0 mb-5">
+                                                {{ noti.fromUser.displayName }}
+                                                <small>{{ noti.text }} </small>
+                                            </h5>
+                                            <p>
+                                                <i class="icon icon-color wb-map" aria-hidden="true"></i>{{ noti.description|replace({'<br>' : ' , ','<br' : ' , '}) }}
+                                            </p>
+                                            {% if noti.zaehlernummer %}
+                                            <p>
+                                                <i class="icon fa-tachometer" aria-hidden="true"></i>{{ noti.zaehlernummer }}
+                                            </p>
+                                            {% endif %}
+                                            <div>
+                                                <a class="text-action text-black-50" href="javascript:void(0)">
+                                                    <i class="icon wb-calendar" aria-hidden="true"></i><span class="text-dark">{{ noti.doneUntil|date("d.m.Y") }}</span>
+                                                </a>
+                                                <!--
+												<a class="text-action" href="javascript:void(0)">
+													<i class="icon icon-color wb-mobile" aria-hidden="true"></i>
+												</a>
+												<a class="text-action" href="javascript:void(0)">
+													<i class="icon icon-color bd-twitter" aria-hidden="true"></i>
+												</a>
+												<a class="text-action" href="javascript:void(0)">
+													<i class="icon icon-color bd-facebook" aria-hidden="true"></i>
+												</a>
+												<a class="text-action" href="javascript:void(0)">
+													<i class="icon icon-color bd-dribbble" aria-hidden="true"></i>
+												</a>
+												-->
+                                            </div>
+                                        </div>
+                                        <div class="pl-0 pl-sm-20 mt-15 mt-sm-0 align-self-center">
+                                            <a href="/notification/markasseen/{{ noti.id }}"> <button type="button" class="btn btn-outline btn-warning btn-sm">Erledigt</button></a>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        
+                    </div>
+                    
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
