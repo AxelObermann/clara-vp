@@ -42,7 +42,19 @@
                                         <div class="media-body align-self-center">
                                             <h5 class="mt-0 mb-5">
                                                 {{ noti.fromUser.displayName }}
-                                                <small>{{ noti.text }} </small>
+                                                <small>{% if noti.type == "1" %}
+                                                        Anrufen
+                                                    {% elseif noti.type == "2"%}
+                                                        Termin vereinbaren
+                                                    {% elseif noti.type == "3"%}
+                                                        Angebot unterbreiten
+                                                    {% elseif noti.type == "4"%}
+                                                        Ablesung
+                                                    {% elseif noti.type == "5"%}
+                                                        Sonstige Wiedervorlage
+                                                    {% elseif noti.type == ""%}
+                                                        Sonstige Wiedervorlage
+                                                    {% endif %}</small>
                                             </h5>
                                             <p>
                                                 <i class="icon icon-color wb-map" aria-hidden="true"></i>{{ noti.description|replace({'<br>' : ' , ','<br' : ' , '}) }}
@@ -104,7 +116,19 @@
                                     <div class="media-body align-self-center">
                                         <h5 class="mt-0 mb-5">
                                             {{ noti.fromUser.displayName }}
-                                            <small>{{ noti.text }} </small>
+                                            <small>{% if noti.type == "1" %}
+                                                    Anrufen
+                                                {% elseif noti.type == "2"%}
+                                                    Termin vereinbaren
+                                                {% elseif noti.type == "3"%}
+                                                    Angebot unterbreiten
+                                                {% elseif noti.type == "4"%}
+                                                    Ablesung
+                                                {% elseif noti.type == "5"%}
+                                                    Sonstige Wiedervorlage
+                                                {% elseif noti.type == ""%}
+                                                    Sonstige Wiedervorlage
+                                                {% endif %} </small>
                                         </h5>
                                         <p>
                                             <i class="icon icon-color wb-map" aria-hidden="true"></i>{{ noti.description|replace({'<br>' : ' , ','<br' : ' , '}) }}
@@ -166,7 +190,19 @@
                                         <div class="media-body align-self-center">
                                             <h5 class="mt-0 mb-5">
                                                 {{ noti.fromUser.displayName }}
-                                                <small>{{ noti.text }} </small>
+                                                <small>{% if noti.type == "1" %}
+                                                        Anrufen
+                                                    {% elseif noti.type == "2"%}
+                                                        Termin vereinbaren
+                                                    {% elseif noti.type == "3"%}
+                                                        Angebot unterbreiten
+                                                    {% elseif noti.type == "4"%}
+                                                        Ablesung
+                                                    {% elseif noti.type == "5"%}
+                                                        Sonstige Wiedervorlage
+                                                    {% elseif noti.type == ""%}
+                                                        Sonstige Wiedervorlage
+                                                    {% endif %}</small>
                                             </h5>
                                             <p>
                                                 <i class="icon icon-color wb-map" aria-hidden="true"></i>{{ noti.description|replace({'<br>' : ' , ','<br' : ' , '}) }}
