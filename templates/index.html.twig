@@ -291,6 +291,81 @@
 {% block siteJS %}
 {% endblock %}
 <script>
+    $(function() {
+        toastr.options.timeOut = "false";
+        toastr.options.closeButton = true;
+        toastr.options.positionClass = 'toast-top-full-width';
+		{% for message in app.flashes('success') %}
+        toastr['success']('{{ message }}');
+		{% endfor %}
+		{% for message in app.flashes('error') %}
+        toastr['error']('{{ message }}');
+		{% endfor %}
+        $('.btn-toastr').on('click', function() {
+            $context = $(this).data('context');
+            $message = $(this).data('message');
+            $position = $(this).data('position');
+
+            if ($context === '') {
+                $context = 'info';
+            }
+
+            if ($position === '') {
+                $positionClass = 'toast-top-full-width';
+            } else {
+                $positionClass = 'toast-' + $position;
+            }
+
+            toastr.remove();
+            toastr[$context]($message, '', {
+                positionClass: $positionClass
+            });
+        });
+
+        $('#toastr-callback1').on('click', function() {
+            $message = $(this).data('message');
+
+            toastr.options = {
+                "timeOut": "300",
+                "onShown": function() {
+                    alert('onShown callback');
+                },
+                "onHidden": function() {
+                    alert('onHidden callback');
+                }
+            };
+
+            toastr['info']($message);
+        });
+
+        $('#toastr-callback2').on('click', function() {
+            $message = $(this).data('message');
+
+            toastr.options = {
+                "timeOut": "10000",
+                "onclick": function() {
+                    alert('onclick callback');
+                },
+            };
+
+            toastr['info']($message);
+
+        });
+
+        $('#toastr-callback3').on('click', function() {
+            $message = $(this).data('message');
+
+            toastr.options = {
+                "timeOut": "10000",
+                "closeButton": true,
+                "onCloseClick": function() {
+                    alert('onCloseClick callback');
+                }
+            };
+
+            toastr['info']($message);
+        });
+    });
     (function(document, window, $){
         Dropzone.autoDiscover = false;
         'use strict';
@@ -313,7 +388,14 @@
 			{% endif %}
             $('#site-sidebar').toggleClass( 'slidePanel-show', 1000 );
         });
-
+        
+        $(document).on("click", ".open-movedelivery", function () {
+            console.log('MOVEMODAL')
+            var dlid = $(this).data('id');
+            $(".modal-body #dlid").val( dlid );
+            
+            
+        });
 
         $(document).on("click", ".open-AddBookDialog", function () {
 			console.log('MODAL')
