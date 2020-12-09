@@ -31,6 +31,7 @@ class CalendarController extends AbstractController
     public function getTodayEvents(EntityManagerInterface $entityManager){
         $user = $this->getUser();
         $events = $this->getDoctrine()->getRepository(Calendar::class)->findTodayEvents($user);
+        $data[]=array();
         foreach($events as $event) {
             //dd($event);
             //echo "**".$event->getStart()->format("Y-m-d H:i:s");
@@ -61,6 +62,7 @@ class CalendarController extends AbstractController
                 'calTerminTppe' => $event->getTerminType()
             );
         }
+
         return new JsonResponse($data);
     }
 

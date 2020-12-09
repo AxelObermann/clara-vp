@@ -56,6 +56,7 @@ class NotificationController extends AbstractController
             $toUser = $userRepository->find($request->request->get('userId'));
             $notification = new Notification();
             $notification->setText($request->request->get('text'));
+            $notification->setType($request->request->get('notiType'));
             $notification->setSeen(false);
             $notification->setDoneUntil(new \DateTime($request->request->get('todate')));
             $notification->setToUser($toUser);
