@@ -61,6 +61,7 @@ class NotificationController extends AbstractController
             $notification->setToUser($toUser);
             $notification->setFromUser($fromuser);
             $notification->setLink($request->headers->get('referer'));
+            $notification->setDone(0);
             $notification->setCreatedAt(new DateTime());
             $notification->setUpdatedAt(new DateTime());
             $entityManager->persist($notification);
