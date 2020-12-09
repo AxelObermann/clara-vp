@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\DeliverPlaceCheck;
 use App\Repository\CustomerRepository;
+use App\Repository\DeliverPlaceCheckRepository;
 use App\Repository\DeliveryPlaceRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Env\Response;
+use phpDocumentor\Reflection\DocBlock\Tags\Uses;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,6 +61,33 @@ class DeliverPlaceController extends AbstractController
         dump($maketodos);
         die();
         return new JsonResponse($heute->format('Y-m-d'));
+
+    }
+
+    /**
+     * @param DeliveryPlaceRepository $deliveryPlaceRepository
+     * @param DeliverPlaceCheckRepository $checkRepository
+     * @param Request $request
+     * @Route ("deliverPlace/new/check", name="deliverplace_new_check")
+     */
+    public function addNewCheck(DeliveryPlaceRepository $deliveryPlaceRepository, DeliverPlaceCheckRepository $checkRepository,Request $request,EntityManagerInterface $entityManager){
+        $rp = [];
+        $message="";
+        if ($content = $request->getContent()) {
+            $rp = json_decode($content, true);
+        }
+        $user = $this->getUser();
+        $deplace = $deliveryPlaceRepository->find($rp['dlcheckid']);
+        $check = new DeliverPlaceCheck();
+        $check->setCreated(new \DateTime());
+        $check->setDatum(new \DateTime($rp['checkdate']));
+        $check->setWert($rp['checkwert']);
+        $check->setDeliveryPlace($deplace);
+        $entityManager->persist($check);
+        $entityManager->flush();
+        $message = "Die Daten wurden übernommen!";
+        return new JsonResponse($message);
+
 
     }
 }
