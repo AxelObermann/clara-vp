@@ -148,6 +148,12 @@ z-index: 9998;
 .swal2-container.swal2-center{
 z-index: 9998;
 }
+.custom-swal-class {
+    overflow-x: visible;
+    overflow-y: visible;
+    max-height: 550px !important;
+    min-height: 550px !important;
+}
 
 
 
