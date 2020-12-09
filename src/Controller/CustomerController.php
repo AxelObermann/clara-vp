@@ -493,7 +493,7 @@ class CustomerController extends AbstractController
         $notification->setDone(0);
         $notification->setType('4');
         $notification->setText("Neuer Ablesetermin");
-        $notification->setDescription($rp['Firmenname']."<br".$rp['Strasse']." ".$rp['Hausnummer']."<br>".$rp['PLZ']." ".$rp['Ort']."<br> Zählernummer:".$rp['Zaehlernummer']);
+        $notification->setDescription($rp['Firmenname']."<br".$rp['Strasse']." ".$rp['Hausnummer']."<br>".$rp['PLZ']." ".$rp['Ort']);
         $notification->setLink("");
         $notification->setDoneUntil(new \DateTime($rp['doneUntil']));
         $entityManager->persist($notification);
