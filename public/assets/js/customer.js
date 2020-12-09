@@ -364,6 +364,7 @@ function getCustomerWithAdress(id,test){
                 .remove()
                 .draw();
             if (kdls.length != 0){
+                console.log(testrole);
                 kdls.forEach(function(obj) {
                     if (test){
                         aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>' +
@@ -372,6 +373,8 @@ function getCustomerWithAdress(id,test){
                         aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>' +
                             '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>';
                     }
+                    if (testrole=="ROLE_ADMIN")
+                        aktionCell = aktionCell + '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default open-movedelivery"  data-toggle="modal" data-target="#moveDeliveryPlaceModal" data-id="'+obj.id+'" data-toggle="tooltip" data-original-title="Verschieben"><i class="icon wb-move text-warning font-size-20" aria-hidden="true"></i></a>';
 
                     t.row.add( [
                         obj.Tarifnummer,
