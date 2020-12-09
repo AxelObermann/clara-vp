@@ -624,13 +624,13 @@
                     <div class="modal-body clara-modal-body">
                         <div class="form-group">
                             <span class="text-help">Abgelesener Wert</span>
-                            <input type="text" required name="checkwert" cols="70" placeholder="hier Text eingeben">
+                            <input type="text" required name="checkwert" id="checkwert" placeholder="hier Text eingeben">
                         </div>
                         <div class="form-group">
                             <span class="text-help">Ablesedatum</span>
-                            <input type="text" required name="checkdate" class="datepicker" data-plugin="datepicker" placeholder="Abgelesen am:">
+                            <input type="text" required name="checkdate" id="checkdate" class="datepicker" data-plugin="datepicker" placeholder="Abgelesen am:">
                         </div>
-                            <input type="hidden" name="userId" id="userId" value=""/>
+                            <input type="hidden" name="dlcheckid" id="dlcheckid" value=""/>
                     </div>
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
@@ -681,8 +681,33 @@
         var testrole = "{{ app.user.roles[0] }}";
         console.log(testrole);
         $( "#newCheckModal" ).submit(function( event ) {
-            alert( "Handler for .submit() called." );
+
             event.preventDefault();
+            $( "#dlcheckid" ).val($( "#dpId" ).val());
+            var myForm = document.getElementById('deliveryCheckForm');
+            var formData = new FormData(myForm),
+                    result = {};
+    
+            for (var entry of formData.entries())
+            {
+                result[entry[0]] = entry[1];
+            }
+            result = JSON.stringify(result)
+            $.ajax({
+                url: "{{ path('deliverplace_new_check') }}",
+                type: "POST",
+                data:result,
+                contentType: "application/json",
+                complete: function (data){
+                    //console.log(data.responseText)
+                    $( "#newCheckModal" ).modal('hide');
+                    $( "#checkwert" ).val('')
+                    $( "#checkdate" ).val('')
+                    $( "#dlcheckid" ).val('')
+                    toastr['success'](JSON.parse(data.responseText));
+                }
+            });
+            
         });
         
 
