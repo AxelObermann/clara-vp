@@ -23,26 +23,35 @@
                 </div>
             </div>
             {% endif %}
-            <table class="table table-hover dataTable table-striped w-full" cellspacing="0" data-plugin="dataTable" id="customerTable">
+            
+            <table class="table table-hover dataTable" data-plugin="dataTable" id="customerIndexTable">
                 <thead>
                 <tr>
+                    <th>Benutzer</th>
                     <th>Name</th>
+                    <th>Lieferstellen</th>
                     <th>Telefon</th>
                     <th>Mail</th>
+                    <th>PLZ</th>
+                    <th>Ort</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
+                
                 {% for customer in customers %}
                     <tr class="gradeA">
-                        <td>{{ customer.full_name }}{% if customer.kdl > 0 %} <span class="badge badge-lg badge-round badge-success">  {{ customer.kdl }}</span>{% endif%} </td>
+                        <td>{{ customer.user_id }}</td>
+                        <td>{{ customer.full_name }} </td>
+                        <td>{% if customer.kdl > 0 %} <span class="badge badge-lg badge-round badge-success">  {{ customer.kdl }}</span>{% endif%}</td>
                         <td>{{ customer.phone }}</td>
                         <td>{{ customer.mail }}</td>
-                        
+                        <td>{{ customer.zip }}</td>
+                        <td>{{ customer.town }}</td>
                         <td>
                             <a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerWithAdress({{ customer.id }}, {% if 'show_deleted' in app.request.pathinfo %} 1 {% else %} 0 {% endif %})" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-26" aria-hidden="true"></i></a>
                             {% if is_granted('ROLE_ADMIN') %}<a href="#" data-toggle="tooltip" data-original-title="Remove" onclick="deleteCustomer({{ customer.id }})"><i class="icon md-delete danger text-danger font-size-26" aria-hidden="true"></i></a>{% endif %}
-                           {#  {% if is_granted('ROLE_PORTAL_ADMIN') %}<a href="/customer/importkdls/{{ customer.old_id }}" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="tooltip" data-original-title="Import Kdls"><i class="icon md-link" aria-hidden="true" style="font-size: 26px;"></i></a>{% endif %}#}
+                            {#  {% if is_granted('ROLE_PORTAL_ADMIN') %}<a href="/customer/importkdls/{{ customer.old_id }}" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="tooltip" data-original-title="Import Kdls"><i class="icon md-link" aria-hidden="true" style="font-size: 26px;"></i></a>{% endif %}#}
                         </td>
                     </tr>
                 {% endfor %}
@@ -50,6 +59,10 @@
             </table>
         </div>
     </div>
+    
+    
+    
+    
     
     <div class="slidePanel slidePanel-right site-sidebar lvl1-sidePanel" id="customerDetail" style="overflow-y: scroll; overflow: scroll;border-left: 3px solid #f19408;">
         <div class="panel mb-0" id="customerPanel">
