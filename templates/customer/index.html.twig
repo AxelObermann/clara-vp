@@ -214,7 +214,9 @@
                     <i class="site-menu-icon icon fa-map-marker" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Lieferstelle: <span id="deliveryPlaceTitle"></span></h3>
                 <div class="panel-actions">
                     {% if is_granted('ROLE_ADMIN') %}<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="" data-toggle="tooltip" data-original-title="neuer Vertrag"><i class="icon md-copy success text-info font-size-26" aria-hidden="true"></i></a>
-                    <a class="panel-action" id="customerDeliversPlaceSave" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>{% endif %}
+                        <a class="panel-action" id="deliveryModalButton" data-toggle="modal" data-target="#newCheckModal" aria-hidden="true" data-toggle="tooltip" data-original-title="neue Ablseung"><i class="icon fa-files-o text-white font-size-26" aria-hidden="true"></i></a>
+                        <a class="panel-action" id="customerDeliversPlaceSave" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>
+                    {% endif %}
                     <a class="panel-action" id="customerDeliversPlaceClose" data-toggle="panel-close" aria-hidden="true"><i class="icon md-close text-white font-size-26" aria-hidden="true"></i></a>
                 </div>
             </div>
@@ -609,21 +611,58 @@
         </div>
     </div>
     
-    <div class="modal fade modal-3d-slit" id="newCheck" aria-hidden="true"
-         aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
+    <div class="modal fade modal-3d-slit" id="newCheckModal" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-simple">
             <div class="modal-content clara-modal-content">
-                <form method="post" action="">
+                <form method="post" action="" id="deliveryCheckForm">
                     <div class="modal-header clara-modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
-                        <h4 class="modal-title clara-modal-title"><i class="icon md-notifications" aria-hidden="true" style="font-size: 25px"></i> Neuer Ablese Termin</h4>
+                        <h4 class="modal-title clara-modal-title"><i class="icon md-notifications" aria-hidden="true" style="font-size: 25px"></i> Neuer Ablese Wert</h4>
                     </div>
                     <div class="modal-body clara-modal-body">
-                        <textarea rows="3" name="text" cols="70" placeholder="hier Text eingeben" required></textarea>
-                        <input type="text" required name="todate" class="datepicker" data-plugin="datepicker" placeholder="erledigen bis.">
-                        <input type="hidden" name="userId" id="userId" value=""/>
+                        <div class="form-group">
+                            <span class="text-help">Abgelesener Wert</span>
+                            <input type="text" required name="checkwert" cols="70" placeholder="hier Text eingeben">
+                        </div>
+                        <div class="form-group">
+                            <span class="text-help">Ablesedatum</span>
+                            <input type="text" required name="checkdate" class="datepicker" data-plugin="datepicker" placeholder="Abgelesen am:">
+                        </div>
+                            <input type="hidden" name="userId" id="userId" value=""/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" class="btn btn-warning">Speichern</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade modal-3d-slit" id="moveDeliveryPlaceModal" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple">
+            <div class="modal-content clara-modal-content">
+                <form method="post" action="{{ path('app_deliverplace_movedpcustomer') }}" id="deliveryMoveForm">
+                    <div class="modal-header clara-modal-header">
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title clara-modal-title"><i class="icon md-notifications" aria-hidden="true" style="font-size: 25px"></i> Lieferstelle verschieben</h4>
+                    </div>
+                    <div class="modal-body clara-modal-body">
+                        <div class="form-group">
+                            <span class="text-help">zu welchem Kunden verschieben?</span>
+                            
+                            <select data-live-search="true" class="select text-white" id="moveDeliverToCsutomerSelect" name="toCustomer" data-style="warning" data-plugin="selectpicker">
+                                {% for customer in customers %}
+                                    <option value="{{ customer.id }}">{{ customer.full_name }}</option>
+                                {% endfor %}
+                            </select>
+                            
+                        </div>
+                            <input type="hidden" name="dlid" id="dlid" value=""/>
                     </div>
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
@@ -638,61 +677,17 @@
 
 {% block siteJS %}
     <script>
+        
         var testrole = "{{ app.user.roles[0] }}";
-    console.log(testrole);
-        {% if 'show_deleted' in app.request.pathinfo %}
+        console.log(testrole);
+        $( "#newCheckModal" ).submit(function( event ) {
+            alert( "Handler for .submit() called." );
+            event.preventDefault();
+        });
+        
 
-        async function move(id) {
-            const {value: fruit} = await Swal.fire({
-                title: 'Lieferstelle '+id+' verschieben',
-                icon: 'question',
-                text: 'zu Benutzer verschieben...',
-                input: 'select',
-                inputOptions: {
-            
-                    {% for user in users %}
-                    '{{ user.id }}': '{{ user.email }}',
-                    {% endfor %}
-                },
-                inputPlaceholder: 'Benutzer auswählen...',
-                showCancelButton: true,
-                inputValidator: (value) => {
-                    return new Promise((resolve) => {
-                        if (value === '') {
-                            resolve("Bitte benutzer auswählen")
-                        }else{
-                            resolve()
-                        }
-                    })
-                }
-            })
-            //console.log(value);
-    
-            if (fruit) {
-                $.ajax( {
-                    method: 'POST',
-                    url: '/deliverPlace_move_customer/'+fruit+','+id,
-                    dataType: 'json',
-                    complete: function (data){
-                        //console.log('complete');
-                        var adress = JSON.parse(data.responseText);
-                        $('#customerAdressId').val(adress[0].id)
-                        $('#adressStreet').val(adress[0].street)
-                        $('#adressStreetNumber').val(adress[0].streetNumber)
-                        $('#adressPLZ').val(adress[0].zip)
-                        $('#adressTown').val(adress[0].town)
-                        $('#adressPhone').val(adress[0].phone)
-                        $('#adressFax').val(adress[0].fax)
-                        $('#adressMail').val(adress[0].mail)
-                        //console.log(adress);
-                    }});
-                Swal.fire({icon: 'error',
-                title:'Vertrag verschieben',
-                icon: 'success',
-                text:`You selected: ${fruit}`});
-            }
-        }
-        {% endif %}
+        
+        
     </script>
     <script src="/assets/js/customer.js"></script>
 {% endblock %}
