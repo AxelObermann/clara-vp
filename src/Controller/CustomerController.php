@@ -489,6 +489,9 @@ class CustomerController extends AbstractController
         $notification->setDelveryPlace($deliveryPlace);
         $notification->setFromUser($fromUser);
         $notification->setToUser($toUser);
+        $notification->setZaehlernummer($rp['Zaehlernummer']);
+        $notification->setDone(0);
+        $notification->setType('4');
         $notification->setText("Neuer Ablesetermin");
         $notification->setDescription($rp['Firmenname']."<br".$rp['Strasse']." ".$rp['Hausnummer']."<br>".$rp['PLZ']." ".$rp['Ort']."<br> Zählernummer:".$rp['Zaehlernummer']);
         $notification->setLink("");

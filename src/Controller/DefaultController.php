@@ -61,6 +61,10 @@ class DefaultController extends AbstractController
         $users = $userRepository->findAll();
         $notifications = $notificationRepository->findTodayNotifications($loggedUser);
         $allNotifications = $notificationRepository->findBy(['toUser' => $loggedUser]);
+
+        if ($this->isGranted('ROLE_FACILITY')){
+            return $this->redirectToRoute('facilityDashboard');
+        }
         //dd($notifications);
         return $this->render('default/dashboard.html.twig',[
 

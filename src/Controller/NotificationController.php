@@ -33,6 +33,19 @@ class NotificationController extends AbstractController
     }
 
     /**
+     * @param NotificationRepository $notificationRepository
+     * @param UserRepository $userRepository
+     * @Route ("facilityDashboard", name="facilityDashboard")
+     */
+    public function facilityDashboard(NotificationRepository  $notificationRepository, UserRepository $userRepository){
+        $user = $userRepository->find($this->getUser());
+        $tome = $notificationRepository->findBy(array('toUser'=> $user,'seen'=> 0), array('doneUntil'=>'DESC'));
+
+        return $this->render('notification/indexfac.html.twig', [
+            'tome' => $tome,
+        ]);
+    }
+    /**
      * @param Request $request
      * @Route ("/noticreatefromdashboard", name="noti_create_from_dashboard")
      */
