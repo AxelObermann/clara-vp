@@ -81,6 +81,21 @@ class Notification
      */
     private $delveryPlace;
 
+    /**
+     * @ORM\Column(type="string", length=1, nullable=true)
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $done;
+
+    /**
+     * @ORM\Column(type="string", length=25, nullable=true)
+     */
+    private $Zaehlernummer;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -212,6 +227,42 @@ class Notification
     public function setDelveryPlace(?DeliveryPlace $delveryPlace): self
     {
         $this->delveryPlace = $delveryPlace;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getDone(): ?bool
+    {
+        return $this->done;
+    }
+
+    public function setDone(bool $done): self
+    {
+        $this->done = $done;
+
+        return $this;
+    }
+
+    public function getZaehlernummer(): ?string
+    {
+        return $this->Zaehlernummer;
+    }
+
+    public function setZaehlernummer(?string $Zaehlernummer): self
+    {
+        $this->Zaehlernummer = $Zaehlernummer;
 
         return $this;
     }
