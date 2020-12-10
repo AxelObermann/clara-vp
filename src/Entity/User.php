@@ -115,6 +115,11 @@ class User implements UserInterface
      */
     private $allowedCustomer = [];
 
+    /**
+     * @ORM\OneToMany(targetEntity=UploadedFiles::class, mappedBy="User")
+     */
+    private $uploadedFiles;
+
 
     public function __construct()
     {
@@ -122,6 +127,7 @@ class User implements UserInterface
         $this->notifications = new ArrayCollection();
         $this->customers = new ArrayCollection();
         $this->deliveryPlaces = new ArrayCollection();
+        $this->uploadedFiles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -470,6 +476,36 @@ class User implements UserInterface
     public function setAllowedCustomer(?array $allowedCustomer): self
     {
         $this->allowedCustomer = $allowedCustomer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UploadedFiles[]
+     */
+    public function getUploadedFiles(): Collection
+    {
+        return $this->uploadedFiles;
+    }
+
+    public function addUploadedFile(UploadedFiles $uploadedFile): self
+    {
+        if (!$this->uploadedFiles->contains($uploadedFile)) {
+            $this->uploadedFiles[] = $uploadedFile;
+            $uploadedFile->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUploadedFile(UploadedFiles $uploadedFile): self
+    {
+        if ($this->uploadedFiles->removeElement($uploadedFile)) {
+            // set the owning side to null (unless already changed)
+            if ($uploadedFile->getUser() === $this) {
+                $uploadedFile->setUser(null);
+            }
+        }
 
         return $this;
     }

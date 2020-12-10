@@ -65,12 +65,18 @@ class Customer
      */
     private $notifications;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UploadedFiles::class, mappedBy="Customer")
+     */
+    private $uploadedFiles;
+
     public function __construct()
     {
         $this->adress = new ArrayCollection();
         $this->adresses = new ArrayCollection();
         $this->deliveryPlaces = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->uploadedFiles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -233,6 +239,36 @@ class Customer
             // set the owning side to null (unless already changed)
             if ($notification->getCustomer() === $this) {
                 $notification->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UploadedFiles[]
+     */
+    public function getUploadedFiles(): Collection
+    {
+        return $this->uploadedFiles;
+    }
+
+    public function addUploadedFile(UploadedFiles $uploadedFile): self
+    {
+        if (!$this->uploadedFiles->contains($uploadedFile)) {
+            $this->uploadedFiles[] = $uploadedFile;
+            $uploadedFile->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUploadedFile(UploadedFiles $uploadedFile): self
+    {
+        if ($this->uploadedFiles->removeElement($uploadedFile)) {
+            // set the owning side to null (unless already changed)
+            if ($uploadedFile->getCustomer() === $this) {
+                $uploadedFile->setCustomer(null);
             }
         }
 

@@ -96,6 +96,11 @@ class Notification
      */
     private $Zaehlernummer;
 
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $plz;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -263,6 +268,18 @@ class Notification
     public function setZaehlernummer(?string $Zaehlernummer): self
     {
         $this->Zaehlernummer = $Zaehlernummer;
+
+        return $this;
+    }
+
+    public function getPlz(): ?string
+    {
+        return $this->plz;
+    }
+
+    public function setPlz(?string $plz): self
+    {
+        $this->plz = $plz;
 
         return $this;
     }

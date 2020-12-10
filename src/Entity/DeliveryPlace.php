@@ -405,10 +405,16 @@ class DeliveryPlace
      */
     private $facilityUser;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UploadedFiles::class, mappedBy="DeliveryPlace")
+     */
+    private $uploadedFiles;
+
     public function __construct()
     {
         $this->notifications = new ArrayCollection();
         $this->deliverPlaceChecks = new ArrayCollection();
+        $this->uploadedFiles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1374,6 +1380,36 @@ class DeliveryPlace
     public function setFacilityUser(?User $facilityUser): self
     {
         $this->facilityUser = $facilityUser;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UploadedFiles[]
+     */
+    public function getUploadedFiles(): Collection
+    {
+        return $this->uploadedFiles;
+    }
+
+    public function addUploadedFile(UploadedFiles $uploadedFile): self
+    {
+        if (!$this->uploadedFiles->contains($uploadedFile)) {
+            $this->uploadedFiles[] = $uploadedFile;
+            $uploadedFile->setDeliveryPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUploadedFile(UploadedFiles $uploadedFile): self
+    {
+        if ($this->uploadedFiles->removeElement($uploadedFile)) {
+            // set the owning side to null (unless already changed)
+            if ($uploadedFile->getDeliveryPlace() === $this) {
+                $uploadedFile->setDeliveryPlace(null);
+            }
+        }
 
         return $this;
     }
