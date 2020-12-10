@@ -6,6 +6,7 @@ use App\Entity\Notification;
 use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,7 +40,7 @@ class NotificationController extends AbstractController
      */
     public function facilityDashboard(NotificationRepository  $notificationRepository, UserRepository $userRepository){
         $user = $userRepository->find($this->getUser());
-        $tome = $notificationRepository->findBy(array('toUser'=> $user,'seen'=> 0), array('doneUntil'=>'DESC'));
+        $tome = $notificationRepository->findBy(array('toUser'=> $user,'seen'=> 0), array('plz'=>'ASC'));
 
         return $this->render('notification/indexfac.html.twig', [
             'tome' => $tome,
@@ -55,7 +56,8 @@ class NotificationController extends AbstractController
             $fromuser = $this->getUser();
             $toUser = $userRepository->find($request->request->get('userId'));
             $notification = new Notification();
-            $notification->setText($request->request->get('text'));
+            $notification->setDescription($request->request->get('text'));
+            $notification->setText('');
             $notification->setType($request->request->get('notiType'));
             $notification->setSeen(false);
             $notification->setDoneUntil(new \DateTime($request->request->get('todate')));
@@ -79,7 +81,7 @@ class NotificationController extends AbstractController
      * @Route ("/createToDo", name="noti_create_global")
      */
     public function createToDo(Request $request, UserRepository $userRepository, NotificationRepository $notificationRepository){
-
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**
