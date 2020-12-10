@@ -35,8 +35,8 @@
 				</a>
 				<div class="dropdown-menu" role="menu">
 					<a class="dropdown-item" href="{{ path("userprofile") }}" role="menuitem"><i class="icon md-account" aria-hidden="true"></i> Profil</a>
-					<a class="dropdown-item" href="{{ path("nachrichten") }}" role="menuitem"><i class="icon md-card" aria-hidden="true"></i> Nachrichen</a>
-					<a class="dropdown-item" href="{{ path("userSettings") }}" role="menuitem"><i class="icon md-settings" aria-hidden="true"></i> Einstellungen</a>
+					<!--<a class="dropdown-item" href="{{ path("nachrichten") }}" role="menuitem"><i class="icon md-card" aria-hidden="true"></i> Nachrichen</a>
+					<a class="dropdown-item" href="{{ path("userSettings") }}" role="menuitem"><i class="icon md-settings" aria-hidden="true"></i> Einstellungen</a>-->
 					<div class="dropdown-divider"></div>
 					<a class="dropdown-item" href="{{ path("app_logout") }}" role="menuitem"><i class="icon md-power" aria-hidden="true"></i> Logout</a>
 				</div>
@@ -47,45 +47,11 @@
 				</a>
 			</li>
 			<li class="nav-item dropdown">
-				<a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" title="Notifications"
+				<a class="nav-link" href="{{ path("notification") }}" title="Notifications"
 				   aria-expanded="false" data-animation="scale-up" role="button">
 					<i class="icon md-notifications" aria-hidden="true" style="font-size: 25px"></i>
 					<!--<span class="badge badge-pill badge-danger up">5</span>-->
 				</a>
-				<div class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
-					<div class="dropdown-menu-header">
-						<h5>To Do´s</h5>
-						<span class="badge badge-round badge-warning">{% if app.user.notifications %}{{ app.user.notifications|length }}{% endif %}</span>
-					</div>
-					
-					<div class="list-group">
-						<div data-role="container">
-							<div data-role="content">
-								{% for todo in app.user.notifications %}
-									<a class="list-group-item dropdown-item" href="javascript:void(0)" role="menuitem">
-										<div class="media">
-											<div class="pr-10">
-												<!--<i class="icon md-receipt bg-red-600 white icon-circle" aria-hidden="true"></i>-->
-											</div>
-											<div class="media-body">
-												<h6 class="media-heading">{{ todo.text }}</h6>
-												{% set checkdate = todo.doneUntil|date('d.m.Y')  %}
-												{% set today = date() %}
-												<time class="media-meta" >{{ checkdate }} , {{ date(today).diff(date(todo.doneUntil))|date('%d Tage %m Monate %Y Jahre') }}</time>
-											</div>
-										</div>
-									</a>
-								{% endfor %}
-								
-							</div>
-						</div>
-					</div>
-					<div class="dropdown-menu-footer">
-						<a class="dropdown-item" href="{{ path("notification") }}" role="menuitem">
-							Alle Todos
-						</a>
-					</div>
-				</div>
 			</li>
 			{# <li class="nav-item dropdown">
 				<a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" title="Messages"
