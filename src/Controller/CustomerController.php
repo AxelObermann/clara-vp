@@ -489,6 +489,7 @@ class CustomerController extends AbstractController
         $notification->setDelveryPlace($deliveryPlace);
         $notification->setFromUser($fromUser);
         $notification->setToUser($toUser);
+        $notification->setPlz($rp['PLZ']);
         $notification->setZaehlernummer($rp['Zaehlernummer']);
         $notification->setDone(0);
         $notification->setType('4');

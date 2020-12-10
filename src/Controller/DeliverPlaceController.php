@@ -87,7 +87,13 @@ class DeliverPlaceController extends AbstractController
         $entityManager->flush();
         $message = "Die Daten wurden übernommen!";
         return new JsonResponse($message);
+    }
 
-
+    /**
+     * @param Request $request
+     * @Route ("deliverplace/getUploadedFiles/{id}")
+     */
+    public function getUploadedFiles(Request $request){
+        dd($request);
     }
 }
