@@ -19,7 +19,7 @@
                             {% for noti in tome %}
                                 
                                 <li class="list-group-item">
-                                    <div class="media{% if noti.type == "4" %} uploadfiledummy{% endif %}" data-id="{{ noti.id }}" {% if noti.type == "4" %} onclick="test({{ noti.id }})" {% endif %}>
+                                    <div class="media">
                                         {% if noti.type == "1" %}
                                             <div style="width: 20px;background-color: #3f51b5;height: 99px;margin-right: 5px;"></div>
                                         {% elseif noti.type == "2"%}
@@ -39,7 +39,7 @@
                                                 <i></i>
                                             </div>
                                         </div>
-                                        <div class="media-body align-self-center">
+                                        <div class="media-body align-self-center {% if noti.type == "4" %} uploadfiledummy{% endif %}" data-id="{{ noti.id }}" {% if noti.type == "4" %} onclick="test({{ noti.id }})" {% endif %}">
                                             <h5 class="mt-0 mb-5">
                                                 {{ noti.fromUser.displayName }}
                                                 <small>{% if noti.type == "1" %}
