@@ -1,6 +1,7 @@
 {% extends 'index.html.twig' %}
 
 {% block body %}
+    
     <div class="panel shadow-lg">
         <header class="panel-heading">
             <h3 class="panel-title"><i class="site-menu-icon icon md-notifications" aria-hidden="true" style="font-size: 25px;top: 3px;"></i>Meine Todos</h3>
@@ -18,7 +19,7 @@
                             {% for noti in tome %}
                                 
                                 <li class="list-group-item">
-                                    <div class="media">
+                                    <div class="media{% if noti.type == "4" %} uploadfiledummy{% endif %}" data-id="{{ noti.id }}" {% if noti.type == "4" %} onclick="test({{ noti.id }})" {% endif %}>
                                         {% if noti.type == "1" %}
                                             <div style="width: 20px;background-color: #3f51b5;height: 99px;margin-right: 5px;"></div>
                                         {% elseif noti.type == "2"%}
@@ -98,4 +99,52 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block siteJS %}
+    <script>
+        var notiId = "";
+        
+        function test(id){
+            console.log('GGGklick'+id);
+            notiId = id;
+            openFileDialog("", true, fileDialogChanged);
+        }
+
+        function openFileDialog (accept, multy = false, callback) {
+            var inputElement = document.createElement("input");
+            inputElement.type = "file";
+            inputElement.accept = accept; // Note Edge does not support this attribute
+            if (multy) {
+                inputElement.multiple = multy;
+            }
+            if (typeof callback === "function") {
+                inputElement.addEventListener("change", callback);
+            }
+            inputElement.dispatchEvent(new MouseEvent("click"));
+            console.log('back')
+        }
+        
+        function fileDialogChanged (event) {
+            var form = new FormData(),
+                xhr = new XMLHttpRequest();
+            
+            [...this.files].forEach(file => {
+                console.log(file);
+                form.append('file', file, file.name);
+                form.append("notiId", notiId);
+                //var div = document.createElement("div");
+                //div.className = "fileList common";
+                //div.textContent = file.name;
+                //userSelectedFiles.appendChild(div);
+            });
+            xhr.open('POST', 'upload/facility/dashboard');
+            xhr.send(form);
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    toastr.success(JSON.parse(this.responseText));;
+                }
+            };
+            
+        }
+    </script>
 {% endblock %}
