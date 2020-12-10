@@ -12,7 +12,7 @@ class UploaderHelper
     /**
      * @var string
      */
-    private $uploadsPath;
+    public $uploadsPath;
     /**
      * @var string
      */
