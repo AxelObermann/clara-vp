@@ -36,8 +36,15 @@ class UploaderHelper
         $destination = $this->uploadsPath.$uploadPathFromAjax.'/';
         $newFileName = pathinfo($uploadedFile->getClientOriginalName(),PATHINFO_FILENAME)."-".uniqid().".".$uploadedFile->guessExtension();
         $uploadedFile->move($destination,$newFileName);
-
+        //dd($uploadPathFromAjax);
         return true;
+    }
+
+    public function uploadFacilityFile(UploadedFile $uploadedFile,$uploadPathFromAjax):string{
+        $destination = $this->uploadsPath.$uploadPathFromAjax.'/';
+        $newFileName = pathinfo($uploadedFile->getClientOriginalName(),PATHINFO_FILENAME).".".$uploadedFile->guessExtension();
+        $uploadedFile->move($destination,$newFileName);
+        return $newFileName;
     }
 
 }
