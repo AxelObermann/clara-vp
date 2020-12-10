@@ -134,4 +134,19 @@ class DefaultController extends AbstractController
 //        return $this->redirect($request->headers->get('referer'));
         return new JsonResponse($test);
     }
+
+    /**
+     * @param Request $request
+     * @param UploaderHelper $uploaderHelper
+     * @Route ("upload/facility/dashboard")
+     */
+    public function uploadFacFromDaschboard(Request $request, UploaderHelper $uploaderHelper,NotificationRepository $notificationRepository){
+
+        //dd($request->files);
+        $noti = $notificationRepository->find($request->get('notiId'));
+        $uploadedFile = $request->files->get("file");
+        $test = $uploaderHelper->uploadAjaxFile($uploadedFile,"/DP/".$noti->getDelveryPlace()->getId()."/");
+        //dd($noti->getDelveryPlace()->getId());
+        return new JsonResponse("Die  Datei wurde erfolreich gespeichert");
+    }
 }
