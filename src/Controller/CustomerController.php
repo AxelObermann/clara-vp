@@ -498,6 +498,6 @@ class CustomerController extends AbstractController
         $notification->setDoneUntil(new \DateTime($rp['doneUntil']));
         $entityManager->persist($notification);
         $entityManager->flush();
-
+        return new JsonResponse('Das Todo wurde angelegt!');
     }
 }
