@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Profile;
+use App\Entity\UploadedFiles;
 use App\Entity\User;
+use App\Repository\DeliveryPlaceRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
 use App\Service\UploaderHelper;
@@ -140,14 +142,20 @@ class DefaultController extends AbstractController
      * @param UploaderHelper $uploaderHelper
      * @Route ("upload/facility/dashboard")
      */
-    public function uploadFacFromDaschboard(Request $request, UploaderHelper $uploaderHelper,NotificationRepository $notificationRepository){
+    public function uploadFacFromDashboard(DeliveryPlaceRepository $deliveryPlaceRepository,Request $request, UploaderHelper $uploaderHelper,NotificationRepository $notificationRepository,EntityManagerInterface $entityManager){
 
         //dd($uploaderHelper->uploadsPath);
         $noti = $notificationRepository->find($request->get('notiId'));
         $uploadedFile = $request->files->get("file");
+        $dplace = $deliveryPlaceRepository->find($noti->getDelveryPlace()->getId());
         $test = $uploaderHelper->uploadFacilityFile($uploadedFile,"/DP/".$noti->getDelveryPlace()->getId()."/");
-        //dd($uploadedFile['originalName']);
-        //dd($noti->getDelveryPlace()->getId());
+        $ufile = new UploadedFiles();
+        $ufile->setDeliveryPlace($dplace);
+        $ufile->setUploaded(new \DateTime());
+        $ufile->setFile("/UPLOADS/DP/".$noti->getDelveryPlace()->getId()."/".$test);
+        $ufile->setActive(1);
+        $entityManager->persist($ufile);
+        $entityManager->flush();
         return new JsonResponse("Die  Datei wurde erfolreich gespeichert");
     }
 }
