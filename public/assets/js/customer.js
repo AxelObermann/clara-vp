@@ -1,7 +1,5 @@
 $( document ).ready(function() {
 
-
-
     $('#customerDetailClose').click(function () {
         $('#uploadPath').val('/customers');
         $('#uploadPathOld').val('');
@@ -140,10 +138,7 @@ $( document ).ready(function() {
         $('#uploadPathOld').val('');
         $('#customerDeliversPlace').toggleClass( 'slidePanel-show lvl2-sidePanel-show', 1000 );
     });
-
-
-
-});
+}); // end Ready Function
 
 function getCustomerKdl(id){
     $('#action').val('');
@@ -233,6 +228,18 @@ function getCustomerKdl(id){
 
             }
         }});
+
+    $.ajax( {
+        method: 'POST',
+        //url: '/customer/getfm/'+175,
+        url: '/deliverplace/getUploadedFiles/'+id,
+        dataType: 'json',
+        complete: function (data){
+
+            }
+        });
+
+
     $('#customerDeliversPlace').toggleClass( 'slidePanel-show lvl2-sidePanel-show', 1000 );
     //console.log(id);
 }
@@ -451,8 +458,8 @@ function createFCTodo(){
         type: "POST",
         data:result,
         contentType: "application/json",
-        complete: function (){
-            console.log("erledigt")
+        complete: function (data){
+            toastr['success'](JSON.parse(data.responseText));
         }
     });
 }
