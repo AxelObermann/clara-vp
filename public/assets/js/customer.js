@@ -6,6 +6,8 @@ $( document ).ready(function() {
         $('#customerDetail').toggleClass( 'slidePanel-show lvl1-sidePanel-show', 1000 );
         $('#customerIndexPanel').toggleClass( 'is-loading');
         $('#userSelector').hide();
+
+
     });
 
     $('#newCustomer').click(function () {
@@ -136,6 +138,18 @@ $( document ).ready(function() {
     $('#customerDeliversPlaceClose').click(function () {
         $('#uploadPath').val($('#uploadPathOld').val());
         $('#uploadPathOld').val('');
+        $('#uploadedFilesRow').hide();
+        var tableulf = $('#uploadedFileTable').DataTable();
+
+        tableulf
+            .clear()
+            .draw();
+        $('#dpChecksRow').hide();
+        var tablecheck = $('#dpCheckTable').DataTable();
+
+        tablecheck
+            .clear()
+            .draw();
         $('#customerDeliversPlace').toggleClass( 'slidePanel-show lvl2-sidePanel-show', 1000 );
     });
 }); // end Ready Function
@@ -228,14 +242,50 @@ function getCustomerKdl(id){
 
             }
         }});
-
+    /* get uploaded Files */
     $.ajax( {
         method: 'POST',
         //url: '/customer/getfm/'+175,
         url: '/deliverplace/getUploadedFiles/'+id,
         dataType: 'json',
         complete: function (data){
+            var dateien = JSON.parse(data.responseText);
+            var d = $('#uploadedFileTable').DataTable();
+            console.log(dateien.length)
+            if (dateien.length != 0) {
+                $('#uploadedFilesRow').show();
+                dateien.forEach(function (obj) {
+                    d.row.add( [
+                        '<a href="'+obj.file+'" target="_blank">'+obj.file+'</a>',
+                        obj.uploaded.date
+                    ] ).draw( false );
+                    console.log(obj.file)
+                });
+            }
+            }
+        });
+    /* get deliveryPlaceChecks */
+    $.ajax( {
+        method: 'POST',
+        //url: '/customer/getfm/'+175,
+        url: '/deliverplace/getchecks/'+id,
+        dataType: 'json',
+        complete: function (data){
+            var checks = JSON.parse(data.responseText);
+            var checktable = $('#dpCheckTable').DataTable();
+            console.log(checks.length)
+            if (checks.length != 0) {
+                $('#dpChecksRow').show();
+                console.log(checks)
 
+                checks.forEach(function (obj) {
+                    checktable.row.add( [
+                        obj.datum.date,
+                        obj.wert
+                    ] ).draw( false );
+                    console.log(obj.file)
+                });
+            }
             }
         });
 
