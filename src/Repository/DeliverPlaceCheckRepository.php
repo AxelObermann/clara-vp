@@ -19,6 +19,14 @@ class DeliverPlaceCheckRepository extends ServiceEntityRepository
         parent::__construct($registry, DeliverPlaceCheck::class);
     }
 
+    public function getChecks($id){
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.deliveryPlace = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getArrayResult()
+            ;
+    }
     // /**
     //  * @return DeliverPlaceCheck[] Returns an array of DeliverPlaceCheck objects
     //  */
