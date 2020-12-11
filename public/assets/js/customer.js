@@ -1,7 +1,7 @@
 $( document ).ready(function() {
 
     $('#customerDetailClose').click(function () {
-        $('#uploadPath').val('/customers');
+        $('#uploadPath').val('/kundenindex');
         $('#uploadPathOld').val('');
         $('#customerDetail').toggleClass( 'slidePanel-show lvl1-sidePanel-show', 1000 );
         $('#customerIndexPanel').toggleClass( 'is-loading');
