@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\DeliverPlaceCheck;
+use App\Entity\UploadedFiles;
 use App\Repository\CustomerRepository;
 use App\Repository\DeliverPlaceCheckRepository;
 use App\Repository\DeliveryPlaceRepository;
+use App\Repository\UploadedFilesRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Env\Response;
@@ -93,7 +95,24 @@ class DeliverPlaceController extends AbstractController
      * @param Request $request
      * @Route ("deliverplace/getUploadedFiles/{id}")
      */
-    public function getUploadedFiles(Request $request){
-        dd($request);
+    public function getUploadedFiles(Request $request,UploadedFilesRepository $uploadedFilesRepository,DeliveryPlaceRepository $deliveryPlaceRepository){
+        //dd($request->get('id'));
+        $dplace = $deliveryPlaceRepository->find($request->get('id'));
+        $ufiles = $uploadedFilesRepository->getfiles($request->get('id'));
+        //dd($ufiles);
+        return new JsonResponse($ufiles);
+
+    }
+    /**
+     * @param Request $request
+     * @Route ("deliverplace/getchecks/{id}")
+     */
+    public function getChecks(Request $request,UploadedFilesRepository $uploadedFilesRepository,DeliveryPlaceRepository $deliveryPlaceRepository, DeliverPlaceCheckRepository $deliverPlaceCheckRepository){
+        //dd($request->get('id'));
+        $dplace = $deliveryPlaceRepository->find($request->get('id'));
+        $dpchecks = $deliverPlaceCheckRepository->getChecks($request->get('id'));
+        //dd($ufiles);
+        return new JsonResponse($dpchecks);
+
     }
 }
