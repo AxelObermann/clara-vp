@@ -50,7 +50,7 @@ class CustomerController extends AbstractController
 
 
     /**
-     * @Route("/customers", name="customers")
+     * @Route("/kundenindex", name="customers")
      */
     public function index(CustomerRepository $customerRepository,UserRepository $userRepository,EntityManagerInterface $entityManager)
     {
