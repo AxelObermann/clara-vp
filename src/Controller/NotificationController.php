@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Messages;
 use App\Entity\Notification;
 use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Env\Response;
+use http\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,9 +24,8 @@ class NotificationController extends AbstractController
     {
         $user = $userRepository->find($this->getUser());
         $tome = $notificationRepository->findBy(array('toUser'=> $user,'seen'=> 0), array('doneUntil'=>'DESC'));
-        //dd($tome);
         $fromMe = $notificationRepository->findBy(array('fromUser'=> $user,'seen'=> 0), array('doneUntil'=>'DESC'));
-        $allreadydone = $notificationRepository->findBy(array('seen'=> 1,'toUser'=> $user), array('doneUntil'=>'DESC'));
+        $allreadydone = $notificationRepository->findDoneTodos($user);
         return $this->render('notification/index.html.twig', [
             'tome' => $tome,
             'fromme' => $fromMe,
@@ -46,6 +47,7 @@ class NotificationController extends AbstractController
             'tome' => $tome,
         ]);
     }
+
     /**
      * @param Request $request
      * @Route ("/noticreatefromdashboard", name="noti_create_from_dashboard")
@@ -74,13 +76,28 @@ class NotificationController extends AbstractController
         return $this->redirect($request->headers->get('referer'));
     }
 
+
+
     /**
      * @param Request $request
      * @param UserRepository $userRepository
      * @param NotificationRepository $notificationRepository
      * @Route ("/createToDo", name="noti_create_global")
      */
-    public function createToDo(Request $request, UserRepository $userRepository, NotificationRepository $notificationRepository){
+    public function createToDo(Request $request, UserRepository $userRepository, NotificationRepository $notificationRepository,EntityManagerInterface $entityManager){
+        $sysUser = $userRepository->findOneBy(array('email' => 'system@system.com'));
+        $reciever = $userRepository->find($request->get('toUser'));
+        $message = new Messages();
+        $message->setCreated(new DateTime());
+        $message->setMessage("neues Todo");
+        $message->setMessageType(0);
+        $message->setSubject('neues Todo');
+        $message->setTransmitter($sysUser);
+        $message->setReceiver($reciever);
+        $message->setMarkRead(0);
+        $entityManager->persist($message);
+        $entityManager->flush();
+        dd($request);
         return $this->redirect($request->headers->get('referer'));
     }
 
