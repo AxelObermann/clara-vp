@@ -38,6 +38,17 @@ class NotificationRepository extends ServiceEntityRepository
 
         return $result;
     }
+
+    public function findDoneTodos($user){
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.toUser = :val')
+            ->orWhere('n.fromUser = :val')
+            ->setParameter('val', $user)
+            ->orderBy('n.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return Notification[] Returns an array of Notification objects
     //  */
