@@ -410,6 +410,11 @@ class DeliveryPlace
      */
     private $uploadedFiles;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $checkdate;
+
     public function __construct()
     {
         $this->notifications = new ArrayCollection();
@@ -1410,6 +1415,18 @@ class DeliveryPlace
                 $uploadedFile->setDeliveryPlace(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCheckdate(): ?\DateTimeInterface
+    {
+        return $this->checkdate;
+    }
+
+    public function setCheckdate(?\DateTimeInterface $checkdate): self
+    {
+        $this->checkdate = $checkdate;
 
         return $this;
     }
