@@ -20,18 +20,32 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
+    private $passwordEncoder;
 
-    public function __construct(string $uploadsPath,string  $uploadsDBPath){
+    public function __construct(string $uploadsPath,string  $uploadsDBPath,UserPasswordEncoderInterface $passwordEncoder){
 
         $this->uploadsPath = $uploadsPath;
         $this->uploadsDBPath = $uploadsDBPath;
+        $this->passwordEncoder = $passwordEncoder;
     }
+
     /**
      * @Route("/benutzerindex", name="benutzerindex")
      */
     public function index(UserService $userService)
     {
         $users = $userService->getAllUsers();
+        return $this->render('user/index.html.twig', [
+            'users' => $users
+        ]);
+    }
+
+    /**
+     * @Route("/mitarbeiterindex", name="mitarbeiterindex")
+     */
+    public function getChildUsers(UserService $userService)
+    {
+        $users = $userService->getChildUsers($this->getUser()->getId());
         return $this->render('user/index.html.twig', [
             'users' => $users
         ]);
