@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class UserService
@@ -21,6 +22,11 @@ class UserService
 
     public function getAllUsers(){
         $users = $this->em->getRepository(User::class)->findAll();
+        return $users;
+    }
+
+    public function getChildUsers($id){
+        $users = $this->em->getRepository(User::class)->findBy(array('parentID' => $id));
         return $users;
     }
 }
