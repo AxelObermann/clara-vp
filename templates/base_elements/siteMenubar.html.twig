@@ -51,16 +51,18 @@
 					</li>
 				</ul>
 			</li>
-		{% endif %}
-		{% if is_granted('ROLE_ADMIN') %}
 			<li class="site-menu-item {% if app.request.pathinfo  == path("benutzerindex")  %} active {% endif %}">
 				<a class="animsition-link" href="{{ path("benutzerindex") }}">
 					<i class="site-menu-icon icon md-pin-account" aria-hidden="true"></i>
 					<span class="site-menu-title">Benutzer</span>
 				</a>
 			</li>
-		{% endif %}
-		{% if is_granted('ROLE_PORTAL_USER') %}
+			<li class="site-menu-item{% if 'customer' in app.request.pathinfo %} active {% endif %}">
+				<a class="animsition-link" href="{{ path('mitarbeiterindex') }}">
+					<i class="site-menu-icon icon md-pin-account" aria-hidden="true"></i>
+					<span class="site-menu-title"> Benutzer</span>
+				</a>
+			</li>
 			<li class="site-menu-item{% if 'customer' in app.request.pathinfo %} active {% endif %}">
 				<a class="animsition-link" href="{{ path('customers') }}">
 					<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>
@@ -73,8 +75,60 @@
 					<span class="site-menu-title">Kalender</span>
 				</a>
 			</li>
-		{% endif %}
-		{% if is_granted('ROLE_FACILITY_MANAGER') %}
+			
+		{% elseif is_granted('ROLE_ADMIN') %}
+		
+			<li class="site-menu-item {% if app.request.pathinfo  == path("benutzerindex")  %} active {% endif %}">
+				<a class="animsition-link" href="{{ path("benutzerindex") }}">
+					<i class="site-menu-icon icon md-pin-account" aria-hidden="true"></i>
+					<span class="site-menu-title">Benutzer</span>
+				</a>
+			</li>
+			<li class="site-menu-item {% if app.request.pathinfo  == path("benutzerindex")  %} active {% endif %}">
+				<a class="animsition-link" href="{{ path("benutzerindex") }}">
+					<i class="site-menu-icon icon md-pin-account" aria-hidden="true"></i>
+					<span class="site-menu-title">Benutzer</span>
+				</a>
+			</li>
+			<li class="site-menu-item{% if 'customer' in app.request.pathinfo %} active {% endif %}">
+				<a class="animsition-link" href="{{ path('customers') }}">
+					<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>
+					<span class="site-menu-title"> Kunden</span>
+				</a>
+			</li>
+			<li class="site-menu-item{% if app.request.pathinfo  == path("calendar")  %} active {% endif %}">
+				<a class="animsition-link" href="{{ path("calendar")}}">
+					<i class="site-menu-icon icon md-calendar" aria-hidden="true"></i>
+					<span class="site-menu-title">Kalender</span>
+				</a>
+			</li>
+		{% elseif is_granted('ROLE_PORTAL_USER') %}
+		
+			<li class="site-menu-item{% if 'customer' in app.request.pathinfo %} active {% endif %}">
+				<a class="animsition-link" href="{{ path('mitarbeiterindex') }}">
+					<i class="site-menu-icon icon md-pin-account" aria-hidden="true"></i>
+					<span class="site-menu-title"> Benutzer</span>
+				</a>
+			</li>
+			<li class="site-menu-item{% if 'customer' in app.request.pathinfo %} active {% endif %}">
+				<a class="animsition-link" href="{{ path('customers') }}">
+					<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>
+					<span class="site-menu-title"> Kunden</span>
+				</a>
+			</li>
+			<li class="site-menu-item{% if app.request.pathinfo  == path("calendar")  %} active {% endif %}">
+				<a class="animsition-link" href="{{ path("calendar")}}">
+					<i class="site-menu-icon icon md-calendar" aria-hidden="true"></i>
+					<span class="site-menu-title">Kalender</span>
+				</a>
+			</li>
+		{% elseif is_granted('ROLE_FACILITY_MANAGER') %}
+			<li class="site-menu-item{% if 'customer' in app.request.pathinfo %} active {% endif %}">
+				<a class="animsition-link" href="{{ path('mitarbeiterindex') }}">
+					<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>
+					<span class="site-menu-title"> Benutzer</span>
+				</a>
+			</li>
 			<li class="site-menu-item{% if 'customer' in app.request.pathinfo %} active {% endif %}">
 				<a class="animsition-link" href="{{ path('customers') }}">
 					<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>
