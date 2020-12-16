@@ -106,6 +106,7 @@
 	
 	
 	
+	
 	<div class="modal fade modal-3d-slit" id="todoModal" aria-hidden="true"
 		 aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
 		<div class="modal-dialog modal-simple">
@@ -139,6 +140,55 @@
 		</div>
 	</div>
 	
+	<div class="modal fade modal-3d-slit" id="todoModalGlobal" aria-hidden="true"
+		 aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
+		<div class="modal-dialog modal-simple">
+			<div class="modal-content clara-modal-content">
+				<form method="post" action="{{ path("noti_create_global") }}">
+					<div class="modal-header clara-modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+						<h4 class="modal-title clara-modal-title"><i class="icon md-notifications" aria-hidden="true" style="font-size: 25px"></i> Neues Todo anlegen</h4>
+					</div>
+					<div class="modal-body clara-modal-body">
+						<div class="form-group">
+							<span class="text-help">Nachricht</span>
+							<textarea rows="3" name="Gtext" cols="70" placeholder="hier Text eingeben" required></textarea>
+						</div>
+						<div class="form-group">
+							<span class="text-help">Typ</span>
+							<select name="GnotiType" class="selectpicker">
+								<option value="5">welcher Typ</option>
+								<option value="1">Anrufen</option>
+								<option value="2">Termin vereinbaren</option>
+								<option value="3">Angebot unterbreiten</option>
+								<option value="4">Ablesung</option>
+								<option value="5">Sonstige Wiedervorlage</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<span class="text-help">Für welchen Benutzer?</span>
+							<select name="toUser" class="selectpicker">
+								{% for benutzer in users %}
+									<option value="{{ benutzer.id }}"{% if benutzer == app.user %} selected {% endif %}>{{ benutzer.displayName }} | {{ benutzer.email }} </option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="form-group">
+							<span class="text-help">Bis wann erledigen?</span>
+							<input type="text" required name="Gtodate" class="datepicker" data-plugin="datepicker" placeholder="erledigen bis.">
+						</div>
+						<input type="hidden" name="GuserId" id="userId" value=""/>
+					</div>
+					<div class="modal-footer">
+						<button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
+						<button type="submit" class="btn btn-warning">Speichern</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	
 	<script>
 		
