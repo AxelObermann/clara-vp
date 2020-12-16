@@ -85,7 +85,8 @@ class DeliverPlaceController extends AbstractController
         $check->setDatum(new \DateTime($rp['checkdate']));
         $check->setWert($rp['checkwert']);
         $check->setDeliveryPlace($deplace);
-        $entityManager->persist($check);
+        $deplace->setCheckdate($check->getDatum());
+        $entityManager->persist($check,$deplace);
         $entityManager->flush();
         $message = "Die Daten wurden übernommen!";
         return new JsonResponse($message);
