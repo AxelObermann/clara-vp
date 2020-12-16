@@ -279,8 +279,9 @@ function getCustomerKdl(id){
                 console.log(checks)
 
                 checks.forEach(function (obj) {
+                    var cd = new Date(obj.datum.date);
                     checktable.row.add( [
-                        obj.datum.date,
+                        cd.getDate()+"."+cd.getMonth()+"."+cd.getFullYear(),
                         obj.wert
                     ] ).draw( false );
                     console.log(obj.file)
@@ -422,7 +423,11 @@ function getCustomerWithAdress(id,test){
                 .draw();
             if (kdls.length != 0){
                 console.log(testrole);
+
                 kdls.forEach(function(obj) {
+                    var cd = new Date(obj.checkdate.date);
+                    console.log(cd.getDate())
+                    cdday = cd.getDate();
                     if (test){
                         aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>' +
                             '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>';
@@ -447,6 +452,7 @@ function getCustomerWithAdress(id,test){
                         obj.Verbrauch,
                         obj.Versorger,
                         obj.Zaehlernummer,
+                        cd.getDate()+"."+cd.getMonth()+"."+cd.getFullYear(),
                         aktionCell
 
                 ] ).draw( false );
