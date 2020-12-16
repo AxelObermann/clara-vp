@@ -6,6 +6,7 @@ use App\Entity\Profile;
 use App\Entity\UploadedFiles;
 use App\Entity\User;
 use App\Repository\DeliveryPlaceRepository;
+use App\Repository\MessagesRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
 use App\Service\UploaderHelper;
@@ -56,23 +57,27 @@ class DefaultController extends AbstractController
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard(UserRepository $userRepository, NotificationRepository $notificationRepository)
+    public function dashboard(MessagesRepository $messagesRepository,UserRepository $userRepository, NotificationRepository $notificationRepository)
     {
+        //dd($this->getUser()->getRoles());
         $this->session->set('userImage', $this->getUser()->getProfile()->getImage());
         $loggedUser = $this->getUser();
         $users = $userRepository->findAll();
         $notifications = $notificationRepository->findTodayNotifications($loggedUser);
         $allNotifications = $notificationRepository->findBy(['toUser' => $loggedUser]);
-
+        $messages = $messagesRepository->findBy(array('receiver' => $loggedUser,'markRead'=>0));
         if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_PORTAL_USER')){
             return $this->render('default/dashboard.html.twig',[
                 'users' => $users,
                 'loggeduser' => $loggedUser,
                 'notifications' => $notifications,
+                'messages' => $messages,
                 'allNotifications' => $allNotifications,
             ]);
-        }elseif ($this->isGranted('ROLE_FACILITY')){
-            return $this->redirectToRoute('facilityDashboard');
+        }elseif ($this->isGranted('ROLE_FACILITY_MANAGER')){
+            return $this->redirectToRoute('facilityDashboard',[
+                'messages' => $messages,
+            ]);
         }
         //dd($notifications);
         return $this->render('default/dashboard.html.twig',[
@@ -132,7 +137,7 @@ class DefaultController extends AbstractController
         }else{
             $test = $uploaderHelper->uploadAjaxFile($uploadedFile, $request->request->get('uploadPath'));
         }
-//        dd($uploadedFile);
+        //dd($request->request->get('uploadPath')."/".$test);
 //        return $this->redirect($request->headers->get('referer'));
         return new JsonResponse($test);
     }
