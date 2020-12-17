@@ -21,12 +21,12 @@ class UserService
     }
 
     public function getAllUsers(){
-        $users = $this->em->getRepository(User::class)->findAll();
+        $users = $this->em->getRepository(User::class)->findBy(array('deleted' => 0));
         return $users;
     }
 
     public function getChildUsers($id){
-        $users = $this->em->getRepository(User::class)->findBy(array('parentID' => $id));
+        $users = $this->em->getRepository(User::class)->findBy(array('parentID' => $id,'deleted' => 0));
         return $users;
     }
 }
