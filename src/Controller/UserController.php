@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
@@ -262,5 +263,17 @@ class UserController extends AbstractController
             'users' => $users
             ]
         );
+    }
+
+    /**
+     * @param UserRepository $userRepository
+     * @param Request $request
+     * @Route ("/user/delete/{id}" , name="user_delete")
+     */
+    public function userDelete(UserRepository $userRepository,Request $request,EntityManagerInterface $entityManager){
+        $userToDelete = $userRepository->find($request->get('id'));
+        $userToDelete->setDeleted(true);
+        $entityManager->flush();
+        return new JsonResponse('Der Benutzer wurde gelöscht');
     }
 }
