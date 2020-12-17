@@ -88,6 +88,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Der Benutzer ist nich Aktiviert wenden Sie sich an den Administrator.');
         }
+        if ($user->getDeleted() == true) {
+            // fail authentication with a custom error
+            throw new CustomUserMessageAuthenticationException('Der Benutzer ist gelöscht wenden Sie sich an den Administrator.');
+        }
+
         return $user;
     }
 
