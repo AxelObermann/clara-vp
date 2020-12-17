@@ -84,6 +84,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             throw new CustomUserMessageAuthenticationException('Email could not be found.');
         }
 
+        if ($user->getActive() == false) {
+            // fail authentication with a custom error
+            throw new CustomUserMessageAuthenticationException('Der Benutzer ist nich Aktiviert wenden Sie sich an den Administrator.');
+        }
         return $user;
     }
 
@@ -107,6 +111,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     protected function getLoginUrl()
     {
+
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 }
