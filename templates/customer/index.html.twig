@@ -28,7 +28,7 @@
                 <thead>
                 <tr>
                     <th style="width:50px">Benutzer</th>
-                    <th style="width:350px">Name</th>
+                    <th style="width:300px">Name</th>
                     <th style="width:30px">Lieferstellen</th>
                     <th style="width:200px">Telefon</th>
                     <th style="width:230px">Mail</th>
@@ -50,7 +50,7 @@
                         <td>{{ customer.town }}</td>
                         <td>
                             <a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerWithAdress({{ customer.id }}, {% if 'show_deleted' in app.request.pathinfo %} 1 {% else %} 0 {% endif %})" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-26" aria-hidden="true"></i></a>
-                            {% if is_granted('ROLE_ADMIN') %}<a href="#" data-toggle="tooltip" data-original-title="Remove" onclick="deleteCustomer({{ customer.id }})"><i class="icon md-delete danger text-danger font-size-26" aria-hidden="true"></i></a>{% endif %}
+                            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" data-toggle="tooltip" data-original-title="Remove" onclick="deleteCustomer({{ customer.id }})"><i class="icon md-delete danger text-danger font-size-26" aria-hidden="true"></i></a>{% endif %}
                             {#  {% if is_granted('ROLE_PORTAL_ADMIN') %}<a href="/customer/importkdls/{{ customer.old_id }}" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="tooltip" data-original-title="Import Kdls"><i class="icon md-link" aria-hidden="true" style="font-size: 26px;"></i></a>{% endif %}#}
                         </td>
                     </tr>
@@ -65,7 +65,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title"><i class="site-menu-icon icon fa-users" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Kunde: <span id="CustomerTitle"></span></h3>
                 <div class="panel-actions">
-                    {% if is_granted('ROLE_ADMIN') %}<a class="panel-action" id="customerSave" data-toggle="tooltip" data-original-title="Speichern" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>{% endif %}
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a class="panel-action" id="customerSave" data-toggle="tooltip" data-original-title="Speichern" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>{% endif %}
                     <a class="panel-action" id="customerDetailClose" data-toggle="panel-close" aria-hidden="true"><i class="icon md-close text-white font-size-26" aria-hidden="true"></i></a>
                 </div>
             </div>
@@ -223,9 +223,11 @@
                 <h3 class="panel-title">
                     <i class="site-menu-icon icon fa-map-marker" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Lieferstelle: <span id="deliveryPlaceTitle"></span></h3>
                 <div class="panel-actions">
-                    {% if is_granted('ROLE_ADMIN') %}<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="" data-toggle="tooltip" data-original-title="neuer Vertrag"><i class="icon md-copy success text-info font-size-26" aria-hidden="true"></i></a>
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="" data-toggle="tooltip" data-original-title="neuer Vertrag"><i class="icon md-copy success text-info font-size-26" aria-hidden="true"></i></a>
                         <a class="panel-action" id="deliveryModalButton" data-toggle="modal" data-target="#newCheckModal" aria-hidden="true" data-toggle="tooltip" data-original-title="neue Ablseung"><i class="icon fa-files-o text-white font-size-26" aria-hidden="true"></i></a>
                         <a class="panel-action" id="customerDeliversPlaceSave" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>
+                    {% elseif is_granted('ROLE_FACILITY_MANAGER') %}
+                        <a class="panel-action" id="deliveryModalButton" data-toggle="modal" data-target="#newCheckModal" aria-hidden="true" data-toggle="tooltip" data-original-title="neue Ablseung"><i class="icon fa-files-o text-white font-size-26" aria-hidden="true"></i></a>
                     {% endif %}
                     <a class="panel-action" id="customerDeliversPlaceClose" data-toggle="panel-close" aria-hidden="true"><i class="icon md-close text-white font-size-26" aria-hidden="true"></i></a>
                 </div>
@@ -516,7 +518,7 @@
                                                                     <div class="form-group-sm" id="kdlFacilityUserSelectWrap" style="display: none">
                                                                         <span class="text-help-sm">Zugewieserner Mitarbeiter</span>
                                                                         <select data-style="warning" class="text-white" name="facilityUserId" id="facUserSelect" data-plugin="selectpicker">
-                                    
+                                                                        
                                                                         </select>
                                 
                                                                     </div>

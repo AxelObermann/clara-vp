@@ -168,12 +168,27 @@
 							</select>
 						</div>
 						<div class="form-group">
+							{% if is_granted('ROLE_PORTAL_ADMIN') or is_granted('ROLE_ADMIN') %}
 							<span class="text-help">Für welchen Benutzer?</span>
 							<select name="toUser" class="selectpicker">
 								{% for benutzer in users %}
 									<option value="{{ benutzer.id }}"{% if benutzer == app.user %} selected {% endif %}>{{ benutzer.displayName }} | {{ benutzer.email }} </option>
 								{% endfor %}
 							</select>
+							{% elseif is_granted('ROLE_FACILITY_MANAGER') %}
+								<span class="text-help">Für welchen Benutzer?</span>
+								<select name="toUser" class="selectpicker">
+									{% for benutzer in users %}
+										{% if benutzer.parentID == app.user.id %}
+											<option value="{{ benutzer.id }}"{% if benutzer == app.user %} selected {% endif %}>{{ benutzer.displayName }} | {{ benutzer.email }} </option>
+										{% endif %}
+									{% endfor %}
+									
+								</select>
+							
+							{% else %}
+								<input name="toUser" value="{{ app.user.id }}">
+							{% endif %}
 						</div>
 						<div class="form-group">
 							<span class="text-help">Bis wann erledigen?</span>
