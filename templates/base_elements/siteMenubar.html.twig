@@ -65,7 +65,8 @@
 			</li>
 			<li class="site-menu-item{% if 'customer' in app.request.pathinfo %} active {% endif %}">
 				<a class="animsition-link" href="{{ path('customers') }}">
-					<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>
+					<img src="{{ asset('assets/images/Icons/Kunden.svg') }}" style="width: 31px">
+					<!--<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>-->
 					<span class="site-menu-title"> Kunden</span>
 				</a>
 			</li>
@@ -92,7 +93,8 @@
 			</li>
 			<li class="site-menu-item{% if 'customer' in app.request.pathinfo %} active {% endif %}">
 				<a class="animsition-link" href="{{ path('customers') }}">
-					<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>
+					<img src="{{ asset('assets/images/Icons/Kunden.svg') }}" style="width: 31px">
+					<!--<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>-->
 					<span class="site-menu-title"> Kunden</span>
 				</a>
 			</li>
@@ -125,7 +127,7 @@
 		{% elseif is_granted('ROLE_FACILITY_MANAGER') %}
 			<li class="site-menu-item{% if 'customer' in app.request.pathinfo %} active {% endif %}">
 				<a class="animsition-link" href="{{ path('mitarbeiterindex') }}">
-					<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>
+					<i class="site-menu-icon icon md-pin-account" aria-hidden="true"></i>
 					<span class="site-menu-title"> Benutzer</span>
 				</a>
 			</li>
