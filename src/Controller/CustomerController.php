@@ -8,6 +8,7 @@ use App\Entity\DeliveryPlace;
 use App\Entity\Notification;
 use App\Repository\AdressRepository;
 use App\Repository\CustomerRepository;
+use App\Repository\DeliverPlaceCheckRepository;
 use App\Repository\DeliveryPlaceRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
@@ -307,6 +308,20 @@ class CustomerController extends AbstractController
         $entityManager->flush();
         //$kdls = $deliveryPlaceRepository->getKdls($id);
         return new JsonResponse('Die Lieferstelle wurde gelöscht wurde gelöscht.');
+    }
+
+    /**
+     * @param $id
+     * @param CustomerRepository $customerRepository
+     * @param DeliveryPlaceRepository $deliveryPlaceRepository
+     * @Route ("/customer/deleteDPCheck/{id}")
+     */
+    public function deleteDeliveryPlaceCheck($id, CustomerRepository $customerRepository,DeliverPlaceCheckRepository $deliverPlaceCheckRepository,EntityManagerInterface $entityManager){
+        $dp = $deliverPlaceCheckRepository->find($id);
+        $dp->setDeleted(true);
+        $entityManager->flush();
+        //$kdls = $deliveryPlaceRepository->getKdls($id);
+        return new JsonResponse('Die Ablesung wurde gelöscht wurde gelöscht.');
     }
 
 

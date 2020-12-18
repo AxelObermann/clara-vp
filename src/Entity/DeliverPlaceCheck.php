@@ -43,6 +43,11 @@ class DeliverPlaceCheck
      */
     private $updated;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $deleted;
+
 
     public function getId(): ?int
     {
@@ -105,6 +110,18 @@ class DeliverPlaceCheck
     public function setUpdated(?\DateTimeInterface $updated): self
     {
         $this->updated = $updated;
+
+        return $this;
+    }
+
+    public function getDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(?bool $deleted): self
+    {
+        $this->deleted = $deleted;
 
         return $this;
     }

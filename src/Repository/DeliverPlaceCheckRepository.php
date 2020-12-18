@@ -22,6 +22,7 @@ class DeliverPlaceCheckRepository extends ServiceEntityRepository
     public function getChecks($id){
         return $this->createQueryBuilder('d')
             ->andWhere('d.deliveryPlace = :val')
+            ->andWhere('d.deleted = 0')
             ->setParameter('val', $id)
             ->getQuery()
             ->getArrayResult()
