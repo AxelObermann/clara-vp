@@ -204,7 +204,15 @@ function getCustomerKdl(id){
             $('#GP').val(kdl[0].GP);
             $('#Vertragsbeginn').val(kdl[0].Vertragsbeginn.date);
             $('#Dauer').val(kdl[0].Dauer);
-            $('#stab').val(kdl[0].stab.date);
+
+            if (kdl[0].stab){
+
+                var cd = new Date(kdl[0].stab.date);
+                monat= cd.getMonth()+1;
+                $('#stab').val(cd.getDate()+"."+monat+"."+cd.getFullYear());
+            }else{
+                $('#stab').val('');
+            }
             //console.log($.datepicker.formatDate('yy-mm-dd', new Date()))
             //console.log(kdl[0]);
         }});
@@ -280,8 +288,9 @@ function getCustomerKdl(id){
 
                 checks.forEach(function (obj) {
                     var cd = new Date(obj.datum.date);
+                    monat =cd.getMonth()+1;
                     checktable.row.add( [
-                        cd.getDate()+"."+cd.getMonth()+"."+cd.getFullYear(),
+                        cd.getDate()+"."+monat+"."+cd.getFullYear(),
                         obj.wert
                     ] ).draw( false );
                     console.log(obj.file)
@@ -425,9 +434,16 @@ function getCustomerWithAdress(id,test){
                 console.log(testrole);
 
                 kdls.forEach(function(obj) {
-                    var cd = new Date(obj.checkdate.date);
-                    console.log(cd.getDate())
-                    cdday = cd.getDate();
+                    if (obj.checkdate){
+                        console.log("*****"+obj.checkdate)
+                        var cd = new Date(obj.checkdate.date);
+                        monat = cd.getMonth()+1;
+                        checkcell = cd.getDate()+"."+monat+"."+cd.getFullYear();
+                        cdday = cd.getDate();
+                    }else{
+                        checkcell='';
+                    }
+
                     if (test){
                         aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>' +
                             '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>';
@@ -452,7 +468,7 @@ function getCustomerWithAdress(id,test){
                         obj.Verbrauch,
                         obj.Versorger,
                         obj.Zaehlernummer,
-                        cd.getDate()+"."+cd.getMonth()+"."+cd.getFullYear(),
+                        checkcell,
                         aktionCell
 
                 ] ).draw( false );
