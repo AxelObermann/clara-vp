@@ -32,6 +32,7 @@
 			<div class="form-group">
 				<span class="text-help">Rollen</span>
 				<select id="UserRoleSelect" data-plugin="selectpicker" multiple name="rollen[]">
+					<option value="ROLE_USER" >Bitte auswählen</option>
 					<option value="ROLE_ADMIN" >ROLE_ADMIN</option>
 					<option value="ROLE_PORTAL_USER">ROLE_PORTAL_USER</option>
 					<option value="ROLE_FACILITY_MANAGER" >Verwalter</option>
@@ -46,6 +47,16 @@
 					{% endfor %}
 				</select>
 			</div>
+			{% else %}
+				<div class="form-group">
+					<span class="text-help">Rollen</span>
+					<select id="UserRoleSelect" data-plugin="selectpicker" name="rollen[]">
+						<option value="ROLE_USER" selected>Bitte auswählen</option>
+						<option value="ROLE_FACILITY_MANAGER" >Verwalter</option>
+						<option value="ROLE_FACILITY" >Ableser</option>
+					</select>
+				</div>
+				<input type="hidden" name="parentuser" value="{{ app.user.id }}">
 			{% endif %}
 		</div>
 		<div class="col-lg-8 col-md-8">
