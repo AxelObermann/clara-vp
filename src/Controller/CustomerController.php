@@ -11,6 +11,7 @@ use App\Repository\CustomerRepository;
 use App\Repository\DeliveryPlaceRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
+use App\Service\MessagesService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\String_;
@@ -73,23 +74,32 @@ class CustomerController extends AbstractController
 
             }elseif ($this->security->isGranted('ROLE_FACILITY_MANAGER')){
                 $test = null;
-                foreach ($user->getAllowedCustomer() as $cust){
-                    //dd($cust);
-                    $test .= $cust.",";
+                //dd($user->getAllowedCustomer());
+                if ($user->getAllowedCustomer() != null){
+                    foreach ($user->getAllowedCustomer() as $cust){
+                        //dd($cust);
+                        $test .= $cust.",";
+                    }
                 }
-                $test = substr($test,0,strlen($test)-1);
-                //dd($test);
-                $query = 'SELECT *, (SELECT count(*) FROM delivery_place WHERE delivery_place.customer_id=customer.id) as kdl FROM customer  INNER JOIN adress WHERE deleted=0 AND customer.id in ('.$test.')  AND customer.id = adress.customer_id AND adress.adresstype = "STAMM"';
-                $viewName = "admin";
+                if ($test==null){
+                    $query = "";
+                    $customers="";
+                }else{
+                    $test = substr($test,0,strlen($test)-1);
+                    //dd($test);
+                    $query = 'SELECT *, (SELECT count(*) FROM delivery_place WHERE delivery_place.customer_id=customer.id) as kdl FROM customer  INNER JOIN adress WHERE deleted=0 AND customer.id in ('.$test.')  AND customer.id = adress.customer_id AND adress.adresstype = "STAMM"';
+                    $viewName = "admin";
+                }
             }
-
-        $stmt =$conn->executeQuery($query);
-        $stmt->execute();
-
+        if ($query!="") {
+            $stmt = $conn->executeQuery($query);
+            $stmt->execute();
+            $customers = $stmt->fetchAllAssociative();
+        }
         //dd($stmt->fetchAllAssociative());
         return $this->render('customer/index.html.twig', [
             'controller_name' => $viewName,
-            'customers' => $stmt->fetchAllAssociative(),
+            'customers' => $customers,
             'users' => $users,
         ]);
     }
@@ -332,6 +342,7 @@ class CustomerController extends AbstractController
         //dd($request->get('id'));
 
         $fmuser = $userRepository->findFacilityManager($request->get('id'));
+        //dd($fmuser);
         if ($fmuser){
             return new JsonResponse($fmuser);
         }else{
@@ -472,12 +483,14 @@ class CustomerController extends AbstractController
      * @param DeliveryPlaceRepository $deliveryPlaceRepository
      * @Route ("/customer/sendTodo")
      */
-    public function sendManualTodo(CustomerRepository $customerRepository,Request $request,NotificationRepository $notificationRepository,UserRepository $userRepository,DeliveryPlaceRepository $deliveryPlaceRepository,EntityManagerInterface $entityManager){
+    public function sendManualTodo(MessagesService $messagesService,CustomerRepository $customerRepository,Request $request,NotificationRepository $notificationRepository,UserRepository $userRepository,DeliveryPlaceRepository $deliveryPlaceRepository,EntityManagerInterface $entityManager){
         $rp = [];
         if ($content = $request->getContent()) {
             $rp = json_decode($content, true);
         }
         //dd($rp);
+
+        $adusers = $userRepository->findAdminUsers();
         $fromUser = $userRepository->find($this->getUser()->getId());
         $toUser = $userRepository->find($rp['facilityUserId']);
         $customer = $customerRepository->find($rp['DPCustomerID']);
@@ -499,6 +512,16 @@ class CustomerController extends AbstractController
         $notification->setDoneUntil(new \DateTime($rp['doneUntil']));
         $entityManager->persist($notification);
         $entityManager->flush();
+        $test = $messagesService->sendAdminTodoControlMessage($notification);
         return new JsonResponse('Das Todo wurde angelegt!');
+    }
+
+    /**
+     * @param Request $request
+     * @Route ("/test")
+     */
+    public function test(NotificationRepository $notificationRepository,MessagesService $messagesService,Request $request, UserRepository $userRepository){
+        $noti = $notificationRepository->find(155);
+        $test = $messagesService->sendAdminTodoControlMessage($noti);
     }
 }

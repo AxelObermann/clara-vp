@@ -62,11 +62,11 @@ class DefaultController extends AbstractController
         //dd($this->getUser()->getRoles());
         $this->session->set('userImage', $this->getUser()->getProfile()->getImage());
         $loggedUser = $this->getUser();
-        $users = $userRepository->findAll();
+        $users = $userRepository->findBy(array('deleted' => false));
         $notifications = $notificationRepository->findTodayNotifications($loggedUser);
         $allNotifications = $notificationRepository->findBy(['toUser' => $loggedUser]);
         $messages = $messagesRepository->findBy(array('receiver' => $loggedUser,'markRead'=>0));
-        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_PORTAL_USER')){
+        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_PORTAL_USER') || $this->isGranted('ROLE_FACILITY_MANAGER') ){
             return $this->render('default/dashboard.html.twig',[
                 'users' => $users,
                 'loggeduser' => $loggedUser,
@@ -74,7 +74,7 @@ class DefaultController extends AbstractController
                 'messages' => $messages,
                 'allNotifications' => $allNotifications,
             ]);
-        }elseif ($this->isGranted('ROLE_FACILITY_MANAGER')){
+        }elseif ($this->isGranted('ROLE_FACILITY')){
             return $this->redirectToRoute('facilityDashboard',[
                 'messages' => $messages,
             ]);

@@ -89,7 +89,7 @@ class NotificationController extends AbstractController
         $reciever = $userRepository->find($request->get('toUser'));
         $message = new Messages();
         $message->setCreated(new DateTime());
-        $message->setMessage("neues Todo");
+        $message->setMessage($request->get('Gtext'));
         $message->setMessageType(0);
         $message->setSubject('neues Todo');
         $message->setTransmitter($sysUser);
