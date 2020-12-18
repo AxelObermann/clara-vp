@@ -22,7 +22,18 @@ class UserRepository extends ServiceEntityRepository
     public function findFacilityManager($id){
         return $this->createQueryBuilder('u')
             ->where('u.allowedCustomer LIKE :tag')
+
             ->setParameter('tag', '%"' . $id . '"%' )
+            ->getQuery()
+            ->getArrayResult();
+//            ->getResult();
+    }
+
+    public function findAdminUsers(){
+        return $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :tag')
+            ->andWhere('u.parentID < 9999')
+            ->setParameter('tag', '%"ROLE_ADMIN"%' )
             ->getQuery()
             ->getArrayResult();
 //            ->getResult();
