@@ -291,7 +291,8 @@ function getCustomerKdl(id){
                     monat =cd.getMonth()+1;
                     checktable.row.add( [
                         cd.getDate()+"."+monat+"."+cd.getFullYear(),
-                        obj.wert
+                        obj.wert,
+                        '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlaceCheck('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>'
                     ] ).draw( false );
                     console.log(obj.file)
                 });
@@ -371,6 +372,37 @@ function deleteDeliveryPlace(id){
         });
 
     } );
+
+}
+
+function deleteDeliveryPlaceCheck(id){
+    var dpCheckTable = $('#dpCheckTable').DataTable();
+    $('#dpCheckTable').on( 'click', 'tbody tr', function () {
+        var table = this;
+        var test = swal({
+            title: "Bist Du sicher?",
+            text: "Das Du die Ablesung löschen willst",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-warning",
+            confirmButtonText: 'Ja ich will!',
+            closeOnConfirm: false //closeOnCancel: false
+
+        }, function () {
+            var kdl ="";
+            $.ajax( {
+                method: 'POST',
+                url: '/customer/deleteDPCheck/'+id,
+                dataType: 'json',
+                complete: function (data){
+                    console.log('complete');
+                    kdl = JSON.parse(data.responseText);
+                    dpCheckTable.row($(table).closest("tr")) .remove().draw();
+                    swal("Gelöscht", kdl, "success");
+                }});
+
+        });
+    });
 
 }
 
