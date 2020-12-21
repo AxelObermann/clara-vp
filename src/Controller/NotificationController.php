@@ -85,19 +85,35 @@ class NotificationController extends AbstractController
      * @Route ("/createToDo", name="noti_create_global")
      */
     public function createToDo(Request $request, UserRepository $userRepository, NotificationRepository $notificationRepository,EntityManagerInterface $entityManager){
+       //dd($request);
         $sysUser = $userRepository->findOneBy(array('email' => 'system@system.com'));
         $reciever = $userRepository->find($request->get('toUser'));
-        $message = new Messages();
-        $message->setCreated(new DateTime());
-        $message->setMessage($request->get('Gtext'));
-        $message->setMessageType(0);
-        $message->setSubject('neues Todo');
-        $message->setTransmitter($sysUser);
-        $message->setReceiver($reciever);
-        $message->setMarkRead(0);
-        $entityManager->persist($message);
+        $loggedUser = $this->getUser();
+        if ($reciever != $loggedUser){
+            $message = new Messages();
+            $message->setCreated(new DateTime());
+            $message->setMessage($request->get('Gtext'));
+            $message->setMessageType(0);
+            $message->setSubject('neues Todo');
+            $message->setTransmitter($sysUser);
+            $message->setReceiver($reciever);
+            $message->setMarkRead(0);
+            $entityManager->persist($message);
+            $entityManager->flush();
+        }
+        $noti = new Notification();
+        $noti->setCreatedAt(new DateTime())
+            ->setUpdatedAt(new DateTime())
+            ->setFromUser($loggedUser)
+            ->setToUser($reciever)
+            ->setDone(false)
+            ->setDescription($request->get('Gtext'))
+            ->setText('neues Todo')
+            ->setType($request->get('GnotiType'))
+            ->setDoneUntil(new DateTime($request->get('Gtodate')))
+            ->setLink($request->headers->get('referer'));
+        $entityManager->persist($noti);
         $entityManager->flush();
-        dd($request);
         return $this->redirect($request->headers->get('referer'));
     }
 
