@@ -292,7 +292,8 @@ function getCustomerKdl(id){
                     checktable.row.add( [
                         cd.getDate()+"."+monat+"."+cd.getFullYear(),
                         obj.wert,
-                        '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlaceCheck('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>'
+                        '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlaceCheck('+obj.id+')" data-toggle="tooltip" data-original-title="Löschen"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>'+
+                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="editDPC('+obj.id+')" data-toggle="tooltip" data-original-title="Bearbeiten"><i class="icon md-edit danger text-success font-size-20" aria-hidden="true"></i></a>'
                     ] ).draw( false );
                     console.log(obj.file)
                 });
@@ -304,7 +305,27 @@ function getCustomerKdl(id){
     $('#customerDeliversPlace').toggleClass( 'slidePanel-show lvl2-sidePanel-show', 1000 );
     //console.log(id);
 }
+function editDPC(id,wert,datum){
+    console.log('edit')
+    $.ajax( {
+        method: 'POST',
+        //url: '/customer/getfm/'+175,
+        url: '/deliverplace/getsinglecheck/'+id,
+        dataType: 'json',
+        complete: function (data){
+            var checks = JSON.parse(data.responseText);
+            if (checks.length != 0) {
+                checks.forEach(function (obj) {
+                    $("#edpcid").val(obj.id);
+                    $("#echeckwert").val(obj.wert);
+                    $("#echeckdate").val(obj.datum.date);
+                    $("#editCheckModal").modal('show');
+                });
 
+            }
+        }
+    });
+}
 function deleteCustomer(id){
 
     var customerTable = $('#customerTable').DataTable();
