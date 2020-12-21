@@ -74,9 +74,14 @@ class DeliverPlaceController extends AbstractController
      */
     public function addNewCheck(DeliveryPlaceRepository $deliveryPlaceRepository, DeliverPlaceCheckRepository $checkRepository,Request $request,EntityManagerInterface $entityManager){
         $rp = [];
+
         $message="";
         if ($content = $request->getContent()) {
             $rp = json_decode($content, true);
+        }
+
+        if ($rp['dpcid'] != ""){
+            dd($rp['dpcid']);
         }
         $user = $this->getUser();
         $deplace = $deliveryPlaceRepository->find($rp['dlcheckid']);
@@ -84,6 +89,7 @@ class DeliverPlaceController extends AbstractController
         $check->setCreated(new \DateTime());
         $check->setDatum(new \DateTime($rp['checkdate']));
         $check->setWert($rp['checkwert']);
+        $check->setDeleted(false);
         $check->setDeliveryPlace($deplace);
         $deplace->setCheckdate($check->getDatum());
         $entityManager->persist($check,$deplace);
@@ -104,6 +110,7 @@ class DeliverPlaceController extends AbstractController
         return new JsonResponse($ufiles);
 
     }
+
     /**
      * @param Request $request
      * @Route ("deliverplace/getchecks/{id}")
@@ -115,5 +122,41 @@ class DeliverPlaceController extends AbstractController
         //dd($ufiles);
         return new JsonResponse($dpchecks);
 
+    }
+
+    /**
+     * @param Request $request
+     * @Route ("deliverplace/getsinglecheck/{id}")
+     */
+    public function getSingleCheck(Request $request,UploadedFilesRepository $uploadedFilesRepository,DeliveryPlaceRepository $deliveryPlaceRepository, DeliverPlaceCheckRepository $deliverPlaceCheckRepository){
+        //dd($request->get('id'));
+        $dpchecks = $deliverPlaceCheckRepository->getSingleCheck($request->get('id'));
+        //dd($dpchecks);
+        return new JsonResponse($dpchecks);
+
+    }
+
+    /**
+     * @param Request $request
+     * @param DeliverPlaceCheckRepository $deliverPlaceCheckRepository
+     * @param EntityManagerInterface $entityManager
+     * @Route ("deliverplace/save")
+     */
+    public function dpCheckSave(Request $request, DeliverPlaceCheckRepository $deliverPlaceCheckRepository,DeliveryPlaceRepository $deliveryPlaceRepository,EntityManagerInterface $entityManager){
+
+        $rp = [];
+
+        $message="";
+        if ($content = $request->getContent()) {
+            $rp = json_decode($content, true);
+        }
+        $dpc = $deliverPlaceCheckRepository->find($rp['edpcid']);
+        $dpc->setWert($rp['echeckwert'])
+            ->setDatum(new \DateTime($rp['echeckdate']));
+        $dp = $deliveryPlaceRepository->find($dpc->getDeliveryPlace());
+        $dp->setCheckdate(new \DateTime($rp['echeckdate']));
+        $entityManager->flush();
+        $message = "Die Daten wurden übernommen!";
+        return new JsonResponse($message);
     }
 }
