@@ -697,6 +697,7 @@
         <div class="modal-dialog modal-simple">
             <div class="modal-content clara-modal-content">
                 <form method="post" action="" id="deliveryCheckForm">
+					<input type="hidden" name="dpcid" id="dpcid" value="">
                     <div class="modal-header clara-modal-header">
                         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
@@ -713,6 +714,35 @@
                             <input type="text" required name="checkdate" id="checkdate" class="datepicker" data-plugin="datepicker" placeholder="Abgelesen am:">
                         </div>
                             <input type="hidden" name="dlcheckid" id="dlcheckid" value=""/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" class="btn btn-warning">Speichern</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade modal-3d-slit" id="editCheckModal" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple">
+            <div class="modal-content clara-modal-content">
+                <form method="post" action="" id="editDeliveryCheckForm">
+					<input type="hidden" name="edpcid" id="edpcid" value="">
+                    <div class="modal-header clara-modal-header">
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title clara-modal-title"><i class="icon fa-files-o" aria-hidden="true" style="font-size: 25px"></i> Ablesung bearbeiten</h4>
+                    </div>
+                    <div class="modal-body clara-modal-body">
+                        <div class="form-group">
+                            <span class="text-help">Abgelesener Wert</span>
+                            <input type="text" required name="echeckwert" id="echeckwert" placeholder="hier Text eingeben">
+                        </div>
+                        <div class="form-group">
+                            <span class="text-help">Ablesedatum</span>
+                            <input type="text" required name="echeckdate" id="echeckdate" class="datepicker" data-plugin="datepicker" placeholder="Abgelesen am:">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
@@ -790,6 +820,36 @@
                 }
             });
             
+        });
+
+        $( "#editCheckModal" ).submit(function( event ) {
+    
+            event.preventDefault();
+            $( "#dlcheckid" ).val($( "#dpId" ).val());
+            var myForm = document.getElementById('editDeliveryCheckForm');
+            var formData = new FormData(myForm),
+                    result = {};
+    
+            for (var entry of formData.entries())
+            {
+                result[entry[0]] = entry[1];
+            }
+            result = JSON.stringify(result)
+            $.ajax({
+                url: "{{ path('app_deliverplace_dpchecksave') }}",
+                type: "POST",
+                data:result,
+                contentType: "application/json",
+                complete: function (data){
+                    //console.log(data.responseText)
+                    $( "#editCheckModal" ).modal('hide');
+                    $( "#echeckwert" ).val('')
+                    $( "#echeckdate" ).val('')
+                    $( "#edpcid" ).val('')
+                    toastr['success'](JSON.parse(data.responseText));
+                }
+            });
+    
         });
     </script>
     <script src="/assets/js/customer.js"></script>
