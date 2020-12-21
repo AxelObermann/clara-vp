@@ -292,8 +292,7 @@ function getCustomerKdl(id){
                     checktable.row.add( [
                         cd.getDate()+"."+monat+"."+cd.getFullYear(),
                         obj.wert,
-                        '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlaceCheck('+obj.id+')" data-toggle="tooltip" data-original-title="Löschen"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>'+
-                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="editDPC('+obj.id+')" data-toggle="tooltip" data-original-title="Bearbeiten"><i class="icon md-edit danger text-success font-size-20" aria-hidden="true"></i></a>'
+                        '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="editDPC('+obj.id+')" data-toggle="tooltip" data-original-title="Bearbeiten"><i class="icon md-edit danger text-success font-size-20" aria-hidden="true"></i></a><a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlaceCheck('+obj.id+')" data-toggle="tooltip" data-original-title="Löschen"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>'
                     ] ).draw( false );
                     console.log(obj.file)
                 });
