@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Notification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use DateInterval;
 
 /**
  * @method Notification|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,7 +25,7 @@ class NotificationRepository extends ServiceEntityRepository
          //dd($user->getId());
         $date = new \Datetime;
         $from = new \DateTime($date->format("Y-m-d")." 00:00:00");
-        $to   = new \DateTime($date->format("Y-m-d")." 23:59:59");
+        $to   = new \DateTime($date->add(new DateInterval('P3D'))->format("Y-m-d")." 23:59:59");
 
         $qb = $this->createQueryBuilder("e");
         $qb
