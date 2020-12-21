@@ -28,6 +28,15 @@ class DeliverPlaceCheckRepository extends ServiceEntityRepository
             ->getArrayResult()
             ;
     }
+
+    public function getSingleCheck($id){
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getArrayResult()
+            ;
+    }
     // /**
     //  * @return DeliverPlaceCheck[] Returns an array of DeliverPlaceCheck objects
     //  */
