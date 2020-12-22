@@ -153,16 +153,29 @@
 				</a>
 			</li>
 		{% elseif is_granted('ROLE_FACILITY_MANAGER') %}
-			<li class="site-menu-item{% if 'customer' in app.request.pathinfo %} active {% endif %}">
+			
+			<li class="site-menu-item{% if 'mitarbeiterindex' in app.request.pathinfo %} active {% endif %}">
 				<a class="animsition-link" href="{{ path('mitarbeiterindex') }}">
-					<i class="site-menu-icon icon md-pin-account" aria-hidden="true"></i>
-					<span class="site-menu-title"> Benutzer</span>
+					{% if app.request.pathinfo  == path("mitarbeiterindex")  %}
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Benutzer-weisse-Kontur-end.svg') }}">
+					{% else %}
+						
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Benutzer-end.svg') }}">
+					{% endif %}
+					
+					<span class="site-menu-title ClaraMenuTitle">Benutzer</span>
 				</a>
 			</li>
-			<li class="site-menu-item{% if 'customer' in app.request.pathinfo %} active {% endif %}">
+			<li class="site-menu-item{% if 'kundenindex' in app.request.pathinfo %} active {% endif %}">
 				<a class="animsition-link" href="{{ path('customers') }}">
-					<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>
-					<span class="site-menu-title"> Kunden</span>
+					{% if 'kundenindex' in app.request.pathinfo  %}
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Kunden-end.svg') }}">
+					{% else %}
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Kunden-weisse-Kontur-end.svg') }}">
+					
+					{% endif %}
+					<!--<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>-->
+					<span class="site-menu-title ClaraMenuTitle" > Kunden</span>
 				</a>
 			</li>
 		{% endif %}
