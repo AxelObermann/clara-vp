@@ -3,7 +3,7 @@
 {% block body %}
 	<div class="panel shadow-lg" style="border: 3px solid #f19408;">
 		<header class="panel-heading">
-			<h3 class="panel-title"><i class="site-menu-icon icon md-pin-account" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Benutzer</h3>
+			<img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Benutzer-end.svg') }}"><h3 class="panel-title">Benutzer</h3>
 		</header>
 		<div class="panel-body">
 			<div class="row">
@@ -55,9 +55,9 @@
 						</td>
 						<td>
 							{% if is_granted('ROLE_PORTAL_ADMIN') or is_granted('ROLE_ADMIN') %}
-							<a href="{{ path('user_edit') }}?id={{ user.id }}" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="tooltip" data-original-title="bearbeiten"><i class="icon md-edit success text-success font-size-26" aria-hidden="true"></i></a>
-							<a href="#" data-toggle="tooltip" onclick="deleteUser({{ user.id }})" data-original-title="löschen" class="btn btn-sm btn-icon btn-pure btn-danger on-default remove-row animation-hover animation-scale"><i class="icon md-delete danger text-danger font-size-26" aria-hidden="true"></i></a>
-							<a href="#" data-toggle="modal" data-target="#todoModal" data-id="{{ user.id }}" class="btn btn-sm btn-icon btn-pure btn-danger on-default open-AddBookDialog animation-shake animation-hover"><i class="icon md-notifications-add font-size-26" aria-hidden="true" style="color:#f19408;"></i></a>
+							<a href="{{ path('user_edit') }}?id={{ user.id }}" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="tooltip" data-original-title="bearbeiten"><img class="" src="{{ asset('assets/images/Icons/bearbeiten-end.svg') }}" style="width: 30px"></a>
+							<a href="#" data-toggle="tooltip" onclick="deleteUser({{ user.id }})" data-original-title="löschen" class="btn btn-sm btn-icon btn-pure btn-danger on-default remove-row animation-hover animation-scale"><img class="" src="{{ asset('assets/images/Icons/loeschen-end.svg') }}" style="width: 30px"></a>
+							<a href="#" data-toggle="modal" data-target="#todoModal" data-id="{{ user.id }}" class="btn btn-sm btn-icon btn-pure btn-danger on-default open-AddBookDialog animation-shake animation-hover"><img class="" src="{{ asset('assets/images/Icons/ToDo-add.svg') }}" data-toggle="tooltip" data-original-title="Neues Todo" style="width: 30px"></a>
 							{% endif %}
 						</td>
 					</tr>
