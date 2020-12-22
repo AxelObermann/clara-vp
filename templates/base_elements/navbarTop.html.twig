@@ -44,15 +44,14 @@
 			</li>
 			{% if not is_granted('ROLE_FACILITY_MANAGER') and not is_granted('ROLE_FACILITY') %}
 			<li class="nav-item" >
-				<a class="nav-link icon md-notifications-add animation-shake animation-hover" data-toggle="modal" data-target="#todoModalGlobal" href="#" role="button" style="font-size: 25px">
-					<span class="sr-only">Neues Todo</span>
+				<a data-toggle="modal" data-target="#todoModalGlobal" href="#" role="button">
+					<img src="{{ asset('assets/images/Icons/ToDo-addW.svg') }}" style="position: relative;width: 33px;top: -5px;" class="animation-hover animation-shake" >
 				</a>
 			</li>
 			{% endif %}
 			<li class="nav-item dropdown">
-				<a class="nav-link" href="{{ path("notification") }}" title="Notifications"
-				   aria-expanded="false" data-animation="scale-up" role="button">
-					<i class="icon md-notifications" aria-hidden="true" style="font-size: 25px"></i>
+				<a class="ml-5" href="{{ path("notification") }}" title="Notifications">
+					<img src="{{ asset('assets/images/Icons/ToDo-weisseKontur-end.svg') }}" style="position: relative;width: 33px;top: -5px;">
 					<!--<span class="badge badge-pill badge-danger up">5</span>-->
 				</a>
 			</li>

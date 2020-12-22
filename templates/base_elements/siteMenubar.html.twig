@@ -2,8 +2,14 @@
 	<ul class="site-menu">
 		<li class="site-menu-item {% if app.request.pathinfo  == path("dashboard")  %} active {% endif %}">
 			<a class="animsition-link" href="{{ path("dashboard") }}">
-				<i class="site-menu-icon md-view-dashboard" aria-hidden="true"></i>
-				<span class="site-menu-title">Dashboard</span>
+				{% if app.request.pathinfo  == path("dashboard")  %}
+					<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Dashboard-end.svg') }}">
+				{% else %}
+					<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Dashboard-weisse-Kontur-end.svg') }}">
+					
+				{% endif %}
+				
+				<span class="site-menu-title ClaraMenuTitle">Dashboard</span>
 			</a>
 		</li>
 		{% if is_granted('ROLE_PORTAL_ADMIN') %}
@@ -53,55 +59,77 @@
 			</li>
 			<li class="site-menu-item {% if app.request.pathinfo  == path("benutzerindex")  %} active {% endif %}">
 				<a class="animsition-link" href="{{ path("benutzerindex") }}">
-					<i class="site-menu-icon icon md-pin-account" aria-hidden="true"></i>
-					<span class="site-menu-title">Benutzer</span>
+					{% if app.request.pathinfo  == path("benutzerindex")  %}
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Benutzer-weisse-Kontur-end.svg') }}">
+					{% else %}
+						
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Benutzer-end.svg') }}">
+					{% endif %}
+					
+					<span class="site-menu-title ClaraMenuTitle">Benutzer</span>
 				</a>
 			</li>
-			<li class="site-menu-item{% if 'customer' in app.request.pathinfo %} active {% endif %}">
-				<a class="animsition-link" href="{{ path('mitarbeiterindex') }}">
-					<i class="site-menu-icon icon md-pin-account" aria-hidden="true"></i>
-					<span class="site-menu-title"> Benutzer</span>
-				</a>
-			</li>
+			
 			<li class="site-menu-item{% if 'customer' in app.request.pathinfo or 'kundenindex' in app.request.pathinfo %} active {% endif %}">
 				<a class="animsition-link" href="{{ path('customers') }}">
-					<img src="{{ asset('assets/images/Icons/Kunden-end_f-BG-blau_201218.svg') }}" style="width: 31px">
+					{% if 'customer' in app.request.pathinfo or 'kundenindex' in app.request.pathinfo %}
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Kunden-end.svg') }}">
+					{% else %}
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Kunden-weisse-Kontur-end.svg') }}">
+						
+					{% endif %}
 					<!--<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>-->
-					<span class="site-menu-title"> Kunden</span>
+					<span class="site-menu-title ClaraMenuTitle" > Kunden</span>
 				</a>
 			</li>
 			<li class="site-menu-item{% if app.request.pathinfo  == path("calendar")  %} active {% endif %}">
 				<a class="animsition-link" href="{{ path("calendar")}}">
-					<i class="site-menu-icon icon md-calendar" aria-hidden="true"></i>
-					<span class="site-menu-title">Kalender</span>
+					{% if app.request.pathinfo  == path("calendar")  %}
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Termine-end.svg') }}">
+					{% else %}
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Termine-weisse-Kontur-end.svg') }}">
+					{% endif %}
+					
+					<span class="site-menu-title ClaraMenuTitle">Kalender</span>
 				</a>
 			</li>
 			
 		{% elseif is_granted('ROLE_ADMIN') %}
 		
+			
 			<li class="site-menu-item {% if app.request.pathinfo  == path("benutzerindex")  %} active {% endif %}">
 				<a class="animsition-link" href="{{ path("benutzerindex") }}">
-					<i class="site-menu-icon icon md-pin-account" aria-hidden="true"></i>
-					<span class="site-menu-title">Benutzer</span>
+					{% if app.request.pathinfo  == path("benutzerindex")  %}
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Benutzer-weisse-Kontur-end.svg') }}">
+					{% else %}
+						
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Benutzer-end.svg') }}">
+					{% endif %}
+					
+					<span class="site-menu-title ClaraMenuTitle">Benutzer</span>
 				</a>
 			</li>
-			<li class="site-menu-item {% if app.request.pathinfo  == path("benutzerindex")  %} active {% endif %}">
-				<a class="animsition-link" href="{{ path("benutzerindex") }}">
-					<i class="site-menu-icon icon md-pin-account" aria-hidden="true"></i>
-					<span class="site-menu-title">Benutzer</span>
-				</a>
-			</li>
-			<li class="site-menu-item{% if 'customer' in app.request.pathinfo %} active {% endif %}">
+			<li class="site-menu-item{% if 'customer' in app.request.pathinfo or 'kundenindex' in app.request.pathinfo %} active {% endif %}">
 				<a class="animsition-link" href="{{ path('customers') }}">
-					<img src="{{ asset('assets/images/Icons/Kunden-end_f-BG-blau_201218.svg') }}" style="width: 31px">
+					{% if 'customer' in app.request.pathinfo or 'kundenindex' in app.request.pathinfo %}
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Kunden-end.svg') }}">
+					{% else %}
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Kunden-weisse-Kontur-end.svg') }}">
+					
+					{% endif %}
 					<!--<i class="site-menu-icon icon fa-users" aria-hidden="true"></i>-->
-					<span class="site-menu-title"> Kunden</span>
+					<span class="site-menu-title ClaraMenuTitle" > Kunden</span>
 				</a>
 			</li>
 			<li class="site-menu-item{% if app.request.pathinfo  == path("calendar")  %} active {% endif %}">
 				<a class="animsition-link" href="{{ path("calendar")}}">
-					<i class="site-menu-icon icon md-calendar" aria-hidden="true"></i>
-					<span class="site-menu-title">Kalender</span>
+					{% if app.request.pathinfo  == path("calendar")  %}
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Termine-end.svg') }}">
+					{% else %}
+						<img class="ClaraMenuIcon" src="{{ asset('assets/images/Icons/Termine-weisse-Kontur-end.svg') }}">
+					{% endif %}
+					
+					<span class="site-menu-title ClaraMenuTitle">Kalender</span>
 				</a>
 			</li>
 		{% elseif is_granted('ROLE_PORTAL_USER') %}

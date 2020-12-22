@@ -29,7 +29,7 @@
 		</div>
 	</div>
 	<div class="row" data-plugin="matchHeight" data-by-row="false">
-	<div class="col-xl-4 col-lg-4" id="dashUserwidget">
+		<div class="col-xl-4 col-lg-4" id="dashUserwidget">
 		<div class="panel shadow-lg pb-20" id="UserDash" style="height: 540px;">
 			<div class="panel-heading h-120" style="background: #f19408;">
 				<a class="float-left mr-20 mt-15 ml-20" href="javascript:void(0)">
@@ -83,7 +83,7 @@
 		<div class="col-lg-4 masonry-item">
 			<div class="panel shadow-lg pb-20" id="event-list" style="height: 540px;">
 				<div class="panel-heading h-120" style="background: #f19408;">
-					<h3 class="panel-title" style="padding: 40px 40px;"><i class="site-menu-icon icon md-calendar" style="font-size: 25px;top: 3px;" aria-hidden="true"></i>Termine für heute</h3>
+					<img class="dashBoxIcon" src="{{ asset('assets/images/Icons/Termine-end.svg') }}"><h3 class="panel-title" style="padding: 50px 40px;">Termine für heute</h3>
 				</div>
 				<div class="panel-body">
 					<div class="calendar-container  scrollable pb-20">
@@ -105,40 +105,52 @@
 			<!-- Panel To Do List -->
 			<div class="panel shadow-lg pb-20" id="todo-list" style="height: 540px;">
 				<div class="panel-heading h-120" style="background: #f19408;">
-					<h3 class="panel-title" style="padding: 40px 40px;"><i class="icon md-notifications" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> zu erledigen</h3>
+					<img class="dashBoxIcon" src="{{ asset('assets/images/Icons/ToDo-end.svg') }}"><h3 class="panel-title" style="padding: 50px 40px;">zu erledigen</h3>
 				</div>
-				<div class="panel-body" style="height:400px;overflow-y: scroll">
-					
-						<ul class="list-task list-group  scrollable is-enabled scrollable-vertical" data-plugin="scrollable" style="position: relative;">
-							{% for todo in notifications %}
-								<li class="list-group-item">
-									<div class="media">
-										<div class="media-item-actions"
-												{% if todo.type == "1" %}
-											style="width: 20px;background-color: #015780;height: 50px;margin-right: 5px;"
-										{% elseif todo.type == "2"%}
-											style="width: 20px;background-color: #f19408;height: 50px;margin-right: 5px;"
-										{% elseif todo.type == "3"%}
-											style="width: 20px;background-color: #ffeb3b;height: 50px;margin-right: 5px;"
-										{% elseif todo.type == "4"%}
-											style="width: 20px;background-color: #17B3A3;height: 50px;margin-right: 5px;"
-										{% elseif todo.type == "5"%}
-											style="width: 20px;background-color: #C7C9CB;height: 50px;margin-right: 5px;"
-										{% elseif todo.type == ""%}
-											style="width: 20px;background-color: #C7C9CB;height: 50px;margin-right: 5px;"
-										{% endif %}
-										></div>
-										<div class="media-body" style="padding: 3px;">
-											<h5 class="mt-0 mb-5">{{ todo.text }}</h5>
-											<i class="icon wb-calendar" aria-hidden="true"></i><span class="text-dark">{{ todo.doneUntil|date("d.m.Y") }}</span> | <small>{{ todo.description }}</small>
-										</div>
-										<div class="media-item-actions"></div>
-									</div>
-								</li>
-							
-							{% endfor %}
-						</ul>
+				<div class="panel-body" >
+					<div class="example-wrap">
 						
+						<div class="example">
+							<div style="height: 370px" data-plugin="scrollable">
+								<div data-role="container">
+									<div data-role="content">
+										<ul class="list-task list-group" style="position: relative;">
+											{% for todo in notifications %}
+												<li class="list-group-item">
+													<div class="media">
+														<div class="media-item-actions"
+																{% if todo.type == "1" %}
+																	style="width: 20px;background-color: #015780;height: 50px;margin-right: 5px;"
+																{% elseif todo.type == "2"%}
+																	style="width: 20px;background-color: #f19408;height: 50px;margin-right: 5px;"
+																{% elseif todo.type == "3"%}
+																	style="width: 20px;background-color: #ffeb3b;height: 50px;margin-right: 5px;"
+																{% elseif todo.type == "4"%}
+																	style="width: 20px;background-color: #17B3A3;height: 50px;margin-right: 5px;"
+																{% elseif todo.type == "5"%}
+																	style="width: 20px;background-color: #C7C9CB;height: 50px;margin-right: 5px;"
+																{% elseif todo.type == ""%}
+																	style="width: 20px;background-color: #C7C9CB;height: 50px;margin-right: 5px;"
+																{% endif %}
+														></div>
+														<div class="media-body" style="padding: 3px;">
+															<h5 class="mt-0 mb-5">{{ todo.text }}</h5>
+															<i class="icon wb-calendar" aria-hidden="true"></i><span class="text-dark">{{ todo.doneUntil|date("d.m.Y") }}</span> | <small>{{ todo.description }}</small>
+														</div>
+														<div class="media-item-actions"></div>
+													</div>
+												</li>
+											
+											{% endfor %}
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--
+						
+						-->
 					
 				</div>
 				
