@@ -70,10 +70,10 @@
 							<span class="badge badge-round badge-danger">Neu {{ messages|length }}</span>
 						</div>
 						<div class="list-group" role="presentation">
-							<div data-role="container">
-								<div data-role="content">
+							<div class="content" style="overflow-y: scroll">
+								
 									{% for nachricht in messages %}
-										<a class="list-group-item dropdown-item" href="javascript:void(0)" role="menuitem">
+										<a class="">
 											<div class="media">
 												<div class="pr-10">
 												<span class="avatar avatar-sm avatar-online">
@@ -95,7 +95,7 @@
 											</div>
 										</a>
 									{% endfor %}
-								</div>
+								
 							</div>
 						</div>
 						<div class="dropdown-menu-footer" role="presentation">
