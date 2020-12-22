@@ -81,23 +81,41 @@
 				<div class="panel-heading h-120" style="background: #f19408;">
 					<h3 class="panel-title" style="padding: 40px 40px;"><i class="icon md-notifications" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> zu erledigen</h3>
 				</div>
-				<ul class="list-task list-group  scrollable is-enabled scrollable-vertical" data-plugin="scrollable" style="position: relative;">
-					<div data-role="container" class="scrollable-container" style="height: 250px; width: 929px;">
-						<div data-role="content" class="scrollable-content" style="width: 914px;">
+				<div class="panel-body" style="height:400px;overflow-y: scroll">
+					
+						<ul class="list-task list-group  scrollable is-enabled scrollable-vertical" data-plugin="scrollable" style="position: relative;">
 							{% for todo in notifications %}
-								<li class="list-group-item task-done" data-plugin="tasklist">
-									<div class="checkbox-custom checkbox-primary">
-										<input type="checkbox" id="inputSchedule" name="inputCheckboxesSchedule">
-										<label for="inputSchedule">
-											<i class="icon wb-calendar" aria-hidden="true"></i>
-											<span>{{ todo.text }}</span>
-										</label>
+								<li class="list-group-item">
+									<div class="media">
+										<div class="media-item-actions"
+												{% if todo.type == "1" %}
+											style="width: 20px;background-color: #015780;height: 50px;margin-right: 5px;"
+										{% elseif todo.type == "2"%}
+											style="width: 20px;background-color: #f19408;height: 50px;margin-right: 5px;"
+										{% elseif todo.type == "3"%}
+											style="width: 20px;background-color: #ffeb3b;height: 50px;margin-right: 5px;"
+										{% elseif todo.type == "4"%}
+											style="width: 20px;background-color: #17B3A3;height: 50px;margin-right: 5px;"
+										{% elseif todo.type == "5"%}
+											style="width: 20px;background-color: #C7C9CB;height: 50px;margin-right: 5px;"
+										{% elseif todo.type == ""%}
+											style="width: 20px;background-color: #C7C9CB;height: 50px;margin-right: 5px;"
+										{% endif %}
+										></div>
+										<div class="media-body" style="padding: 3px;">
+											<h5 class="mt-0 mb-5">{{ todo.text }}</h5>
+											<small>{{ todo.description }}</small>
+										</div>
+										<div class="media-item-actions"></div>
 									</div>
 								</li>
+							
 							{% endfor %}
-						</div>
-					</div>
-					<div class="scrollable-bar scrollable-bar-vertical scrollable-bar-hide" draggable="false"><div class="scrollable-bar-handle" style="height: 92.7914px; transform: translate3d(0px, 0px, 0px);"></div></div></ul>
+						</ul>
+						
+					
+				</div>
+				
 			</div>
 			<!-- End Panel To Do List -->
 		</div>
