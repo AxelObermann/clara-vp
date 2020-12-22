@@ -130,7 +130,7 @@
 										></div>
 										<div class="media-body" style="padding: 3px;">
 											<h5 class="mt-0 mb-5">{{ todo.text }}</h5>
-											<small>{{ todo.description }}</small>
+											<i class="icon wb-calendar" aria-hidden="true"></i><span class="text-dark">{{ todo.doneUntil|date("d.m.Y") }}</span> | <small>{{ todo.description }}</small>
 										</div>
 										<div class="media-item-actions"></div>
 									</div>
