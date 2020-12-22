@@ -294,14 +294,14 @@
 {% endblock %}
 <script>
     $(function() {
-        toastr.options.timeOut = "false";
+        toastr.options.timeOut = 2000;
         toastr.options.closeButton = true;
-        toastr.options.positionClass = 'toast-top-full-width';
+        toastr.options.positionClass = 'toast-top-right';
 		{% for message in app.flashes('success') %}
-        toastr['success']('{{ message }}');
+        	toastr['success']('{{ message }}');
 		{% endfor %}
 		{% for message in app.flashes('error') %}
-        toastr['error']('{{ message }}');
+        	toastr['error']('{{ message }}');
 		{% endfor %}
         $('.btn-toastr').on('click', function() {
             $context = $(this).data('context');
@@ -358,7 +358,7 @@
             $message = $(this).data('message');
 
             toastr.options = {
-                "timeOut": "10000",
+                "timeOut": "1000",
                 "closeButton": true,
                 "onCloseClick": function() {
                     alert('onCloseClick callback');
