@@ -155,7 +155,32 @@ z-index: 9998;
     max-height: 550px !important;
     min-height: 550px !important;
 }
-
-
+.page-aside .list-group-item.active{
+    background-color: #f19408;
+    color: #ffffff;
+}
+.page-aside .list-group-item.active>.icon{
+    color: #ffffff;
+}
+.ClaraMenuIcon{
+    position: absolute;
+    width: 40px;
+    top: 3px;
+    left: 10px;
+}
+.ClaraMenuTitle{
+    margin-left: 45px;
+}
+.example{
+    border: unset;
+}
+.dashBoxIcon{
+    width: 80px;
+    position: relative;
+    float: left;
+    top: 15px;
+    left: 29px;
+    margin-right: 40px;
+}
 
 
