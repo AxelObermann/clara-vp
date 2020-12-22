@@ -9,8 +9,10 @@ use App\Repository\DeliveryPlaceRepository;
 use App\Repository\MessagesRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
+use App\Service\MessagesService;
 use App\Service\UploaderHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Bundle\TimeBundle\DateTimeFormatter;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Constraints\Date;
 
 class DefaultController extends AbstractController
 {
@@ -147,20 +150,37 @@ class DefaultController extends AbstractController
      * @param UploaderHelper $uploaderHelper
      * @Route ("upload/facility/dashboard")
      */
-    public function uploadFacFromDashboard(DeliveryPlaceRepository $deliveryPlaceRepository,Request $request, UploaderHelper $uploaderHelper,NotificationRepository $notificationRepository,EntityManagerInterface $entityManager){
+    public function uploadFacFromDashboard(MessagesService $messagesService, DeliveryPlaceRepository $deliveryPlaceRepository,Request $request, UploaderHelper $uploaderHelper,NotificationRepository $notificationRepository,EntityManagerInterface $entityManager){
 
         //dd($uploaderHelper->uploadsPath);
         $noti = $notificationRepository->find($request->get('notiId'));
+        $dp = $deliveryPlaceRepository->find($noti->getDelveryPlace());
+        $fn = "";
+        $today = new \DateTime();
+        $fn .= $today->format('Y')."-ZF-";
+
+        if ($dp->getMedium()=="fa-flash"){
+            $fn .= "STROM-";
+        }elseif ($dp->getMedium()=="fa-fire"){
+            $fn .= "GAS-";
+        }elseif ($dp->getMedium()=="fa-fire-extinguisher"){
+            $fn .= "XXX-";
+        }
+        $fn.= $dp->getTarifnummer();
+        //dd($noti,$dp->getTarifnummer(), $fn );
+
         $uploadedFile = $request->files->get("file");
         $dplace = $deliveryPlaceRepository->find($noti->getDelveryPlace()->getId());
-        $test = $uploaderHelper->uploadFacilityFile($uploadedFile,"/DP/".$noti->getDelveryPlace()->getId()."/");
+        $test = $uploaderHelper->uploadFacilityFile($uploadedFile,"/DP/".$noti->getDelveryPlace()->getId()."/" , $fn);
         $ufile = new UploadedFiles();
         $ufile->setDeliveryPlace($dplace);
         $ufile->setUploaded(new \DateTime());
         $ufile->setFile("/UPLOADS/DP/".$noti->getDelveryPlace()->getId()."/".$test);
         $ufile->setActive(1);
         $entityManager->persist($ufile);
+        $test = $messagesService->sendAdminFacUploadControlMessage($noti);
         $entityManager->flush();
         return new JsonResponse("Die  Datei wurde erfolreich gespeichert");
+
     }
 }
