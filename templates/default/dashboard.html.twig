@@ -3,6 +3,32 @@
 {% block body %}
 {# {{ dump(app.user) }} #}
 	<div class="row" data-plugin="matchHeight" data-by-row="false">
+		<div class="col-xl-12 col-lg-12" id="dashColorCodes">
+			<div class="panel shadow-lg pb-20" id="Colors" >
+				<div class="panel-heading h-40" style="background: #f19408;">
+					<h3 class="panel-title" style="padding: 10px 30px;"> Farb  Legende</h3>
+				</div>
+				<div class="panel-body">
+					<div class="col-2 float-left p-20 mt-10 text-white" style="background-color: #015780;">
+						Anrufen
+					</div>
+					<div class="col-2 float-left p-20 mt-10 text-dark" style="background-color: #f19408;">
+						Termin vereinbaren
+					</div>
+					<div class="col-2 float-left p-20 mt-10 text-dark" style="background-color: #ffeb3b;">
+						Angebot unterbreiten
+					</div>
+					<div class="col-2 float-left p-20 mt-10 text-dark" style="background-color: #17B3A3;">
+						Ablesung
+					</div>
+					<div class="col-2 float-left p-20 mt-10 text-dark" style="background-color: #C7C9CB;">
+						Sonstige Wiedervorlage
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" data-plugin="matchHeight" data-by-row="false">
 	<div class="col-xl-4 col-lg-4" id="dashUserwidget">
 		<div class="panel shadow-lg pb-20" id="UserDash" style="height: 540px;">
 			<div class="panel-heading h-120" style="background: #f19408;">
