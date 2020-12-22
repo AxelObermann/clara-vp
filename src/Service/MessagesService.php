@@ -50,4 +50,25 @@ class MessagesService
 
 
     }
+
+    public function sendAdminFacUploadControlMessage(Notification $notification){
+        //dump($notification);
+        $admins = $this->em->getRepository(User::class)->findAdminUsers();
+        foreach ($admins as $admin){
+            $reciver = $this->userRepository->find($admin['id']);
+            $transm = $this->userRepository->findOneBy(array('email' => 'system@system.com'));
+            $mes = new Messages();
+            $mes->setCreated(new \DateTime());
+            $mes->setMarkRead(0);
+            $mes->setMessageType(0);
+            $mes->setSubject('Neue Datei wurde hocheladen');
+            $mes->setMessage($notification->getDescription());
+            $mes->setReceiver($reciver);
+            $mes->setTransmitter($transm);
+            $this->em->persist($mes);
+            $this->em->flush();
+            //dump($admin);
+        }
+        return true;
+    }
 }
