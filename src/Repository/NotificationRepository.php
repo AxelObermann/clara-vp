@@ -31,6 +31,7 @@ class NotificationRepository extends ServiceEntityRepository
         $qb
             ->andWhere('e.doneUntil BETWEEN :from AND :to')
             ->andWhere('e.toUser = :user')
+            ->orderBy('e.doneUntil')
             ->setParameter('user', $user->getId() )
             ->setParameter('from', $from )
             ->setParameter('to', $to)
