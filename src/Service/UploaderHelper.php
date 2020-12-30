@@ -40,6 +40,13 @@ class UploaderHelper
         return $newFileName;
     }
 
+    public function uploadImportPreisFile(UploadedFile $uploadedFile){
+        $destination = $this->uploadsPath.'/tmpupload/';
+        $newFileName = pathinfo($uploadedFile->getClientOriginalName(),PATHINFO_FILENAME).".".$uploadedFile->guessExtension();
+        $uploadedFile->move($destination,$newFileName);
+        return $newFileName;
+    }
+
     public function uploadFacilityFile(UploadedFile $uploadedFile,$uploadPathFromAjax,$destFileName):string{
         $destination = $this->uploadsPath.$uploadPathFromAjax.'/';
         $newFileName = $destFileName.".".$uploadedFile->guessExtension();
