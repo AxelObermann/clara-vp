@@ -19,6 +19,15 @@ class SupplierRepository extends ServiceEntityRepository
         parent::__construct($registry, Supplier::class);
     }
 
+
+    public function deleteSupplier($value){
+        return $this->createQueryBuilder('s')
+            ->delete()
+            ->where('s.id = :id')
+            ->setParameter('id', $value)
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Supplier[] Returns an array of Supplier objects
     //  */
