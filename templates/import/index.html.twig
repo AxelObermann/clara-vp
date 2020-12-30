@@ -1,8 +1,23 @@
 {% extends 'baseNew.html.twig' %}
 
-
-
 {% block body %}
+	{%  if app.request.pathinfo == path("import_ewgas") %}
+		<div class="panel shadow-lg" style="border: 3px solid #f19408;">
+			<header class="panel-heading">
+				<h3 class="panel-title">Import Gas Preise</h3>
+			</header>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-6">
+						<form enctype="multipart/form-data" method="post">
+							<input type="file" name="upload">
+							<input type="submit" value="Upload">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% else %}
 	<div class="panel">
 		<div class="panel-body container-fluid">
 			<h3>{% if countUsers is defined %}
@@ -24,6 +39,8 @@
 					{{ countkdls }} Kdls wurden Importiert
 				{% endif %}
 			</h3>
+			
 		</div>
 	</div>
+	{% endif %}
 {% endblock %}
