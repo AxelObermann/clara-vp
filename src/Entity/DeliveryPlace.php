@@ -415,6 +415,7 @@ class DeliveryPlace
      */
     private $checkdate;
 
+
     public function __construct()
     {
         $this->notifications = new ArrayCollection();
@@ -1430,4 +1431,5 @@ class DeliveryPlace
 
         return $this;
     }
+
 }
