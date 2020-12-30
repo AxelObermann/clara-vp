@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Profile;
+use App\Entity\Supplier;
 use App\Entity\UploadedFiles;
 use App\Entity\User;
 use App\Repository\DeliveryPlaceRepository;
 use App\Repository\MessagesRepository;
 use App\Repository\NotificationRepository;
+use App\Repository\SupplierRepository;
 use App\Repository\UserRepository;
 use App\Service\MessagesService;
 use App\Service\UploaderHelper;
@@ -188,9 +190,41 @@ class DefaultController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route ("system/settings", name="system_settings")
      */
-    public function systemSettings(){
+    public function systemSettings(SupplierRepository $supplierRepository){
+        $suppliers = $supplierRepository->findAll();
         return $this->render('system/index.html.twig', [
-
+            'suppliers' => $suppliers,
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Supplier $supplier
+     * @param EntityManagerInterface $entityManager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route ("system/sypplier/add", name="system_supplier_add")
+     */
+    public function AddNewSupplier(Request $request, EntityManagerInterface $entityManager){
+        //dd($request->get('name'));
+        $sup = new Supplier();
+        $sup->setName($request->get('name'));
+        $sup->setEmail($request->get('email'));
+        $entityManager->persist($sup);
+        $entityManager->flush();
+        $this->addFlash('success', 'Der Versorger wurde angelegt.');
+        return $this->redirect($request->headers->get('referer'));
+    }
+
+    /**
+     * @param Request $request
+     * @Route ("system/supplier/edit", name="system_supplier_edit")
+     */
+    public function supplierEdit(Request $request,SupplierRepository $supplierRepository, EntityManagerInterface $entityManager){
+        $supplier = $supplierRepository->find($request->get('supplierId'));
+        $supplier->setEmail($request->get('email'));
+        $supplier->setName($request->get('name'));
+        $entityManager->flush();
+        $this->addFlash('success', 'Der Versorger wurde geändert.');
+        return $this->redirect($request->headers->get('referer'));
     }
 }
