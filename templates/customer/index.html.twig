@@ -33,7 +33,7 @@
                     <th style="width:200px">Telefon</th>
                     <th style="width:230px">Mail</th>
                     <th style="width:50px">PLZ</th>
-                    <th>Ort</th>
+                    <th style="width:230px">Ort</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -49,8 +49,8 @@
                         <td>{{ customer.zip }}</td>
                         <td>{{ customer.town }}</td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerWithAdress({{ customer.id }}, {% if 'show_deleted' in app.request.pathinfo %} 1 {% else %} 0 {% endif %})" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-26" aria-hidden="true"></i></a>
-                            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" data-toggle="tooltip" data-original-title="Remove" onclick="deleteCustomer({{ customer.id }})"><i class="icon md-delete danger text-danger font-size-26" aria-hidden="true"></i></a>{% endif %}
+                            <a href="#" class="" onclick="getCustomerWithAdress({{ customer.id }}, {% if 'show_deleted' in app.request.pathinfo %} 1 {% else %} 0 {% endif %})" data-toggle="tooltip" data-original-title="Edit"><img class="" src="{{ asset('assets/images/Icons/bearbeiten-end.svg') }}" style="width: 30px"></a>
+                            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" data-toggle="tooltip" data-original-title="Löschen" onclick="deleteCustomer({{ customer.id }})"><img class="" src="{{ asset('assets/images/Icons/loeschen-end.svg') }}" style="width: 30px"></a>{% endif %}
                             {#  {% if is_granted('ROLE_PORTAL_ADMIN') %}<a href="/customer/importkdls/{{ customer.old_id }}" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="tooltip" data-original-title="Import Kdls"><i class="icon md-link" aria-hidden="true" style="font-size: 26px;"></i></a>{% endif %}#}
                         </td>
                     </tr>
@@ -65,8 +65,8 @@
             <div class="panel-heading">
                 <h3 class="panel-title"><i class="site-menu-icon icon fa-users" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Kunde: <span id="CustomerTitle"></span></h3>
                 <div class="panel-actions">
-                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a class="panel-action" id="customerSave" data-toggle="tooltip" data-original-title="Speichern" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>{% endif %}
-                    <a class="panel-action" id="customerDetailClose" data-toggle="panel-close" aria-hidden="true"><i class="icon md-close text-white font-size-26" aria-hidden="true"></i></a>
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a class="panel-action" id="customerSave" data-toggle="tooltip" data-original-title="Speichern" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/speichern-end.svg') }}" style="width: 50px"></a>{% endif %}
+                    <a class="panel-action" id="customerDetailClose" data-toggle="panel-close" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 50px"></a>
                 </div>
             </div>
             <div class="panel-body">
@@ -76,7 +76,7 @@
                             <div class="panel-heading" >
                                 <h3 class="panel-title text-white">Kundendaten</h3>
                                 <div class="panel-actions text-white">
-                                    <a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+                                    <a class="panel-action" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px"></a>
                                 </div>
                             </div>
         
@@ -167,17 +167,17 @@
                                     </div>
                                 </form>
                             </div>
-                        </div>
+                        </div>183,06
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                     <div class="panel shadow-lg" id="Lieferstellen" style="margin-top: 15px;">
                         <div class="panel-heading" >
-                            <h3 class="panel-title text-white"><i class="site-menu-icon icon fa-map-marker" aria-hidden="true" style="font-size: 25px;top: 3px;"></i>Lieferstellen</h3>
+                            <h3 class="panel-title text-white"><img class="" src="{{ asset('assets/images/Icons/Lieferstellen-end.svg') }}" style="width: 40px;margin-right: 10px;"> Lieferstellen</h3>
                             <div class="panel-actions text-white">
-                                {% if is_granted('ROLE_ADMIN') %}<a class="panel-action text-white" aria-expanded="true" aria-hidden="true" id="newDeliveryPlace"><img style="width: 30px;" src="{{ asset('assets/images/MapPlus.svg') }}"></a>{% endif %}
-                                <a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+                                {% if is_granted('ROLE_ADMIN') %}<a class="panel-action text-white" aria-expanded="true" aria-hidden="true" id="newDeliveryPlace"><img class="" src="{{ asset('assets/images/Icons/hinzufuegen-generell-end.svg') }}" style="width: 40px"></a>{% endif %}
+                                <a class="panel-action" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px"></a>
                             </div>
                         </div>
 
@@ -223,13 +223,13 @@
                 <h3 class="panel-title">
                     <i class="site-menu-icon icon fa-map-marker" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Lieferstelle: <span id="deliveryPlaceTitle"></span></h3>
                 <div class="panel-actions">
-                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="" data-toggle="tooltip" data-original-title="neuer Vertrag"><i class="icon md-copy success text-info font-size-26" aria-hidden="true"></i></a>
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="modal" data-target="#newContractModal" ><i class="icon md-copy success text-info font-size-26" aria-hidden="true" data-toggle="tooltip" data-original-title="neuer Vertrag"></i></a>
                         <a class="panel-action" id="deliveryModalButton" data-toggle="modal" data-target="#newCheckModal" aria-hidden="true" data-toggle="tooltip" data-original-title="neue Ablseung"><i class="icon fa-files-o text-white font-size-26" aria-hidden="true"></i></a>
                         <a class="panel-action" id="customerDeliversPlaceSave" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>
                     {% elseif is_granted('ROLE_FACILITY_MANAGER') %}
                         <a class="panel-action" id="deliveryModalButton" data-toggle="modal" data-target="#newCheckModal" aria-hidden="true" data-toggle="tooltip" data-original-title="neue Ablseung"><i class="icon fa-files-o text-white font-size-26" aria-hidden="true"></i></a>
                     {% endif %}
-                    <a class="panel-action" id="customerDeliversPlaceClose" data-toggle="panel-close" aria-hidden="true"><i class="icon md-close text-white font-size-26" aria-hidden="true"></i></a>
+                    <a class="panel-action" id="customerDeliversPlaceClose" data-toggle="panel-close" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px"></a>
                 </div>
             </div>
             <div class="panel-body">
@@ -784,7 +784,7 @@
             </div>
         </div>
     </div>
-   
+   {% include('Modals/DeliveryPlaceCopyModal.html.twig') %}
 {% endblock %}
 
 {% block siteJS %}
