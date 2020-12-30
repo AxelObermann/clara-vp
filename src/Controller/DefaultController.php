@@ -183,4 +183,14 @@ class DefaultController extends AbstractController
         return new JsonResponse("Die  Datei wurde erfolreich gespeichert");
 
     }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route ("system/settings", name="system_settings")
+     */
+    public function systemSettings(){
+        return $this->render('system/index.html.twig', [
+
+        ]);
+    }
 }
