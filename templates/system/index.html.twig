@@ -19,6 +19,9 @@
 							<button type="button" class="close" style="opacity: unset;" data-dismiss="modal" aria-label="Close">
 								<a aria-expanded="true" aria-hidden="true" id="newSupplierButton" data-toggle="modal" data-target="#VersorgerAddModal"><img class="" src="{{ asset('assets/images/Icons/hinzufuegen-generell-end.svg') }}" style="width: 40px"></a>
 							</button>
+							<div class="col-12">
+							
+							</div>
 							<table class="table table-hover dataTable" data-plugin="dataTable" id="supplierIndexTable">
 								<thead>
 								<tr>
@@ -35,7 +38,7 @@
 										<td>{{ supplier.email }} </td>
 										<td>
 											<a href="#" class="" onclick="editSupplier({{ supplier.id }},'{{ supplier.name }}', '{{ supplier.email }}')" data-toggle="tooltip" data-original-title="Edit"><img class="" src="{{ asset('assets/images/Icons/bearbeiten-end.svg') }}" style="width: 30px"></a>
-											{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" data-toggle="tooltip" data-original-title="Löschen" onclick=""><img class="" src="{{ asset('assets/images/Icons/loeschen-end.svg') }}" style="width: 30px"></a>{% endif %}
+											{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" data-toggle="tooltip" data-original-title="Löschen" onclick="deleteSupplier({{ supplier.id }})"><img class="" src="{{ asset('assets/images/Icons/loeschen-end.svg') }}" style="width: 30px"></a>{% endif %}
 											{#  {% if is_granted('ROLE_PORTAL_ADMIN') %}<a href="/customer/importkdls/{{ customer.old_id }}" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="tooltip" data-original-title="Import Kdls"><i class="icon md-link" aria-hidden="true" style="font-size: 26px;"></i></a>{% endif %}#}
 										</td>
 									</tr>
@@ -117,5 +120,38 @@
 	    
 	    console.log(id);
 	}
+
+    function deleteSupplier(id){
+		console.log('hier')
+        var supplierIndexTable = $('#supplierIndexTable').DataTable();
+
+        $('#supplierIndexTable').on( 'click', 'tbody tr', function () {
+            var table = this;
+//console.log(id)
+            var test = swal({
+                title: "Bist Du sicher?",
+                text: "Das Du den Versorger löschen willst",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-warning",
+                confirmButtonText: 'Ja ich will!',
+                closeOnConfirm: false //closeOnCancel: false
+
+            }, function () {
+                var kdl ="";
+                $.ajax( {
+                    method: 'POST',
+                    url: '/system/supplier/delete/'+id,
+                    dataType: 'json',
+                    complete: function (data){
+                        //console.log('complete');
+                        kdl = JSON.parse(data.responseText);
+                        //console.log(kdl);
+                        supplierIndexTable.row($(table).closest("tr")) .remove().draw();
+                        swal("Gelöscht", kdl, "success");
+                    }});
+            });
+        });
+    }
 </script>
 {% endblock %}
