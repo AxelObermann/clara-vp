@@ -6,12 +6,15 @@ use App\Entity\Adress;
 use App\Entity\Calendar;
 use App\Entity\Customer;
 use App\Entity\DeliveryPlace;
+use App\Entity\EwGas;
 use App\Entity\Notification;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Repository\CustomerRepository;
 use App\Repository\DeliveryPlaceRepository;
+use App\Repository\EwGasRepository;
 use App\Repository\UserRepository;
+use App\Service\UploaderHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\This;
 use Psr\Log\LoggerInterface;
@@ -36,11 +39,12 @@ class ImportController extends AbstractController
     private $oldDBUser;
     private $oldDBPassword;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, LoggerInterface $logger, string $oldDBUser,$oldDBPassword)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, LoggerInterface $logger, string $oldDBUser,$oldDBPassword,string $uploadsPath)
     {
         $this->oldDBUser = $oldDBUser;
         $this->oldDBPassword = $oldDBPassword;
         $this->passwordEncoder = $passwordEncoder;
+        $this->uploadsPath = $uploadsPath;
         $this->connectionParams = array(
             'dbname' => 'LarsBentlyVP_PortalClara',
             'user' => $this->oldDBUser,
@@ -470,5 +474,74 @@ class ImportController extends AbstractController
             'title' => 'Kdl Import',
             'countkdls' => $count,
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @Route ("importEwGas", name="import_ewgas")
+     */
+    public function importEwGas(Request $request,UploaderHelper $uploaderHelper,EntityManagerInterface $entityManager){
+//        dd($request);
+
+        if ($request->isMethod('POST')){
+            ini_set("auto_detect_line_endings", true);
+            ini_set('memory_limit', '3G');
+            $uploadedFile = $request->files->get("upload");
+            $test = $uploaderHelper->uploadImportPreisFile($uploadedFile);
+            $handle = fopen($this->uploadsPath."/tmpupload/".$test, "r");
+            $counter = 0;
+            if ($handle) {
+                while (($line = fgets($handle)) !== false) {
+                    $parts = explode(";",$line);
+                    $name = $this->repUTF($parts[8]);
+                    $gas = new EwGas();
+                    $gas->setVerbrauchvon(intval($parts[0]));
+                    $gas->setVerbrauchbis(intval($parts[1]));
+                    $gas->setTarifgebiet($parts[2]);
+                    $gas->setVNBGNr($parts[3]);
+                    $gas->setTeilnetznummer($parts[4]);
+                    $gas->setNetzbereichnummer($parts[5]);
+                    $gas->setTarifkuerzelSWT($parts[6]);
+                    $gas->setPLZ($parts[7]);
+                    $gas->setOrt($name);
+                    $gas->setNetznutzungskostenArbeitspreis($parts[9]);
+                    $gas->setNetznutzungskostenGrundpreis($parts[10]);
+                    $gas->setNetznutzungskostenMessung($parts[11]);
+                    $gas->setKonzessionsabgabe($parts[12]);
+                    $gas->setEnergiearbeitspreis($parts[13]);
+                    $gas->setEnergiegrundpreis($parts[14]);
+                    $gas->setArbeitspreis($parts[15]);
+                    $gas->setArbeitspreisNT($parts[16]);
+                    $gas->setGrundpreis($parts[17]);
+                    $gas->setMarktgebiet($parts[18]);
+                    $gas->setVNBCode($parts[19]);
+                    $entityManager->persist($gas);
+
+                    $name = $this->repUTF($parts[8]);
+                    $counter++;
+                }
+
+                fclose($handle);
+            } else {
+                // error opening the file.
+            }
+            $entityManager->flush();
+            dump($counter);
+            die();
+        }
+        return $this->render("import/index.html.twig",[
+
+        ]);
+    }
+
+    public function repUTF($city){
+        $city = str_replace("Ã¤","ä", $city);
+        $city = str_replace("Ã¶","ö", $city);
+        $city = str_replace("Ã¼","ü", $city);
+        $city = str_replace("ÃŸ","ß", $city);
+        $city = str_replace("�","ß", $city);
+        $city = str_replace("Ã–","Ö", $city);
+        $city = str_replace("Ãœ","Ü", $city);
+        return $city;
     }
 }
