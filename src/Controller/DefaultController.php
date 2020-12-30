@@ -227,4 +227,14 @@ class DefaultController extends AbstractController
         $this->addFlash('success', 'Der Versorger wurde geändert.');
         return $this->redirect($request->headers->get('referer'));
     }
+
+    /**
+     * @param Request $request
+     * @Route ("system/supplier/delete/{id}")
+     */
+    public function supplierDelete(Request $request,SupplierRepository $supplierRepository, EntityManagerInterface $entityManager){
+
+       $supplierRepository->deleteSupplier($request->get('id'));
+        return new JsonResponse("Dir Versorger wurde glöscht");
+    }
 }
