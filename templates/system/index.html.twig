@@ -1,0 +1,23 @@
+{% extends 'baseNew.html.twig' %}
+
+{% block body %}
+	<div class="panel shadow-lg">
+		<header class="panel-heading">
+			<h3 class="panel-title"><i class="site-menu-icon icon md-settings" aria-hidden="true" style="font-size: 25px;top: 3px;"></i>System Einstellungen</h3>
+		</header>
+		<div class="panel-body pt-30">
+			<div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
+				<ul class="nav nav-tabs nav-tabs-line" role="tablist">
+					<li class="nav-item" role="presentation"><a class="active nav-link" data-toggle="tab" href="#System" aria-controls="all_contacts" role="tab">System</a></li>
+					<li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#Versorger" aria-controls="my_contacts" role="tab">Versorger</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane animation-fade active" id="System" role="tabpanel">
+					</div>
+					<div class="tab-pane animation-fade" id="Versorger" role="tabpanel">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
