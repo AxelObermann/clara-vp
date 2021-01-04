@@ -292,7 +292,7 @@ function getCustomerKdl(id){
                     checktable.row.add( [
                         cd.getDate()+"."+monat+"."+cd.getFullYear(),
                         obj.wert,
-                        '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="editDPC('+obj.id+')" data-toggle="tooltip" data-original-title="Bearbeiten"><i class="icon md-edit danger text-success font-size-20" aria-hidden="true"></i></a><a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlaceCheck('+obj.id+')" data-toggle="tooltip" data-original-title="Löschen"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>'
+                        '<a href="#" class="mr-5" onclick="editDPC('+obj.id+')" data-toggle="tooltip" data-original-title="Bearbeiten"><img class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 30px"></a><a href="#" class="" onclick="deleteDeliveryPlaceCheck('+obj.id+')" data-toggle="tooltip" data-original-title="Löschen"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 30px">       </a>'
                     ] ).draw( false );
                     console.log(obj.file)
                 });
@@ -497,14 +497,14 @@ function getCustomerWithAdress(id,test){
                     }
 
                     if (test){
-                        aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>' +
-                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>';
+                        aktionCell = '<a href="#" class="mr-5" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><img class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 30px"></a>' +
+                            '<a href="#" class="mr-5" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 30px"></a>';
                     }else{
-                        aktionCell = '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-edit success text-success font-size-20" aria-hidden="true"></i></a>' +
-                            '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><i class="icon md-delete danger text-danger font-size-20" aria-hidden="true"></i></a>';
+                        aktionCell = '<a href="#" class="mr-5" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><img class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 30px"></a>' +
+                            '<a href="#" class="mr-5" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 30px"></a>';
                     }
                     if (testrole=="ROLE_ADMIN")
-                        aktionCell = aktionCell + '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default open-movedelivery"  data-toggle="modal" data-target="#moveDeliveryPlaceModal" data-id="'+obj.id+'" data-toggle="tooltip" data-original-title="Verschieben"><i class="icon wb-move text-warning font-size-20" aria-hidden="true"></i></a>';
+                        aktionCell = aktionCell + '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default open-movedelivery"  data-toggle="modal" data-target="#moveDeliveryPlaceModal" data-id="'+obj.id+'" data-toggle="tooltip" data-original-title="Verschieben"><img class="" src="/assets/images/Icons/verschieben-end.svg" style="width: 30px"></a>';
 
                     t.row.add( [
                         obj.Tarifnummer,
