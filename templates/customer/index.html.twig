@@ -224,8 +224,8 @@
                     <i class="site-menu-icon icon fa-map-marker" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Lieferstelle: <span id="deliveryPlaceTitle"></span></h3>
                 <div class="panel-actions">
                     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="modal" data-target="#newContractModal" ><i class="icon md-copy success text-info font-size-26" aria-hidden="true" data-toggle="tooltip" data-original-title="neuer Vertrag"></i></a>
-                        <a class="panel-action" id="deliveryModalButton" data-toggle="modal" data-target="#newCheckModal" aria-hidden="true" data-toggle="tooltip" data-original-title="neue Ablseung"><i class="icon fa-files-o text-white font-size-26" aria-hidden="true"></i></a>
-                        <a class="panel-action" id="customerDeliversPlaceSave" aria-hidden="true"><i class="icon fa-save text-white font-size-26" aria-hidden="true"></i></a>
+                        
+                        <a class="panel-action" id="customerDeliversPlaceSave" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/speichern-end.svg') }}" style="width: 50px"></a>
                     {% elseif is_granted('ROLE_FACILITY_MANAGER') %}
                         <a class="panel-action" id="deliveryModalButton" data-toggle="modal" data-target="#newCheckModal" aria-hidden="true" data-toggle="tooltip" data-original-title="neue Ablseung"><i class="icon fa-files-o text-white font-size-26" aria-hidden="true"></i></a>
                     {% endif %}
@@ -666,6 +666,8 @@
                                     <div class="panel-heading">
                                         <h3 class="panel-title text-white">Ablesungen</h3>
                                         <div class="panel-actions text-white">
+                                            
+                                            <a class="panel-action" id="deliveryModalButton" data-toggle="modal" data-target="#newCheckModal" aria-hidden="true" data-toggle="tooltip" data-original-title="neue Ablseung"><img class="" src="{{ asset('assets/images/Icons/hinzufuegen-generell-end.svg') }}" style="width: 40px"></a>
                                             <a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
                                         </div>
                                     </div>
