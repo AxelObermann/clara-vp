@@ -1,0 +1,59 @@
+<div id="newContractModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<form action="/kdls/copy">
+		<input type="hidden" id="modalkdlid" name="kdlsid" value="">
+		<div class="modal-dialog modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Vertrag Duplizieren</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group" style="padding-left: 25px;">
+						<?= $this->Form->control('Tarifnummer',['class' => 'form-control control-width-normal ','label'=>'Tarifnummer ','placeholder'=>'Tarifnummer ']);?>
+					</div>
+					<div class="form-group" style="padding-left: 25px;">
+						<?= $this->Form->control('Tarifname',['class' => 'form-control control-width-normal ','label'=>'Produkt','placeholder'=>'Produkt']);?>
+					</div>
+					<div class="form-group" style="padding-left: 25px;">
+						<?= $this->Form->control('Versorger',['class' => 'form-control control-width-normal ','label'=>'Versorger','placeholder'=>'Versorger']);?>
+					</div>
+					<div class="form-group" style="padding-left: 25px;">
+						<?= $this->Form->control('VersKdNr',['class' => 'form-control control-width-normal ','label'=>'Kundenummer','placeholder'=>'Kundenummer']);?>
+					</div>
+					<div class="form-group" style="padding-left: 25px;">
+						<?= $this->Form->control('FolgeprovM',['class' => 'form-control control-width-normal ','label'=>'Spanne Folge/Verlängerung','placeholder'=>'Spanne Folge/Verlängerung']);?>
+					</div>
+					<div class="form-group" style="padding-left: 25px;">
+						<?= $this->Form->control('Abschlussprovision',['class' => 'form-control control-width-normal ','label'=>'Spanne Fix','placeholder'=>'Spanne Fix']);?>
+					</div>
+					<div class="form-group" style="padding-left: 25px;">
+						<?= $this->Form->control('SpannePKwH',['class' => 'form-control control-width-normal ','label'=>'Spanne pro kWh','placeholder'=>'Spanne pro kWh']);?>
+					</div>
+					<div class="form-group" style="padding-left: 25px;">
+						<?= $this->Form->control('AP',['class' => 'form-control control-width-normal ','label'=>'Preis pro kWh','placeholder'=>'Preis pro kWh']);?>
+					</div>
+					<div class="form-group" style="padding-left: 25px;">
+						<?= $this->Form->control('GP',['class' => 'form-control control-width-normal ','label'=>'Grundgebühr','placeholder'=>'Grundgebühr']);?>
+					</div>
+					<div class="form-group" style="padding-left: 25px;">
+						<?= $this->Form->control('Dauer',['class' => 'form-control control-width-normal ','label'=>'Laufzeit','placeholder'=>'Laufzeit']);?>
+					</div>
+					<div class="form-group" style="padding-left: 25px;">
+						<label for="field">Belieferungs Start</label>
+						<?= $this->Form->date('belieferungsstart',['class' => 'form-control','label'=>'in Belieferung']);?>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary btn-o" data-dismiss="modal">
+						Schließen
+					</button>
+					<button type="submit" class="btn btn-primary">
+						Speichern
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
