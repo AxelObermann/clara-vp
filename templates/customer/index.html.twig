@@ -167,7 +167,7 @@
                                     </div>
                                 </form>
                             </div>
-                        </div>183,06
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -273,6 +273,12 @@
                                                                     <div class="form-group">
                                                                         <span class="text-help-sm">Anrede</span>
                                                                         <input type="text" name="Anrede" id="Anrede" value="" class="form-control form-control-sm round" placeholder="Anrede">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6">
+                                                                    <div class="form-group">
+                                                                        <span class="text-help-sm">Geburtstag</span>
+                                                                        <input type="text" name="Geburtstag" id="Geburtstag" value="" class="form-control form-control-sm round" placeholder="Geburtstag">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -552,8 +558,15 @@
                                                             <div class="row row-lg">
                                                                 <div class="col-lg-6 col-md-6">
                                                                     <div class="form-group">
-                                                                        <span class="text-help-sm">Versorger</span>
-                                                                        <input type="text" name="Versorger" id="Versorger" value="" class="form-control form-control-sm round" placeholder="Versorger">
+																		<div class="form-group-sm" id="VersorgerIDSelectWrap">
+																			<span class="text-help-sm">Versorger</span>
+																			<select data-style="warning" class="text-white" name="Versorger" id="Versorger" data-plugin="selectpicker">
+		                                                                        {% for versorger in suppliers %}
+                                                                                    <option value="{{ versorger.id }}">{{ versorger.name }}</option>
+                                                                                {% endfor %}
+																			</select>
+																		</div>
+                                                                        <!--<input type="text" name="Versorger" id="Versorger" value="" class="form-control form-control-sm round" placeholder="Versorger">-->
                                                                     </div>
                                                                 </div><div class="col-lg-6 col-md-6">
                                                                     <div class="form-group">
