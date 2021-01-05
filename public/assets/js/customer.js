@@ -169,6 +169,7 @@ function getCustomerKdl(id){
             $('#dpId').val(kdl[0].id);
             $('#Firmenname').val(kdl[0].Firmenname);
             $('#Anrede').val(kdl[0].Anrede);
+            $('#Geburtstag').val(kdl[0].Geburtstag);
             $('#Vorname').val(kdl[0].Vorname);
             $('#Nachname').val(kdl[0].Nachname);
             $('#Strasse').val(kdl[0].Strasse);
@@ -193,7 +194,9 @@ function getCustomerKdl(id){
             $('#Zaehlernummer').val(kdl[0].Zaehlernummer);
             $('#MeloID').val(kdl[0].MeloID);
             $('#Medium').val(kdl[0].Medium);
+            $('#Versorger').selectpicker();
             $('#Versorger').val(kdl[0].Versorger);
+            $('#Versorger').selectpicker('refresh');
             $('#Tarifname').val(kdl[0].Tarifname);
             $('#Tarifnummer').val(kdl[0].Tarifnummer);
             $('#VersKdNr').val(kdl[0].VersKdNr);
