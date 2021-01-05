@@ -48,6 +48,21 @@ class DeliverPlaceCheck
      */
     private $deleted;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $versorger;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $sended;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $sendedAt;
+
 
     public function getId(): ?int
     {
@@ -122,6 +137,42 @@ class DeliverPlaceCheck
     public function setDeleted(?bool $deleted): self
     {
         $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    public function getVersorger(): ?int
+    {
+        return $this->versorger;
+    }
+
+    public function setVersorger(?int $versorger): self
+    {
+        $this->versorger = $versorger;
+
+        return $this;
+    }
+
+    public function getSended(): ?bool
+    {
+        return $this->sended;
+    }
+
+    public function setSended(?bool $sended): self
+    {
+        $this->sended = $sended;
+
+        return $this;
+    }
+
+    public function getSendedAt(): ?\DateTimeInterface
+    {
+        return $this->sendedAt;
+    }
+
+    public function setSendedAt(?\DateTimeInterface $sendedAt): self
+    {
+        $this->sendedAt = $sendedAt;
 
         return $this;
     }
