@@ -11,6 +11,7 @@ use App\Repository\CustomerRepository;
 use App\Repository\DeliverPlaceCheckRepository;
 use App\Repository\DeliveryPlaceRepository;
 use App\Repository\NotificationRepository;
+use App\Repository\SupplierRepository;
 use App\Repository\UserRepository;
 use App\Service\MessagesService;
 use Doctrine\ORM\EntityManager;
@@ -54,11 +55,12 @@ class CustomerController extends AbstractController
     /**
      * @Route("/kundenindex", name="customers")
      */
-    public function index(CustomerRepository $customerRepository,UserRepository $userRepository,EntityManagerInterface $entityManager)
+    public function index(CustomerRepository $customerRepository,UserRepository $userRepository,EntityManagerInterface $entityManager, SupplierRepository $supplierRepository)
     {
         $conn = $entityManager->getConnection();
         $user = $userRepository->find($this->getUser()->getId());
         $users = $userRepository->findAll();
+        $suppliers = $supplierRepository->findAll();
         //dd($stmt->fetchAllAssociative());
         $viewName="";
             if ($this->security->isGranted('ROLE_PORTAL_ADMIN')) {
@@ -102,6 +104,7 @@ class CustomerController extends AbstractController
             'controller_name' => $viewName,
             'customers' => $customers,
             'users' => $users,
+            'suppliers' => $suppliers,
         ]);
     }
 
