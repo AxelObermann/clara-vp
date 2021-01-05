@@ -1,157 +1,202 @@
 {% extends 'index.html.twig' %}
 
 {% block body %}
-	<div class="panel shadow-lg">
-		<header class="panel-heading">
-			<h3 class="panel-title"><i class="site-menu-icon icon md-settings" aria-hidden="true" style="font-size: 25px;top: 3px;"></i>System Einstellungen</h3>
-		</header>
-		<div class="panel-body pt-30">
-			<div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
-				<ul class="nav nav-tabs nav-tabs-line" role="tablist">
-					<li class="nav-item" role="presentation"><a class="active nav-link" data-toggle="tab" href="#System" aria-controls="all_contacts" role="tab">System</a></li>
-					<li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#Versorger" aria-controls="my_contacts" role="tab">Versorger</a></li>
-				</ul>
-				<div class="tab-content">
-					<div class="tab-pane animation-fade active" id="System" role="tabpanel">
-					</div>
-					<div class="tab-pane animation-fade" id="Versorger" role="tabpanel">
-						<div class="panel-body">
-							<button type="button" class="close" style="opacity: unset;" data-dismiss="modal" aria-label="Close">
-								<a aria-expanded="true" aria-hidden="true" id="newSupplierButton" data-toggle="modal" data-target="#VersorgerAddModal"><img class="" src="{{ asset('assets/images/Icons/hinzufuegen-generell-end.svg') }}" style="width: 40px"></a>
-							</button>
-							<div class="col-12">
-							
-							</div>
-							<table class="table table-hover dataTable" data-plugin="dataTable" id="supplierIndexTable">
-								<thead>
-								<tr>
-									<th style="width:300px">Name</th>
-									<th style="width:300px">E-Mail</th>
-									<th>Actions</th>
-								</tr>
-								</thead>
-								<tbody>
-								
-								{% for supplier in suppliers %}
+    <div class="panel shadow-lg">
+        <header class="panel-heading">
+            <h3 class="panel-title"><i class="site-menu-icon icon md-settings" aria-hidden="true" style="font-size: 25px;top: 3px;"></i>System Einstellungen</h3>
+        </header>
+        <div class="panel-body pt-30">
+            <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
+                <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                    <li class="nav-item" role="presentation"><a class="active nav-link" data-toggle="tab" href="#System" aria-controls="all_contacts" role="tab">System</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#Versorger" aria-controls="my_contacts" role="tab">Versorger</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#Lieferstellen" aria-controls="my_contacts" role="tab">Lieferstellen</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane animation-fade active" id="System" role="tabpanel">
+                    </div>
+                    <div class="tab-pane animation-fade" id="Versorger" role="tabpanel">
+                        <div class="panel-body">
+                            <button type="button" class="close" style="opacity: unset;" data-dismiss="modal" aria-label="Close">
+                                <a aria-expanded="true" aria-hidden="true" id="newSupplierButton" data-toggle="modal" data-target="#VersorgerAddModal"><img class="" src="{{ asset('assets/images/Icons/hinzufuegen-generell-end.svg') }}" style="width: 40px"></a>
+                            </button>
+                            <div class="col-12">
+                            
+                            </div>
+                            <table class="table table-hover dataTable" data-plugin="dataTable" id="supplierIndexTable">
+                                <thead>
+                                <tr>
+                                    <th style="width:300px">Name</th>
+                                    <th style="width:300px">E-Mail</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                
+                                {% for supplier in suppliers %}
+                                    <tr class="gradeA">
+                                        <td>{{ supplier.name }}</td>
+                                        <td>{{ supplier.email }} </td>
+                                        <td>
+                                            <a href="#" class="" onclick="editSupplier({{ supplier.id }},'{{ supplier.name }}', '{{ supplier.email }}')" data-toggle="tooltip" data-original-title="Edit"><img class="" src="{{ asset('assets/images/Icons/bearbeiten-end.svg') }}" style="width: 30px"></a>
+                                            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" data-toggle="tooltip" data-original-title="Löschen" onclick="deleteSupplier({{ supplier.id }})"><img class="" src="{{ asset('assets/images/Icons/loeschen-end.svg') }}" style="width: 30px"></a>{% endif %}
+                                            {#  {% if is_granted('ROLE_PORTAL_ADMIN') %}<a href="/customer/importkdls/{{ customer.old_id }}" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="tooltip" data-original-title="Import Kdls"><i class="icon md-link" aria-hidden="true" style="font-size: 26px;"></i></a>{% endif %}#}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    
+                    </div>
+                    <div class="tab-pane animation-fade" id="Lieferstellen" role="tabpanel">
+                        <div class="panel-body">
+                            
+                            <div class="col-12">
+                            
+                            </div>
+                            <table class="table table-hover dataTable" data-plugin="dataTable" id="supplierIndexTable">
+                                <thead>
+                                <tr>
+                                    <th style="width:300px">id</th>
+                                    <th style="width:400px">Tarifnummer</th>
+                                    <th>Versorger</th>
+                                    <th style="width:300px">Zaehlernummer</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for place in places %}
+                                    <tr class="gradeA">
+                                        <td>{{ place.id }}</td>
+                                        <td>{{ place.Tarifnummer }}</td>
+                                        <td>{{ place.Versorger }}</td>
+                                        <td>{{ place.Zaehlernummer }}</td>
+                                        <td></td>
+                                    </tr>
+                                {% endfor %}
+                                {#
+                                {% for supplier in suppliers %}
 									<tr class="gradeA">
 										<td>{{ supplier.name }}</td>
 										<td>{{ supplier.email }} </td>
 										<td>
 											<a href="#" class="" onclick="editSupplier({{ supplier.id }},'{{ supplier.name }}', '{{ supplier.email }}')" data-toggle="tooltip" data-original-title="Edit"><img class="" src="{{ asset('assets/images/Icons/bearbeiten-end.svg') }}" style="width: 30px"></a>
 											{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" data-toggle="tooltip" data-original-title="Löschen" onclick="deleteSupplier({{ supplier.id }})"><img class="" src="{{ asset('assets/images/Icons/loeschen-end.svg') }}" style="width: 30px"></a>{% endif %}
-											{#  {% if is_granted('ROLE_PORTAL_ADMIN') %}<a href="/customer/importkdls/{{ customer.old_id }}" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="tooltip" data-original-title="Import Kdls"><i class="icon md-link" aria-hidden="true" style="font-size: 26px;"></i></a>{% endif %}#}
+											
 										</td>
 									</tr>
 								{% endfor %}
-								</tbody>
-							</table>
-						</div>
-						
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div class="modal fade modal-3d-slit" id="VersorgerAddModal" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
-		<div class="modal-dialog modal-simple">
-			<div class="modal-content clara-modal-content">
-				<form method="post" action="{{ path("system_supplier_add") }}" id="globalTodoForm">
-					<div class="modal-header clara-modal-header">
-						<button type="button" style="opacity: unset;" class="close" data-dismiss="modal" aria-label="Close">
-							<img data-toggle="tooltip" data-original-title="Neuer Versorger" class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px">
-						</button>
-						<h4 class="modal-title clara-modal-title"><i class="icon md-settings" aria-hidden="true" style="font-size: 25px"></i> Neuen Versorger anlegen</h4>
-					</div>
-					<div class="modal-body clara-modal-body">
-						<div class="form-group-sm">
-							<span class="text-help-sm">Versorger Name</span>
-							<input type="text" name="name" id="name" value="" size="50" class="form-control form-control-sm round" placeholder="Name">
-						</div>
-						<div class="form-group-sm">
-							<span class="text-help-sm">Versorger Email</span>
-							<input type="email" name="email" id="email" value="" size="50" class="form-control form-control-sm round" placeholder="E-Mail">
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
-						<button type="submit" class="btn btn-warning">Speichern</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<div class="modal fade modal-3d-slit" id="VersorgerEditModal" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
-		<div class="modal-dialog modal-simple">
-			<div class="modal-content clara-modal-content">
-				<form method="post" action="{{ path("system_supplier_edit") }}" id="supplierForm">
-					<input type="hidden" name="supplierId" id="supplierId">
-					<div class="modal-header clara-modal-header">
-						<button type="button" style="opacity: unset;" class="close" data-dismiss="modal" aria-label="Close">
-							<img data-toggle="tooltip" data-original-title="Neuer Versorger" class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px">
-						</button>
-						<h4 class="modal-title clara-modal-title"><i class="icon md-settings" aria-hidden="true" style="font-size: 25px"></i> Versorger bearbeiten</h4>
-					</div>
-					<div class="modal-body clara-modal-body">
-						<div class="form-group-sm">
-							<span class="text-help-sm">Versorger Name</span>
-							<input type="text" name="name" id="supplierName" value="" size="50" class="form-control form-control-sm round" placeholder="Name">
-						</div>
-						<div class="form-group-sm">
-							<span class="text-help-sm">Versorger Email</span>
-							<input type="email" name="email" id="supplierEmail" value="" size="50" class="form-control form-control-sm round" placeholder="E-Mail">
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
-						<button type="submit" class="btn btn-warning">Speichern</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-<script>
-	
-	function editSupplier(id,name,email){
-	    $("#supplierId").val(id);
-	    $("#supplierName").val(name);
-	    $("#supplierEmail").val(email);
-	    $("#VersorgerEditModal").modal('show');
-	    
-	    console.log(id);
-	}
-
-    function deleteSupplier(id){
-		console.log('hier')
-        var supplierIndexTable = $('#supplierIndexTable').DataTable();
-
-        $('#supplierIndexTable').on( 'click', 'tbody tr', function () {
-            var table = this;
+                                #}
+                                </tbody>
+                            </table>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade modal-3d-slit" id="VersorgerAddModal" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple">
+            <div class="modal-content clara-modal-content">
+                <form method="post" action="{{ path("system_supplier_add") }}" id="globalTodoForm">
+                    <div class="modal-header clara-modal-header">
+                        <button type="button" style="opacity: unset;" class="close" data-dismiss="modal" aria-label="Close">
+                            <img data-toggle="tooltip" data-original-title="Neuer Versorger" class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px">
+                        </button>
+                        <h4 class="modal-title clara-modal-title"><i class="icon md-settings" aria-hidden="true" style="font-size: 25px"></i> Neuen Versorger anlegen</h4>
+                    </div>
+                    <div class="modal-body clara-modal-body">
+                        <div class="form-group-sm">
+                            <span class="text-help-sm">Versorger Name</span>
+                            <input type="text" name="name" id="name" value="" size="50" class="form-control form-control-sm round" placeholder="Name">
+                        </div>
+                        <div class="form-group-sm">
+                            <span class="text-help-sm">Versorger Email</span>
+                            <input type="email" name="email" id="email" value="" size="50" class="form-control form-control-sm round" placeholder="E-Mail">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" class="btn btn-warning">Speichern</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade modal-3d-slit" id="VersorgerEditModal" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple">
+            <div class="modal-content clara-modal-content">
+                <form method="post" action="{{ path("system_supplier_edit") }}" id="supplierForm">
+                    <input type="hidden" name="supplierId" id="supplierId">
+                    <div class="modal-header clara-modal-header">
+                        <button type="button" style="opacity: unset;" class="close" data-dismiss="modal" aria-label="Close">
+                            <img data-toggle="tooltip" data-original-title="Neuer Versorger" class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px">
+                        </button>
+                        <h4 class="modal-title clara-modal-title"><i class="icon md-settings" aria-hidden="true" style="font-size: 25px"></i> Versorger bearbeiten</h4>
+                    </div>
+                    <div class="modal-body clara-modal-body">
+                        <div class="form-group-sm">
+                            <span class="text-help-sm">Versorger Name</span>
+                            <input type="text" name="name" id="supplierName" value="" size="50" class="form-control form-control-sm round" placeholder="Name">
+                        </div>
+                        <div class="form-group-sm">
+                            <span class="text-help-sm">Versorger Email</span>
+                            <input type="email" name="email" id="supplierEmail" value="" size="50" class="form-control form-control-sm round" placeholder="E-Mail">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" class="btn btn-warning">Speichern</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        
+        function editSupplier(id,name,email){
+            $("#supplierId").val(id);
+            $("#supplierName").val(name);
+            $("#supplierEmail").val(email);
+            $("#VersorgerEditModal").modal('show');
+            
+            console.log(id);
+        }
+        
+        function deleteSupplier(id){
+            console.log('hier')
+            var supplierIndexTable = $('#supplierIndexTable').DataTable();
+            
+            $('#supplierIndexTable').on( 'click', 'tbody tr', function () {
+                var table = this;
 //console.log(id)
-            var test = swal({
-                title: "Bist Du sicher?",
-                text: "Das Du den Versorger löschen willst",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-warning",
-                confirmButtonText: 'Ja ich will!',
-                closeOnConfirm: false //closeOnCancel: false
-
-            }, function () {
-                var kdl ="";
-                $.ajax( {
-                    method: 'POST',
-                    url: '/system/supplier/delete/'+id,
-                    dataType: 'json',
-                    complete: function (data){
-                        //console.log('complete');
-                        kdl = JSON.parse(data.responseText);
-                        //console.log(kdl);
-                        supplierIndexTable.row($(table).closest("tr")) .remove().draw();
-                        swal("Gelöscht", kdl, "success");
-                    }});
+                var test = swal({
+                    title: "Bist Du sicher?",
+                    text: "Das Du den Versorger löschen willst",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-warning",
+                    confirmButtonText: 'Ja ich will!',
+                    closeOnConfirm: false //closeOnCancel: false
+                    
+                }, function () {
+                    var kdl ="";
+                    $.ajax( {
+                        method: 'POST',
+                        url: '/system/supplier/delete/'+id,
+                        dataType: 'json',
+                        complete: function (data){
+                            //console.log('complete');
+                            kdl = JSON.parse(data.responseText);
+                            //console.log(kdl);
+                            supplierIndexTable.row($(table).closest("tr")) .remove().draw();
+                            swal("Gelöscht", kdl, "success");
+                        }});
+                });
             });
-        });
-    }
-</script>
+        }
+    </script>
 {% endblock %}
