@@ -434,7 +434,7 @@ class CustomerController extends AbstractController
         if ($content = $request->getContent()) {
             $rp = json_decode($content, true);
         }
-
+//dd($rp);
 
         if($rp['actionDP'] == 'new'){
             $dePLace = new DeliveryPlace();
@@ -452,6 +452,7 @@ class CustomerController extends AbstractController
         }
         $dePLace->setFirmenname($rp['Firmenname']);
         $dePLace->setAnrede($rp['Anrede']);
+        $dePLace->setGeburtstag($rp['Geburtstag']);
         $dePLace->setVorname($rp['Vorname']);
         $dePLace->setNachname($rp['Nachname']);
         $dePLace->setStrasse($rp['Strasse']);
