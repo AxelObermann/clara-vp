@@ -42,8 +42,9 @@ class SystemController extends AbstractController
             $supplier = new Supplier();
             $supplier->setName($supl['versorger']);
             $entityManager->persist($supplier);
+            $entityManager->flush();
         }
-        $entityManager->flush();
+
         die();
         dd($suppliers);
     }
