@@ -65,7 +65,9 @@ $( document ).ready(function() {
         $('#Zaehlernummer').val('');
         $('#MeloID').val('');
         $('#Medium').val('');
-        $('#Versorger').val('');
+        $('#Versorger').selectpicker();
+        $('#Versorger').val("");
+        $('#Versorger').selectpicker('refresh');
         $('#Tarifname').val('');
         $('#Tarifnummer').val('');
         $('#VersKdNr').val('');
