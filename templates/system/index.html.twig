@@ -21,11 +21,12 @@
                                 <a aria-expanded="true" aria-hidden="true" id="newSupplierButton" data-toggle="modal" data-target="#VersorgerAddModal"><img class="" src="{{ asset('assets/images/Icons/hinzufuegen-generell-end.svg') }}" style="width: 40px"></a>
                             </button>
                             <div class="col-12">
-                            
+                                <h3>Bitte den Versorger ohne Namen nicht ändern oder löschen!!!</h3>
                             </div>
                             <table class="table table-hover dataTable" data-plugin="dataTable" id="supplierIndexTable">
                                 <thead>
                                 <tr>
+                                    <th style="width:50px">id</th>
                                     <th style="width:300px">Name</th>
                                     <th style="width:300px">E-Mail</th>
                                     <th>Actions</th>
@@ -35,6 +36,7 @@
                                 
                                 {% for supplier in suppliers %}
                                     <tr class="gradeA">
+                                        <td>{{ supplier.id }}</td>
                                         <td>{{ supplier.name }}</td>
                                         <td>{{ supplier.email }} </td>
                                         <td>
