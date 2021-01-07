@@ -23,9 +23,11 @@
                             <div class="col-12">
                                 <h3>Bitte den Versorger ohne Namen nicht ändern oder löschen!!!</h3>
                             </div>
+                            <form method="post">
                             <table class="table table-hover dataTable" data-plugin="dataTable" id="supplierIndexTable">
                                 <thead>
                                 <tr>
+                                    <th style="width:50px">Check</th>
                                     <th style="width:50px">id</th>
                                     <th style="width:300px">Name</th>
                                     <th style="width:300px">E-Mail</th>
@@ -36,6 +38,7 @@
                                 
                                 {% for supplier in suppliers %}
                                     <tr class="gradeA">
+                                        <td><input type="checkbox" name="check[]" value="{{ supplier.id }}"></td>
                                         <td>{{ supplier.id }}</td>
                                         <td>{{ supplier.name }}</td>
                                         <td>{{ supplier.email }} </td>
@@ -48,6 +51,8 @@
                                 {% endfor %}
                                 </tbody>
                             </table>
+                                <input type="submit" class="btn btn-success round" value="Speichern">
+                            </form>
                         </div>
                     
                     </div>
