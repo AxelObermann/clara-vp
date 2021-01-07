@@ -4,17 +4,12 @@
 	<div class="panel shadow-lg" style="border: 3px solid #f19408;">
 		<header class="panel-heading">
 			<img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Benutzer-end.svg') }}"><h3 class="panel-title">Benutzer</h3>
+			<div class="panel-actions text-white">
+				<a class="text-white" href="{{ path('user_add') }}"> <img class="" src="{{ asset('assets/images/Icons/hinzufuegen-generell-end.svg') }}" style="width: 40px"></a>
+			</div>
 		</header>
 		<div class="panel-body">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="mb-15 pt-10">
-						<button type="button" class="btn-raised btn btn-danger btn-floating waves-effect waves-classic waves-effect waves-light">
-							<a class="text-white" href="{{ path('user_add') }}"> <i class="icon md-accounts-add" aria-hidden="true"></i></a>
-						</button>
-					</div>
-				</div>
-			</div>
+			<div class="pt-25">
 			<table class="table table-hover dataTable table-striped w-full" data-plugin="dataTable" id="UserIndexTable">
 				<thead>
 				<tr>
@@ -64,6 +59,7 @@
 				{% endfor %}
 				</tbody>
 			</table>
+			</div>
 		</div>
 	</div>
 	
