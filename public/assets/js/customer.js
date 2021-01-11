@@ -523,6 +523,21 @@ function getCustomerWithAdress(id,test){
                     if(obj.Medium=="5"){
                         mediumicon = '<img src="/assets/images/Icons/digitale-Zaehler-end.svg" style="width: 30px;">';
                     }
+                    if(obj.Medium=="6"){
+                        mediumicon = '6';
+                    }
+                    if(obj.Medium=="7"){
+                        mediumicon = '7';
+                    }
+                    if(obj.Medium=="8"){
+                        mediumicon = '8';
+                    }
+                    if(obj.Medium=="9"){
+                        mediumicon = '9';
+                    }
+                    if(obj.Medium=="10"){
+                        mediumicon = '10';
+                    }
                     if (test){
                         aktionCell = '<a href="#" class="mr-5" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><img class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 30px"></a>' +
                             '<a href="#" class="mr-5" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 30px"></a>';
