@@ -297,12 +297,14 @@ function getCustomerKdl(id){
 
 
                 checks.forEach(function (obj) {
+
                     var cd = new Date(obj.datum.date);
                     monat =cd.getMonth()+1;
                     checktable.row.add( [
                         cd.getDate()+"."+monat+"."+cd.getFullYear(),
                         obj.wert,
-                        '<a href="#" class="mr-5" onclick="editDPC('+obj.id+')" data-toggle="tooltip" data-original-title="Bearbeiten"><img class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 30px"></a><a href="#" class="" onclick="deleteDeliveryPlaceCheck('+obj.id+')" data-toggle="tooltip" data-original-title="Löschen"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 30px">       </a>'
+                        '<a href="#" class="mr-5" onclick="editDPC('+obj.id+')" data-toggle="tooltip" data-original-title="Bearbeiten"><img class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 30px"></a><a href="#" class="" onclick="deleteDeliveryPlaceCheck('+obj.id+')" data-toggle="tooltip" data-original-title="Löschen"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 30px"></a><a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="dpcUpload('+obj.id+')"  data-toggle="tooltip" data-original-title="Upload"><img class="" src="/assets/images/Icons/Aktionsbutton-Upload-gross-end.svg" style="width: 30px"></a>'
+
                     ] ).draw( false );
 
                 });
@@ -314,6 +316,32 @@ function getCustomerKdl(id){
     $('#customerDeliversPlace').toggleClass( 'slidePanel-show lvl2-sidePanel-show', 1000 );
 
 }
+
+function dpcUpload(id){
+    $("#dpcuid").val(id);
+    $("#UploadCheckModal").modal('show');
+}
+$('#dpcUploadSubmit').click(function (evt) {
+    evt.preventDefault();
+    var myForm = document.getElementById('UploadDeliveryCheckForm');
+    var formData = new FormData($("#UploadDeliveryCheckForm")[0]);
+
+
+    $.ajax({
+        url: "/deliveryplace/check/upload",
+        type: "POST",
+        data:formData,
+        contentType: false,
+        processData: false,
+        complete: function (data){
+            $("#dpcuid").val();
+            $( "#UploadCheckModal" ).modal('hide');
+            $( "#edpcid" ).val('')
+            toastr['success'](JSON.parse(data.responseText));
+        }
+    });
+    console.log("save");
+});
 function editDPC(id,wert,datum){
 
     $.ajax( {
@@ -545,8 +573,9 @@ function getCustomerWithAdress(id,test){
                         aktionCell = '<a href="#" class="mr-5" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><img class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 30px"></a>' +
                             '<a href="#" class="mr-5" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 30px"></a>';
                     }
-                    if (testrole=="ROLE_ADMIN")
+                    if (testrole=="ROLE_ADMIN" || testrole=="ROLE_PORTAL_ADMIN")
                         aktionCell = aktionCell + '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default open-movedelivery"  data-toggle="modal" data-target="#moveDeliveryPlaceModal" data-id="'+obj.id+'" data-toggle="tooltip" data-original-title="Verschieben"><img class="" src="/assets/images/Icons/verschieben-end.svg" style="width: 30px"></a>';
+
 
                     t.row.add( [
                         obj.Tarifnummer,
