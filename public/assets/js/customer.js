@@ -64,7 +64,9 @@ $( document ).ready(function() {
         $('#MaloID').val('');
         $('#Zaehlernummer').val('');
         $('#MeloID').val('');
-        $('#Medium').val('');
+        $('#mediumselect').selectpicker();
+        $('#mediumselect').val('')
+        $('#mediumselect').selectpicker('refresh');
         $('#Versorger').selectpicker();
         $('#Versorger').val("");
         $('#Versorger').selectpicker('refresh');
@@ -101,7 +103,7 @@ $( document ).ready(function() {
             dataType: 'json',
             data: result,
             complete: function (data){
-                //console.log(JSON.parse(data.responseText));
+
                 $('#actionDP').val('');
                 toastr.success(JSON.parse(data.responseText));
             }});
@@ -131,7 +133,7 @@ $( document ).ready(function() {
             dataType: 'json',
             data: result,
             complete: function (data){
-                //console.log(JSON.parse(data.responseText));
+
                 $('#action').val('');
                 toastr.success(JSON.parse(data.responseText));
             }});
@@ -146,12 +148,15 @@ $( document ).ready(function() {
         tableulf
             .clear()
             .draw();
-        $('#dpChecksRow').hide();
+
         var tablecheck = $('#dpCheckTable').DataTable();
 
         tablecheck
             .clear()
             .draw();
+        $('#mediumselect').selectpicker();
+        $('#mediumselect').val('');
+        $('#mediumselect').selectpicker('refresh');
         $('#customerDeliversPlace').toggleClass( 'slidePanel-show lvl2-sidePanel-show', 1000 );
     });
 }); // end Ready Function
@@ -165,7 +170,7 @@ function getCustomerKdl(id){
         url: '/customer/get_kdl/'+id,
         dataType: 'json',
         complete: function (data){
-            //console.log('complete');
+
             var kdl = JSON.parse(data.responseText);
             $('#deliveryPlaceTitle').text(kdl[0].Firmenname);
             $('#dpId').val(kdl[0].id);
@@ -195,6 +200,9 @@ function getCustomerKdl(id){
             $('#MaloID').val(kdl[0].MaloID);
             $('#Zaehlernummer').val(kdl[0].Zaehlernummer);
             $('#MeloID').val(kdl[0].MeloID);
+            $('#mediumselect').selectpicker();
+            $('#mediumselect').val(kdl[0].Medium)
+            $('#mediumselect').selectpicker('refresh');
             $('#Medium').val(kdl[0].Medium);
             $('#Versorger').selectpicker();
             $('#Versorger').val(kdl[0].Versorger);
@@ -207,7 +215,7 @@ function getCustomerKdl(id){
             $('#SpannePKwH').val(kdl[0].SpannePKwH);
             $('#AP').val(kdl[0].AP);
             $('#GP').val(kdl[0].GP);
-            $('#Vertragsbeginn').val(kdl[0].Vertragsbeginn.date);
+            $('#Vertragsbeginn').val(kdl[0].Vertragsbeginn);
             $('#Dauer').val(kdl[0].Dauer);
 
             if (kdl[0].stab){
@@ -218,8 +226,6 @@ function getCustomerKdl(id){
             }else{
                 $('#stab').val('');
             }
-            //console.log($.datepicker.formatDate('yy-mm-dd', new Date()))
-            //console.log(kdl[0]);
         }});
     $.ajax( {
         method: 'POST',
@@ -232,17 +238,16 @@ function getCustomerKdl(id){
                 $('#facUserSelect').empty();
                 $("#facUserSelect").selectpicker("refresh");
                 $('#kdlFacilityUserSelectWrap').hide();
-                console.log('Nein')
             }else{
 
                 var mitarbeiter = JSON.parse(data.responseText);
                 $('#kdlFacilityUserSelectWrap').show();
-                //console.log(mitarbeiter)
+
                 if (mitarbeiter.length != 0){
                     $('#facUserSelect').empty();
 
                     mitarbeiter.forEach(function(obj) {
-//                        console.log(obj);
+//
                         //$("<option/>").val(option.id).text(option.title).appendTo('#facUserSelect');
                         $('#facUserSelect').append('<option value="'+obj.id+'">'+obj.displayName+'</option>');
                         $("#facUserSelect").val(obj.id);
@@ -250,7 +255,7 @@ function getCustomerKdl(id){
                         //optionsadd = optionsadd + '<option value="'+obj.id+'">'+obj.displayName+'</option>';
                     });
                 };
-                console.log(optionsadd);
+
                 //$('#facUserSelect').innerHTML =optionsadd;
 
             }
@@ -264,7 +269,7 @@ function getCustomerKdl(id){
         complete: function (data){
             var dateien = JSON.parse(data.responseText);
             var d = $('#uploadedFileTable').DataTable();
-            console.log(dateien.length)
+
             if (dateien.length != 0) {
                 $('#uploadedFilesRow').show();
                 dateien.forEach(function (obj) {
@@ -272,7 +277,7 @@ function getCustomerKdl(id){
                         '<a href="'+obj.file+'" target="_blank">'+obj.file+'</a>',
                         obj.uploaded.date
                     ] ).draw( false );
-                    console.log(obj.file)
+
                 });
             }
             }
@@ -286,10 +291,10 @@ function getCustomerKdl(id){
         complete: function (data){
             var checks = JSON.parse(data.responseText);
             var checktable = $('#dpCheckTable').DataTable();
-            console.log(checks.length)
+
             if (checks.length != 0) {
                 $('#dpChecksRow').show();
-                console.log(checks)
+
 
                 checks.forEach(function (obj) {
                     var cd = new Date(obj.datum.date);
@@ -299,7 +304,7 @@ function getCustomerKdl(id){
                         obj.wert,
                         '<a href="#" class="mr-5" onclick="editDPC('+obj.id+')" data-toggle="tooltip" data-original-title="Bearbeiten"><img class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 30px"></a><a href="#" class="" onclick="deleteDeliveryPlaceCheck('+obj.id+')" data-toggle="tooltip" data-original-title="Löschen"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 30px">       </a>'
                     ] ).draw( false );
-                    console.log(obj.file)
+
                 });
             }
             }
@@ -307,10 +312,10 @@ function getCustomerKdl(id){
 
 
     $('#customerDeliversPlace').toggleClass( 'slidePanel-show lvl2-sidePanel-show', 1000 );
-    //console.log(id);
+
 }
 function editDPC(id,wert,datum){
-    console.log('edit')
+
     $.ajax( {
         method: 'POST',
         //url: '/customer/getfm/'+175,
@@ -336,7 +341,7 @@ function deleteCustomer(id){
 
     $('#customerTable').on( 'click', 'tbody tr', function () {
         var table = this;
-//console.log(id)
+
         var test = swal({
             title: "Bist Du sicher?",
             text: "Das Du den Kunden löschen willst",
@@ -353,9 +358,9 @@ function deleteCustomer(id){
                 url: '/customer/delete/'+id,
                 dataType: 'json',
                 complete: function (data){
-                    //console.log('complete');
+
                     kdl = JSON.parse(data.responseText);
-                    //console.log(kdl);
+
                     customerTable.row($(table).closest("tr")) .remove().draw();
                     swal("Gelöscht", kdl, "success");
                 }});
@@ -388,7 +393,7 @@ function deleteDeliveryPlace(id){
                 url: '/customer/deleteDP/'+id,
                 dataType: 'json',
                 complete: function (data){
-                    console.log('complete');
+
                     kdl = JSON.parse(data.responseText);
                     CustomerKdlTable.row($(table).closest("tr")) .remove().draw();
                     swal("Gelöscht", kdl, "success");
@@ -420,7 +425,7 @@ function deleteDeliveryPlaceCheck(id){
                 url: '/customer/deleteDPCheck/'+id,
                 dataType: 'json',
                 complete: function (data){
-                    console.log('complete');
+
                     kdl = JSON.parse(data.responseText);
                     dpCheckTable.row($(table).closest("tr")) .remove().draw();
                     swal("Gelöscht", kdl, "success");
@@ -433,6 +438,7 @@ function deleteDeliveryPlaceCheck(id){
 
 function getCustomerWithAdress(id,test){
     var aktionCell="";
+    var mediumicon="";
     var inner="";
     $('#customerIndexPanel').toggleClass( 'is-loading');
     $('#action').val('edit');
@@ -447,14 +453,14 @@ function getCustomerWithAdress(id,test){
         url: '/customer/edit/'+id,
         dataType: 'json',
         complete: function (data){
-            //console.log('complete');
+
             var custo = JSON.parse(data.responseText);
             $('#CustomerTitle').text(custo[0].fullName)
             $('#customerId').val(custo[0].id)
             $('#CustomerTitle').val(custo[0].fullName)
             $('#customerFullName').val(custo[0].fullName)
             $('#customerContactPerson').val(custo[0].contactPerson)
-            //console.log(custo[0]);
+
         }});
 
     $.ajax( {
@@ -462,7 +468,7 @@ function getCustomerWithAdress(id,test){
         url: '/customer/getAdress/'+id,
         dataType: 'json',
         complete: function (data){
-            //console.log('complete');
+
             var adress = JSON.parse(data.responseText);
             $('#customerAdressId').val(adress[0].id)
             $('#adressStreet').val(adress[0].street)
@@ -472,27 +478,28 @@ function getCustomerWithAdress(id,test){
             $('#adressPhone').val(adress[0].phone)
             $('#adressFax').val(adress[0].fax)
             $('#adressMail').val(adress[0].mail)
-            //console.log(adress);
+
         }});
     $.ajax( {
         method: 'POST',
         url: '/customer/getkdls/'+id,
         dataType: 'json',
         complete: function (data){
-            //console.log('complete');
+
             var kdls = JSON.parse(data.responseText);
-            //console.log(kdls);
+
             var t = $('#CustomerKdlTable').DataTable();
             rows = t
                 .rows()
                 .remove()
                 .draw();
             if (kdls.length != 0){
-                console.log(testrole);
+
 
                 kdls.forEach(function(obj) {
+                    mediumicon="";
                     if (obj.checkdate){
-                        console.log("*****"+obj.checkdate)
+
                         var cd = new Date(obj.checkdate.date);
                         monat = cd.getMonth()+1;
                         checkcell = cd.getDate()+"."+monat+"."+cd.getFullYear();
@@ -501,6 +508,21 @@ function getCustomerWithAdress(id,test){
                         checkcell='';
                     }
 
+                    if(obj.Medium=="1"){
+                        mediumicon = '<img src="/assets/images/Icons/Strom-end.svg" style="width: 30px;">';
+                    }
+                    if(obj.Medium=="2"){
+                        mediumicon = '<img src="/assets/images/Icons/Gas-end.svg" style="width: 30px;">';
+                    }
+                    if(obj.Medium=="3"){
+                        mediumicon = '<img src="/assets/images/Icons/Strom-o-end.svg" style="width: 30px;">';
+                    }
+                    if(obj.Medium=="4"){
+                        mediumicon = '<img src="/assets/images/Icons/Gas-o-end.svg" style="width: 30px;">';
+                    }
+                    if(obj.Medium=="5"){
+                        mediumicon = '<img src="/assets/images/Icons/digitale-Zaehler-end.svg" style="width: 30px;">';
+                    }
                     if (test){
                         aktionCell = '<a href="#" class="mr-5" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><img class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 30px"></a>' +
                             '<a href="#" class="mr-5" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 30px"></a>';
@@ -521,17 +543,13 @@ function getCustomerWithAdress(id,test){
                         obj.Hausnummer,
                         obj.PLZ,
                         obj.Ort,
-                        '<i class="icon '+obj.Medium+'" aria-hidden="true" style="font-size: 25px;color: #f19408;"></i>',
+                        mediumicon,
                         obj.Verbrauch,
                         obj.Versorger,
                         obj.Zaehlernummer,
                         checkcell,
                         aktionCell
-
                 ] ).draw( false );
-
-
-                    //console.log(obj);
                     $('#CustomerKdls').show();
                     });
             }
@@ -542,7 +560,7 @@ function getCustomerWithAdress(id,test){
 }
 
 function createFCTodo(){
-    //console.log("todoerstellen");
+
     var toUser = $('#facUserSelect').val();
     var adresse = $('#ReFirma').val()+"<br>"+$('#ReStrasse').val()+" "+$('#ReFirma').val()+"<br>"+$('#RePLZ').val()+" "+$('#ReOrt').val();
     var zaehler = $('#Zaehlernummer').val();
@@ -560,7 +578,7 @@ function createFCTodo(){
     }
     doneUntil = doneUntil.replace("/","-");
     doneUntil = doneUntil.replace("/","-");
-    console.log(doneUntil);
+
     var DPCustomerID = $('#DPCustomerID').val();
     var dpId = $('#dpId').val();
     if (medium=="fa-flash"){
