@@ -195,7 +195,10 @@ function getCustomerKdl(id){
             $('#BIC').val(kdl[0].Bic);
             $('#Vorversorger').val(kdl[0].Vorversorger);
             $('#Kundennummer').val(kdl[0].Kundennummer);
-            $('#Kundenart').val(kdl[0].Kundenart);
+            $('#Kundenart').selectpicker();
+            $('#Kundenart').val(kdl[0].Kundenart)
+            $('#Kundenart').selectpicker('refresh');
+            //$('#Kundenart').val(kdl[0].Kundenart);
             $('#Verbrauch').val(kdl[0].Verbrauch);
             $('#MaloID').val(kdl[0].MaloID);
             $('#Zaehlernummer').val(kdl[0].Zaehlernummer);
@@ -526,6 +529,7 @@ function getCustomerWithAdress(id,test){
 
                 kdls.forEach(function(obj) {
                     mediumicon="";
+                    kundenicon = "";
                     if (obj.checkdate){
 
                         var cd = new Date(obj.checkdate.date);
@@ -566,6 +570,13 @@ function getCustomerWithAdress(id,test){
                     if(obj.Medium=="10"){
                         mediumicon = '10';
                     }
+                    if(obj.Kundenart=="1"){
+                        kundenicon = '<img src="/assets/images/Icons/Kunden-gewerblich-end.svg" style="width: 30px;">';
+                    }
+                    if(obj.Kundenart=="2"){
+                        kundenicon = '<img src="/assets/images/Icons/Kunden-privat-end.svg" style="width: 30px;">';
+                    }
+
                     if (test){
                         aktionCell = '<a href="#" class="mr-5" onclick="getCustomerKdl('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><img class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 30px"></a>' +
                             '<a href="#" class="mr-5" onclick="deleteDeliveryPlace('+obj.id+')" data-toggle="tooltip" data-original-title="Edit"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 30px"></a>';
@@ -582,7 +593,7 @@ function getCustomerWithAdress(id,test){
                         obj.Firmenname,
                         obj.Vorname,
                         obj.Nachname,
-                        '<i class="icon '+obj.Kundenart+'" aria-hidden="true" style="font-size: 25px;color: #f19408;"></i>',
+                        kundenicon,
                         obj.Strasse,
                         obj.Hausnummer,
                         obj.PLZ,
