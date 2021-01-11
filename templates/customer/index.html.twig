@@ -510,6 +510,7 @@
                                                                             <option value="7">Wasser warm</option>
                                                                             <option value="8">Wasser kalt</option>
                                                                             <option value="9">Wasser sonstige</option>
+                                                                            <option value="10">Wärmepumpe</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -763,6 +764,31 @@
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
                         <button type="submit" class="btn btn-warning">Speichern</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade modal-3d-slit" id="UploadCheckModal" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple">
+            <div class="modal-content clara-modal-content">
+                <form method="post" enctype="multipart/form-data" action="/deliveryplace/check/upload" id="UploadDeliveryCheckForm">
+					<input type="hidden" name="dpcuid" id="dpcuid" value="">
+                    <div class="modal-header clara-modal-header">
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title clara-modal-title"><img class="" src="/assets/images/Icons/Aktionsbutton-Upload-gross-end.svg" style="width: 30px"> Upload zur Ablesung</h4>
+                    </div>
+                    <div class="modal-body clara-modal-body">
+                        <div class="form-group">
+                            <span class="text-help">Datei</span>
+                            <input type="file" name="file" placeholder="Datei auswählen">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" id="dpcUploadSubmit" class="btn btn-warning">Speichern</button>
                     </div>
                 </form>
             </div>
