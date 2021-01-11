@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Supplier;
+use App\Repository\DeliverPlaceCheckRepository;
 use App\Repository\DeliveryPlaceRepository;
 use App\Repository\SupplierRepository;
 use Doctrine\ORM\EntityManager;
@@ -33,6 +34,7 @@ class SystemController extends AbstractController
      * @Route ("system/syncsupplier" , name="sync_suppliers")
      */
     public function syncSupplier(EntityManagerInterface $entityManager){
+
         $conn = $entityManager->getConnection();
         $sql = "SELECT DISTINCT versorger from delivery_place order by versorger ASC";
         $stmt = $conn->prepare($sql);
@@ -92,7 +94,17 @@ class SystemController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route ("system/settings", name="system_settings")
      */
-    public function systemSettings(SupplierRepository $supplierRepository, DeliveryPlaceRepository $deliveryPlaceRepository){
+    public function systemSettings(SupplierRepository $supplierRepository, DeliveryPlaceRepository $deliveryPlaceRepository,DeliverPlaceCheckRepository $deliverPlaceCheckRepository,Request $request){
+        if ($request->isMethod("POST")){
+            $selSupps = $request->get("check");
+
+            foreach ($selSupps as $supplier){
+                $supp = $supplierRepository->find($supplier);
+                $checks = $deliverPlaceCheckRepository->findBy(array('versorger' => $supp->getId()));
+                dump($checks);
+            }
+            die();
+        }
         $suppliers = $supplierRepository->findAll();
         $dps = $deliveryPlaceRepository->findAll();
         return $this->render('system/index.html.twig', [
