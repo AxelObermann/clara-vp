@@ -385,14 +385,14 @@
         initDropzone();
         $('#toggleUpload').click(function () {
 			{% if '/user/edit' in app.request.pathInfo %}
-            console.log('test {{ app.request.pathInfo }}');
+   
 	
 			{% endif %}
             $('#site-sidebar').toggleClass( 'slidePanel-show', 1000 );
         });
         
         $(document).on("click", ".open-movedelivery", function () {
-            console.log('MOVEMODAL')
+            
             var dlid = $(this).data('id');
             $(".modal-body #dlid").val( dlid );
             
@@ -400,7 +400,7 @@
         });
 
         $(document).on("click", ".open-AddBookDialog", function () {
-			console.log('MODAL')
+			
             var myBookId = $(this).data('id');
             $(".modal-body #userId").val( myBookId );
             $("#todoModal").show();
