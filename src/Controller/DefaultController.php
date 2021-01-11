@@ -6,6 +6,7 @@ use App\Entity\Profile;
 use App\Entity\Supplier;
 use App\Entity\UploadedFiles;
 use App\Entity\User;
+use App\Repository\DeliverPlaceCheckRepository;
 use App\Repository\DeliveryPlaceRepository;
 use App\Repository\MessagesRepository;
 use App\Repository\NotificationRepository;
@@ -148,6 +149,40 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @Route ("/deliveryplace/check/upload")
+     * @param Request $reµquest
+     */
+    public function uploadDPCFile(Request $request,DeliverPlaceCheckRepository $deliverPlaceCheckRepository,UploaderHelper $uploaderHelper,EntityManagerInterface $entityManager){
+        //dd($request);
+        $uploadedFile = $request->files->get("file");
+        $dpc = $deliverPlaceCheckRepository->find($request->get('dpcuid'));
+        $upp = "/DP/".$dpc->getDeliveryPlace()->getId();
+
+        $fn = "";
+        $today = new \DateTime();
+        $fn .= $today->format('Y')."-ZF-";
+
+        if ($dpc->getDeliveryPlace()->getMedium()=="1"){
+            $fn .= "STROM-";
+        }elseif ($dpc->getDeliveryPlace()->getMedium()=="2"){
+            $fn .= "GAS-";
+        }elseif ($dpc->getDeliveryPlace()->getMedium()=="10"){
+            $fn .= "XXX-";
+        }
+        $fn.= $dpc->getDeliveryPlace()->getTarifnummer();
+        $test = $uploaderHelper->uploadFacilityFile($uploadedFile, $upp,$fn);
+        $ufile = new UploadedFiles();
+        $ufile->setDeliveryPlace($dpc->getDeliveryPlace());
+        $ufile->setUploaded(new \DateTime());
+        $ufile->setFile("/UPLOADS/DP/".$dpc->getDeliveryPlace()->getId()."/".$test);
+        $ufile->setActive(1);
+        $entityManager->persist($ufile);
+
+        $entityManager->flush();
+        return new JsonResponse("Die  Datei wurde erfolreich gespeichert");
+    }
+
+    /**
      * @param Request $request
      * @param UploaderHelper $uploaderHelper
      * @Route ("upload/facility/dashboard")
@@ -161,11 +196,11 @@ class DefaultController extends AbstractController
         $today = new \DateTime();
         $fn .= $today->format('Y')."-ZF-";
 
-        if ($dp->getMedium()=="fa-flash"){
+        if ($dp->getMedium()=="1"){
             $fn .= "STROM-";
-        }elseif ($dp->getMedium()=="fa-fire"){
+        }elseif ($dp->getMedium()=="2"){
             $fn .= "GAS-";
-        }elseif ($dp->getMedium()=="fa-fire-extinguisher"){
+        }elseif ($dp->getMedium()=="10"){
             $fn .= "XXX-";
         }
         $fn.= $dp->getTarifnummer();
