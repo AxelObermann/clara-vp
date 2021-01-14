@@ -1,3 +1,181 @@
 {% extends 'index.html.twig' %}
 {% block body %}
+<div class="panel mb-0" id="customerPanel">
+	<div class="panel-heading">
+		<img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Kunden-end.svg') }}"><h3 class="panel-title"> Kunde: <span id="CustomerTitle"></span></h3>
+			<div class="panel-actions">
+				<a class="panel-action icon wb-minus text-white" href="{{ path('customers') }}"></a>
+				
+			</div>
+	</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-12">
+				<form method="post">
+					<input type="hidden" name="aid" value="{{ customer.adrid }}">
+					<div class="panel shadow-lg" id="kundendaten" style="margin-top: 15px;">
+						<div class="panel-heading" >
+						<h3 class="panel-title text-white">Kundendaten</h3>
+						<div class="panel-actions text-white">
+							{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}
+								<a class="panel-action" href="javascript:void(0)" id="showNotes"> <img class="" src="{{ asset('assets/images/Icons/Aktionsbutton-Note-gross-end.svg') }}" style="width: 40px"></a>
+								<button type="submit" class="panel-action" id="customerSave" data-toggle="tooltip" data-original-title="Speichern" aria-hidden="true" style="border: none">
+								<img class="" src="{{ asset('assets/images/Icons/speichern-end.svg') }}" style="width: 40px">
+								</button>
+							{% endif %}
+							<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+						</div>
+						</div>
+					
+						<div class="panel-body container-fluid">
+							<div class="row-lg">
+								<div class="col-md-6 float-left">
+										<div class="row row-lg">
+											<div class="col-lg-6 col-md-6">
+												<div class="form-group-sm">
+													<span class="text-help-sm">Name</span>
+													<input type="text" name="fullName" id="customerFullName" value="{{ customer.full_name }}" size="50" class="form-control form-control-sm round" placeholder="Name">
+												</div>
+											</div>
+											<div class="col-lg-4 col-md-4">
+												<div class="form-group">
+													<span class="text-help-sm">Kontakt Person</span>
+													<input type="text" name="contactPerson" id="customerContactPerson" value="{{ customer.contact_person }}" class="form-control form-control-sm round" placeholder="Kontakt Person">
+												</div>
+											</div>
+										</div>
+										<div class="row row-lg">
+											<div class="col-lg-4 col-md-4">
+												<div class="form-group">
+													<span class="text-help-sm">Strasse</span>
+													<input type="text" name="street" id="adressStreet" value="{{ customer.street }}" class="form-control form-control-sm round" placeholder="Strasse">
+												</div>
+											</div>
+											<div class="col-lg-2 col-md-2">
+												<div class="form-group">
+													<span class="text-help-sm">Hausnummer</span>
+													<input type="text" name="strnumber" id="adressStreetNumber" value="{{ customer.street_number }}" class="form-control form-control-sm round" placeholder="Hausnummer">
+												</div>
+											</div>
+										</div>
+										<div class="row row-lg">
+											<div class="col-lg-2 col-md-2">
+												<div class="form-group">
+													<span class="text-help-sm">PLZ</span>
+													<input type="text" name="PLZ" id="adressPLZ" value="{{ customer.zip }}" class="form-control form-control-sm round" placeholder="PLZ">
+												</div>
+											</div>
+											<div class="col-lg-6 col-md-6">
+												<div class="form-group">
+													<span class="text-help-sm">Ort</span>
+													<input type="text" name="Town" id="adressTown" value="{{ customer.town }}" class="form-control form-control-sm round" placeholder="Ort">
+												</div>
+											</div>
+										</div>
+										<div class="row row-lg">
+											<div class="col-lg-6 col-md-6">
+												<div class="form-group">
+													<span class="text-help-sm">Telefon</span>
+													<input type="text" name="phone" id="adressPhone" value="{{ customer.phone }}" class="form-control form-control-sm round" placeholder="Telefon">
+												</div>
+											</div>
+											<div class="col-lg-6 col-md-6">
+												<div class="form-group">
+													<span class="text-help-sm">Fax</span>
+													<input type="text" name="fax" id="adressFax" value="{{ customer.fax }}" class="form-control form-control-sm round" placeholder="Fax">
+												</div>
+											</div>
+										</div>
+										<div class="row row-lg">
+											<div class="col-lg-6 col-md-6">
+												<div class="form-group">
+													<span class="text-help-sm">EMail</span>
+													<input type="email" name="mail" id="adressMail" value="{{ customer.mail }}" data-fv-field="standard_email" class="form-control form-control-sm round" placeholder="EMail">
+													<span class="text-help-sm text-danger" id="adressMailError" style="display: none">das ist keine gültige E_Mail Adresse! </span>
+												</div>
+											</div>
+											<div class="col-md-6 float-left"  id="userSelector">
+												<span class="text-help-sm">Benutzer</span>
+												<select data-style="warning" class="text-white" name="user" data-plugin="selectpicker" data-live-search="true">
+													{% for user in users %}
+														<option value="{{ user.id }}" {% if user == app.user %} selected {% endif %}>{{ user.email }}</option>
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel shadow-lg" id="Lieferstellen" style="margin-top: 15px;overflow: auto; white-space: nowrap;">
+					<div class="panel-heading" >
+						<h3 class="panel-title text-white"><img class="" src="{{ asset('assets/images/Icons/Lieferstellen-end.svg') }}" style="width: 40px;margin-right: 10px;"> Lieferstellen</h3>
+						<div class="panel-actions text-white">
+							{% if is_granted('ROLE_ADMIN') %}
+								<a class="panel-action text-white" href="{{ path('deliveryplace_add',{cid : customer.cid } ) }}" aria-expanded="true" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/hinzufuegen-generell-end.svg') }}" style="width: 40px"></a>
+							{% endif %}
+							<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+						</div>
+					</div>
+					
+					<div class="panel-body container-fluid" style="margin-top: 15px;">
+						<div class="row-lg" id="CustomerKdls" >
+							<table class="table table-hover dataTable table-striped w-full" data-plugin="dataTable" id="CustomerKdlTable" style="overflow: auto; white-space: nowrap;">
+								<thead>
+								<tr>
+									<th>Tarifnummer</th>
+									<th>Firmenname</th>
+									<th>Vorname</th>
+									<th>Nachname</th>
+									<th>Lieferstellenart</th>
+									<th>Strasse</th>
+									<th>Nr.</th>
+									<th>PLZ</th>
+									<th>Ort</th>
+									<th>Typ</th>
+									<th>Verbrauch</th>
+									<th>Versorger</th>
+									<th>Zaehlernummer</th>
+									<th>Ablesung</th>
+									<th>Aktionen</th>
+								</tr>
+								</thead>
+								<tbody>
+								{% for place in places %}
+									<tr>
+										<td>{{ place.tarifnummer }}</td>
+										<td>{{ place.firmenname }}</td>
+										<td>{{ place.vorname }}</td>
+										<td>{{ place.nachname }}</td>
+										<td><img src="/assets/images/Icons/kundenart{{ place.kundenart }}.svg" style="width: 40px;"></td>
+										<td>{{ place.strasse }}</td>
+										<td>{{ place.hausnummer }}</td>
+										<td>{{ place.pLZ }}</td>
+										<td>{{ place.ort }}</td>
+										<td><img src="/assets/images/Icons/medium{{ place.medium }}.svg" style="width: 40px;"></td>
+										<td>{{ place.verbrauch }}</td>
+										<td>{{ place.versorger }}</td>
+										<td>{{ place.zaehlernummer }}</td>
+										<td>{{ place.stab|date("d.m.Y") }}</td>
+										<td>
+											<a href="/kundenindex/dp/edit/{{ place.id }}" class="mr-5" data-toggle="tooltip" data-original-title="bearbeiten"><img class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 40px"></a>
+											<a href="#" class="mr-5" onclick="deleteDeliveryPlace({{ place.id }})" data-toggle="tooltip" data-original-title="löschen"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 40px"></a>
+										</td>
+									</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<script src="/assets/js/customer.js"></script>
 {% endblock body %}

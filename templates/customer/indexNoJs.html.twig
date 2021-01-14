@@ -1,0 +1,93 @@
+{% extends 'index.html.twig' %}
+
+{% block body %}
+	<div class="panel shadow-lg " id="customerIndexPanel" style="border: 3px solid #f19408;">
+		<header class="panel-heading">
+			<img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Kunden-end.svg') }}"><h3 class="panel-title"> Kunden</h3>
+			{% if is_granted('ROLE_ADMIN') %}
+				<div class="panel-actions">
+					
+					<a class="text-white" href="javascript:void(0)" id="newCustomer"> <img class="" src="{{ asset('assets/images/Icons/hinzufuegen-generell-end.svg') }}" style="width: 40px"></a>
+					<a href="{{ path('customers_show_deleted') }}" class="btn btn-sm btn-icon btn-pure btn-default" onclick="" data-toggle="tooltip" data-original-title="gelöschte Kunden anzeigen"><i class="icon fa-trash text-white font-size-26" aria-hidden="true"></i></a>
+				</div>
+			{% endif %}
+		</header>
+		<div class="panel-body">
+			<div class="pt-25">
+				<table class="table table-hover dataTable" data-plugin="dataTable" id="customerIndexTable">
+					<thead>
+					<tr>
+						<th style="width:50px">Benutzer</th>
+						<th style="width:300px">Name</th>
+						<th style="width:30px">Lieferstellen</th>
+						<th style="width:200px">Telefon</th>
+						<th style="width:230px">Mail</th>
+						<th style="width:50px">PLZ</th>
+						<th style="width:230px">Ort</th>
+						<th>Actions</th>
+					</tr>
+					</thead>
+					<tbody>
+					
+					{% for customer in customers %}
+						<tr class="gradeA">
+							<td>{{ customer.user_id }}</td>
+							<td>{{ customer.full_name }} </td>
+							<td>{% if customer.kdl > 0 %} <span class="badge badge-lg badge-round badge-success">  {{ customer.kdl }}</span>{% endif%}</td>
+							<td>{{ customer.phone }}</td>
+							<td>{{ customer.mail }}</td>
+							<td>{{ customer.zip }}</td>
+							<td>{{ customer.town }}</td>
+							<td>
+								<a href="/kundenindex/edit/{{ customer.id }}" class="" onclick="getCustomerWithAdress({{ customer.id }}, {% if 'show_deleted' in app.request.pathinfo %} 1 {% else %} 0 {% endif %})" data-toggle="tooltip" data-original-title="Edit"><img class="" src="{{ asset('assets/images/Icons/bearbeiten-end.svg') }}" style="width: 30px"></a>
+								{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" data-toggle="tooltip" data-original-title="Löschen" onclick="deleteCustomer({{ customer.id }})"><img class="" src="{{ asset('assets/images/Icons/loeschen-end.svg') }}" style="width: 30px"></a>{% endif %}
+								{#  {% if is_granted('ROLE_PORTAL_ADMIN') %}<a href="/customer/importkdls/{{ customer.old_id }}" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="tooltip" data-original-title="Import Kdls"><i class="icon md-link" aria-hidden="true" style="font-size: 26px;"></i></a>{% endif %}#}
+							</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	
+	<script>
+		
+        function deleteCustomer(id){
+
+            var customerTable = $('#customerTable').DataTable();
+
+            $('#customerTable').on( 'click', 'tbody tr', function () {
+                var table = this;
+
+                var test = swal({
+                    title: "Bist Du sicher?",
+                    text: "Das Du den Kunden löschen willst",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-warning",
+                    confirmButtonText: 'Ja ich will!',
+                    closeOnConfirm: false //closeOnCancel: false
+
+                }, function () {
+                    var kdl ="";
+                    $.ajax( {
+                        method: 'POST',
+                        url: '/customer/delete/'+id,
+                        dataType: 'json',
+                        complete: function (data){
+
+                            kdl = JSON.parse(data.responseText);
+
+                            customerTable.row($(table).closest("tr")) .remove().draw();
+                            swal("Gelöscht", kdl, "success");
+                        }});
+                });
+            });
+
+
+
+        }
+	</script>
+{% endblock %}

@@ -6,6 +6,7 @@
             <img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Kunden-end.svg') }}"><h3 class="panel-title"> Kunden</h3>
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="panel-actions">
+                    
                     <a class="text-white" href="javascript:void(0)" id="newCustomer"> <img class="" src="{{ asset('assets/images/Icons/hinzufuegen-generell-end.svg') }}" style="width: 40px"></a>
                     <a href="{{ path('customers_show_deleted') }}" class="btn btn-sm btn-icon btn-pure btn-default" onclick="" data-toggle="tooltip" data-original-title="gelöschte Kunden anzeigen"><i class="icon fa-trash text-white font-size-26" aria-hidden="true"></i></a>
                 </div>
@@ -55,7 +56,10 @@
             <div class="panel-heading">
                 <img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Kunden-end.svg') }}"><h3 class="panel-title"> Kunde: <span id="CustomerTitle"></span></h3>
                 <div class="panel-actions">
-                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a class="panel-action" id="customerSave" data-toggle="tooltip" data-original-title="Speichern" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/speichern-end.svg') }}" style="width: 50px"></a>{% endif %}
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}
+                        <a class="panel-action" href="javascript:void(0)" id="showNotes"> <img class="" src="{{ asset('assets/images/Icons/Aktionsbutton-Note-gross-end.svg') }}" style="width: 50px"></a>
+                        <a class="panel-action" id="customerSave" data-toggle="tooltip" data-original-title="Speichern" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/speichern-end.svg') }}" style="width: 50px"></a>
+                    {% endif %}
                     <a class="panel-action" id="customerDetailClose" data-toggle="panel-close" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 50px"></a>
                 </div>
             </div>
@@ -714,7 +718,25 @@
             <div class="panel-footer"></div>
         </div>
     </div>
-    
+    <div class="slidePanel slidePanel-right site-sidebar lvl2-sidePanel" id="customerNotes" style="z-index:1500;overflow-y: scroll; overflow: scroll;border-left: 3px solid #f19408;">
+        <div class="panel mb-0" id="customerKdlPanel">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <img class="" src="{{ asset('assets/images/Icons/Lieferstellen-end.svg') }}" style="width: 40px;margin-right: 10px;"> Notizen: <span id="deliveryPlaceTitle"></span></h3>
+                <div class="panel-actions">
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="modal" data-target="#newContractModal" ><i class="icon md-copy success text-info font-size-26" aria-hidden="true" data-toggle="tooltip" data-original-title="neuer Vertrag"></i></a>
+                        
+                        <a class="panel-action" id="customerDeliversPlaceSave" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/speichern-end.svg') }}" style="width: 50px"></a>
+                    {% elseif is_granted('ROLE_FACILITY_MANAGER') %}
+                        <a class="panel-action" id="deliveryModalButton" data-toggle="modal" data-target="#newCheckModal" aria-hidden="true" data-toggle="tooltip" data-original-title="neue Ablseung"><i class="icon fa-files-o text-white font-size-26" aria-hidden="true"></i></a>
+                    {% endif %}
+                    <a class="panel-action" id="customerDeliversPlaceClose" data-toggle="panel-close" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px"></a>
+                </div>
+            </div>
+            <div class="panel-body">
+            </div>
+        </div>
+    </div>
     <div class="modal fade modal-3d-slit" id="newCheckModal" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-simple">
             <div class="modal-content clara-modal-content">
