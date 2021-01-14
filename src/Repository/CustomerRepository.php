@@ -29,6 +29,15 @@ class CustomerRepository extends ServiceEntityRepository
         return $query->getArrayResult();
     }
 
+    public function getCustomerWithAdress($id){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT * FROM customer INNER JOIN adress WHERE customer.id='.$id.' AND customer.id = adress.customer_id AND adress.adresstype = "STAMM"'
+        );
+
+        return $query->getArrayResult();
+    }
+
     public function getCust($id){
         return $this->createQueryBuilder('c')
             ->andWhere('c.id = :val')

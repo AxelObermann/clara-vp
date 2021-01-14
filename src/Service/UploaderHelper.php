@@ -5,6 +5,8 @@ namespace App\Service;
 
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 class UploaderHelper
 {
@@ -13,14 +15,21 @@ class UploaderHelper
      * @var string
      */
     public $uploadsPath;
+
+    /**
+     * @var string
+     */
+
+    public $publicPath;
     /**
      * @var string
      */
     private $uploadsDBPath;
 
-    public function __construct(string $uploadsPath,string  $uploadsDBPath){
+    public function __construct(string $uploadsPath,string  $uploadsDBPath, string $publicPath){
 
         $this->uploadsPath = $uploadsPath;
+        $this->publicPath = $publicPath;
         $this->uploadsDBPath = $uploadsDBPath;
     }
 
@@ -41,7 +50,7 @@ class UploaderHelper
     }
 
     public function uploadImportPreisFile(UploadedFile $uploadedFile){
-        $destination = $this->uploadsPath.'/tmpupload/';
+        $destination = $this->uploadsDBPath.'/tmpupload/';
         $newFileName = pathinfo($uploadedFile->getClientOriginalName(),PATHINFO_FILENAME).".".$uploadedFile->guessExtension();
         $uploadedFile->move($destination,$newFileName);
         return $newFileName;
@@ -52,6 +61,17 @@ class UploaderHelper
         $newFileName = $destFileName.".".$uploadedFile->guessExtension();
         $uploadedFile->move($destination,$newFileName);
         return $newFileName;
+    }
+
+    public function deleteFile($name):string{
+        $filesystem = new Filesystem();
+        //dd($this->get('kernel')->getProjectDir());
+        try {
+            $filesystem->remove(['file' , $this->publicPath.$name]);
+        } catch (IOExceptionInterface $exception) {
+            return "An error occurred while creating your directory at ".$exception->getPath();
+        }
+        return true;
     }
 
 }
