@@ -6,6 +6,7 @@ use App\Entity\Adress;
 use App\Entity\Customer;
 use App\Entity\DeliveryPlace;
 use App\Entity\Notification;
+use App\Form\CustomerFormType;
 use App\Repository\AdressRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\DeliverPlaceCheckRepository;
@@ -19,6 +20,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\String_;
 use phpDocumentor\Reflection\Types\This;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,8 +36,10 @@ class CustomerController extends AbstractController
      * @var Security
      */
     private $security;
-    public function __construct(Security $security,UserPasswordEncoderInterface $passwordEncoder, LoggerInterface $logger, string $oldDBUser,$oldDBPassword)
+    private $session;
+    public function __construct(Security $security,UserPasswordEncoderInterface $passwordEncoder, LoggerInterface $logger, string $oldDBUser,$oldDBPassword,SessionInterface $session)
     {
+        $this->session = $session;
         $this->oldDBUser = $oldDBUser;
         $this->oldDBPassword = $oldDBPassword;
         $this->passwordEncoder = $passwordEncoder;
@@ -55,8 +59,9 @@ class CustomerController extends AbstractController
     /**
      * @Route("/kundenindex", name="customers")
      */
-    public function index(CustomerRepository $customerRepository,UserRepository $userRepository,EntityManagerInterface $entityManager, SupplierRepository $supplierRepository)
+    public function index(Request $request,CustomerRepository $customerRepository,UserRepository $userRepository,EntityManagerInterface $entityManager, SupplierRepository $supplierRepository)
     {
+        $this->session->set('lastUrl', $request->getPathInfo());
         $conn = $entityManager->getConnection();
         $user = $userRepository->find($this->getUser()->getId());
         $users = $userRepository->findAll();
@@ -100,21 +105,51 @@ class CustomerController extends AbstractController
             $customers = $stmt->fetchAllAssociative();
         }
         //dd($stmt->fetchAllAssociative());
-        return $this->render('customer/index.html.twig', [
+        return $this->render('customer/indexNoJs.html.twig', [
             'controller_name' => $viewName,
             'customers' => $customers,
-            'users' => $users,
-            'suppliers' => $suppliers,
         ]);
     }
 
     /**
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
      * @return \Symfony\Component\HttpFoundation\Response
-     *
+     * @Route ("/kundenindex/edit/{id}")
      */
-    public function edit(){
-        return $this->render('customer/edit.html.twig');
+    public function edit(Request $request,EntityManagerInterface $entityManager,CustomerRepository $customerRepository,UserRepository $userRepository,AdressRepository $adressRepository,DeliveryPlaceRepository $deliveryPlaceRepository){
+        $this->session->set('lastUrl', $request->getPathInfo());
+        $customer = $customerRepository->find($request->get('id'));
+        if($request->isMethod('POST')){
+            $adress = $adressRepository->find($request->get('aid'));
+            $customer->setContactPerson($request->get('contactPerson'));
+            $customer->setFullName($request->get('fullName'));
+            $adress->setStreet($request->get('street'));
+            $adress->setStreetNumber($request->get('strnumber'));
+            $adress->setZip($request->get('PLZ'));
+            $adress->setTown($request->get('Town'));
+            $adress->setPhone($request->get('phone'));
+            $adress->setFax($request->get('fax'));
+            $adress->setMail($request->get('mail'));
+            $entityManager->flush();
+            //dd($request,$customer,$customer->getAdress());
+        }
+
+        $dpls = $deliveryPlaceRepository->findBy(array('customer' => $customer,'deleted' => 0));
+
+        $conn = $entityManager->getConnection();
+        $query = 'SELECT  customer.id AS cid, customer.user_id, customer.full_name,customer.contact_person, adress.id as adrid,adress.street,adress.street_number,adress.zip,adress.town,adress.phone,adress.fax,adress.mail FROM customer INNER JOIN adress WHERE customer.id='.$request->get('id').' AND customer.id = adress.customer_id AND adress.adresstype = "STAMM"';
+        $stmt =$conn->executeQuery($query);
+        $stmt->execute();
+        $users = $userRepository->findAll();
+        return $this->render('customer/edit.html.twig',[
+            'users' => $users,
+            'customer' => $stmt->fetchAssociative(),
+            'places' => $dpls,
+        ]);
     }
+
+
 
     /**
      * @Route("/customers/show_deleted", name="customers_show_deleted")
@@ -142,7 +177,7 @@ class CustomerController extends AbstractController
 
         $stmt =$conn->executeQuery($query);
         $stmt->execute();
-        return $this->render('customer/index.html.twig', [
+        return $this->render('customer/indexNoJs.html.twig', [
             'controller_name' => $viewName,
             'customers' => $stmt->fetchAllAssociative(),
             'users' => $users,
@@ -434,7 +469,7 @@ class CustomerController extends AbstractController
         if ($content = $request->getContent()) {
             $rp = json_decode($content, true);
         }
-//dd($rp);
+
 
         if($rp['actionDP'] == 'new'){
             $dePLace = new DeliveryPlace();
@@ -480,6 +515,11 @@ class CustomerController extends AbstractController
             $dePLace->setVertragsbeginn($rp['Vertragsbeginn']);
             $dePLace->setDauer($rp['Dauer']);
             $dePLace->setStab(new \DateTime($rp['stab']));
+            if (isset($rp['facilityUserId'])){
+                $facilityUser = $userRepository->find($rp['facilityUserId']);
+                $dePLace->setFacilityUser($facilityUser);
+                dd($rp);
+            }
             $entityManager->persist($dePLace);
             $entityManager->flush();
             $message = 'Die Lieferstelle wurde angelegt';
@@ -524,14 +564,16 @@ class CustomerController extends AbstractController
             $dePLace->setVertragsbeginn($rp['Vertragsbeginn']);
             $dePLace->setDauer($rp['Dauer']);
             $dePLace->setStab(new \DateTime($rp['stab']));
+            if (isset($rp['facilityUserId'])){
+                $facilityUser = $userRepository->find($rp['facilityUserId']);
+                $dePLace->setFacilityUser($facilityUser);
+                //dd($rp['facilityUserId']);
+            }
             $entityManager->persist($dePLace);
             $entityManager->flush();
             $message = 'Die Änderungen wurden übernommen!';
         }
-        if (isset($rp['facilityUserId'])){
-            $facilityUser = $userRepository->find($rp['facilityUserId']);
-            $dePLace->setFacilityUser($facilityUser);
-        }
+
         //dd($dePLace);
 
 

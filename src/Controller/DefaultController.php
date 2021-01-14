@@ -11,6 +11,7 @@ use App\Repository\DeliveryPlaceRepository;
 use App\Repository\MessagesRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\SupplierRepository;
+use App\Repository\UploadedFilesRepository;
 use App\Repository\UserRepository;
 use App\Service\MessagesService;
 use App\Service\UploaderHelper;
@@ -122,7 +123,7 @@ class DefaultController extends AbstractController
      * @Route ("/file_upload", name="fileUpload")
      */
     public function fileUpload(Request $request){
-        dd($request);
+        //dd($request);
         $uploadedFile = $request->files->get("test");
         //dump($uploadedFile);
         return $this->redirect($request->headers->get('referer'));
@@ -221,4 +222,15 @@ class DefaultController extends AbstractController
 
     }
 
+    /**
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param UploadedFilesRepository $uploadedFilesRepository
+     * @Route ("/uploadedfile/delete/{id}")
+     */
+    public function deleteUploadedFile(Request $request,EntityManagerInterface $entityManager,UploadedFilesRepository $uploadedFilesRepository,UploaderHelper $uploaderHelper){
+        $ufile = $uploadedFilesRepository->find($request->get('id'));
+        $tt = $uploaderHelper->deleteFile($ufile->getFile());
+        dd($tt,$ufile);
+    }
 }
