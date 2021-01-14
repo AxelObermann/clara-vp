@@ -1,0 +1,452 @@
+{% extends 'index.html.twig' %}
+
+{% block body %}
+	<div class="panel mb-0" id="customerKdlPanel">
+		<form method="post">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<img class="" src="{{ asset('assets/images/Icons/Lieferstellen-end.svg') }}" style="width: 40px;margin-right: 10px;"> Lieferstelle: NEU<span id="deliveryPlaceTitle"></span></h3>
+				<div class="panel-actions">
+					{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}
+						<button type="submit" class="panel-action" id="customerSave" data-toggle="tooltip" data-original-title="Speichern" aria-hidden="true" style="border: none">
+							<img class="" src="{{ asset('assets/images/Icons/speichern-end.svg') }}" style="width: 40px">
+						</button>
+					{% elseif is_granted('ROLE_FACILITY_MANAGER') %}
+						<a class="panel-action" id="deliveryModalButton" data-toggle="modal" data-target="#newCheckModal" aria-hidden="true" data-toggle="tooltip" data-original-title="neue Ablseung"><i class="icon fa-files-o text-white font-size-26" aria-hidden="true"></i></a>
+					{% endif %}
+					<a class="panel-action" href="{{ app.session.get('lastUrl') }}" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px"></a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="row" style="margin-top: 20px;">
+					<div class="col-md-12">
+						<div class="col-md-12">
+							<div class="panel shadow-lg" id="uploadedFilesPanel">
+								<div class="panel-heading">
+									<h3 class="panel-title text-white">Lieferstellendaten:</h3>
+									<div class="panel-actions text-white">
+										<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+									</div>
+								</div>
+								<div class="panel-body container-fluid">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="col-md-6 float-left">
+												<div class="panel shadow-lg" id="lieferPanel" style="margin-top: 15px;">
+													<div class="panel-heading" >
+														<h3 class="panel-title text-white">Lieferadresse</h3>
+														<div class="panel-actions text-white">
+															<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+														</div>
+													</div>
+													
+													<div class="panel-body container-fluid">
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group-sm">
+																	<span class="text-help-sm">Firmenname</span>
+																	<input type="text" name="Firmenname" id="Firmenname" value="" size="50" class="form-control form-control-sm round" placeholder="Firmenname">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">Anrede</span>
+																	<input type="text" name="Anrede" id="Anrede" value="" class="form-control form-control-sm round" placeholder="Anrede">
+																</div>
+															</div>
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">Geburtstag</span>
+																	<input type="text" name="Geburtstag" id="Geburtstag" value="" class="form-control form-control-sm round" placeholder="Geburtstag">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">Vorname</span>
+																	<input type="text" name="Vorname" id="Vorname" value="" class="form-control form-control-sm round" placeholder="Vorname">
+																</div>
+															</div><div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">Nachname</span>
+																	<input type="text" name="Nachname" id="Nachname" value="" class="form-control form-control-sm round" placeholder="Nachname">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-8 col-md-8">
+																<div class="form-group">
+																	<span class="text-help-sm">Strasse</span>
+																	<input type="text" name="Strasse" id="Strasse" value="" class="form-control form-control-sm round" placeholder="Strasse">
+																</div>
+															</div><div class="col-lg-4 col-md-4">
+																<div class="form-group">
+																	<span class="text-help-sm">Hausnummer</span>
+																	<input type="text" name="Hausnummer" id="Hausnummer" value="" class="form-control form-control-sm round" placeholder="Hausnummer">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-4 col-md-4">
+																<div class="form-group">
+																	<span class="text-help-sm">PLZ</span>
+																	<input type="text" name="PLZ" id="PLZ" value="" class="form-control form-control-sm round" placeholder="PLZ">
+																</div>
+															</div><div class="col-lg-8 col-md-8">
+																<div class="form-group">
+																	<span class="text-help-sm">Ort</span>
+																	<input type="text" name="Ort" id="Ort" value="" class="form-control form-control-sm round" placeholder="Ort">
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											
+											</div>
+											<div class="col-md-6 float-left">
+												<div class="panel shadow-lg" id="abwRePanel" style="margin-top: 15px;">
+													<div class="panel-heading">
+														<h3 class="panel-title text-white">abw. Rechnungsadresse</h3>
+														<div class="panel-actions text-white">
+															<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+														</div>
+													</div>
+													<div class="panel-body container-fluid">
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group-sm">
+																	<span class="text-help-sm">Firmenname</span>
+																	<input type="text" name="ReFirma" id="ReFirma" value="" size="50" class="form-control form-control-sm round" placeholder="Firmenname">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">Anrede</span>
+																	<input type="text" name="ReAnrede" id="ReAnrede" value="" class="form-control form-control-sm round" placeholder="Anrede">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">Vorname</span>
+																	<input type="text" name="ReVorname" id="ReVorname" value="" class="form-control form-control-sm round" placeholder="Vorname">
+																</div>
+															</div><div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">Nachname</span>
+																	<input type="text" name="ReNachname" id="ReNachname" value="" class="form-control form-control-sm round" placeholder="Nachname">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-8 col-md-8">
+																<div class="form-group">
+																	<span class="text-help-sm">Strasse</span>
+																	<input type="text" name="ReStrasse" id="ReStrasse" value="" class="form-control form-control-sm round" placeholder="Strasse">
+																</div>
+															</div><div class="col-lg-4 col-md-4">
+																<div class="form-group">
+																	<span class="text-help-sm">Hausnummer</span>
+																	<input type="text" name="ReHausnummer" id="ReHausnummer" value="" class="form-control form-control-sm round" placeholder="Hausnummer">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-4 col-md-4">
+																<div class="form-group">
+																	<span class="text-help-sm">PLZ</span>
+																	<input type="text" name="RePLZ" id="RePLZ" value="" class="form-control form-control-sm round" placeholder="PLZ">
+																</div>
+															</div><div class="col-lg-8 col-md-8">
+																<div class="form-group">
+																	<span class="text-help-sm">Ort</span>
+																	<input type="text" name="ReOrt" id="ReOrt" value="" class="form-control form-control-sm round" placeholder="Ort">
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="col-md-6 float-left">
+												<div class="panel shadow-lg" id="bankPanel">
+													<div class="panel-heading">
+														<h3 class="panel-title text-white">Bankverbindung</h3>
+														<div class="panel-actions text-white">
+															<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+														</div>
+													</div>
+													<div class="panel-body container-fluid">
+														<div class="row row-lg">
+															<div class="col-lg-8 col-md-8">
+																<div class="form-group-sm">
+																	<span class="text-help-sm">IBAN</span>
+																	<input type="text" name="IBAN" id="IBAN" value="" size="50" class="form-control form-control-sm round" placeholder="IBAN">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-8 col-md-8">
+																<div class="form-group">
+																	<span class="text-help-sm">BIC</span>
+																	<input type="text" name="BIC" id="BIC" value="" class="form-control form-control-sm round" placeholder="BIC">
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6 float-left">
+												<div class="panel shadow-lg" id="vorversorgerPanel">
+													<div class="panel-heading">
+														<h3 class="panel-title text-white">Vorversorgerdaten</h3>
+														<div class="panel-actions text-white">
+															<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+														</div>
+													</div>
+													<div class="panel-body container-fluid">
+														<div class="row row-lg">
+															<div class="col-lg-8 col-md-8">
+																<div class="form-group-sm">
+																	<span class="text-help-sm">Vorversorger</span>
+																	<input type="text" name="Vorversorger" id="Vorversorger" value="" size="50" class="form-control form-control-sm round" placeholder="Vorversorger">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-8 col-md-8">
+																<div class="form-group">
+																	<span class="text-help-sm">Kundennummer</span>
+																	<input type="text" name="Kundennummer" id="Kundennummer" value="" class="form-control form-control-sm round" placeholder="Kundennummer">
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="col-md-6 float-left">
+												<div class="panel shadow-lg" id="zaehlerPanel">
+													<div class="panel-heading">
+														<h3 class="panel-title text-white">Zählerdaten</h3>
+														<div class="panel-actions text-white">
+															<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+														</div>
+													</div>
+													<div class="panel-body container-fluid">
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group-sm">
+																	<span class="text-help-sm">Kundenart</span>
+																	<select data-style="warning" class="text-white" name="Kundenart" id="Kundenart" data-plugin="selectpicker">
+																		<option value="">Bitte wählen</option>
+																		<option value="1">Gewerbekunde</option>
+																		<option value="2">Privatkunde</option>
+																	</select>
+																
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group-sm">
+																	<span class="text-help-sm">Verbrauch</span>
+																	<input type="text" name="Verbrauch" id="Verbrauch" value="" size="50" class="form-control form-control-sm round" placeholder="Verbrauch">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group-sm">
+																	<span class="text-help-sm">MaloID</span>
+																	<input type="text" name="MaloID" id="MaloID" value="" size="50" class="form-control form-control-sm round" placeholder="MaloID">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group-sm">
+																	<span class="text-help-sm">Zaehlernummer</span>
+																	<input type="text" name="Zaehlernummer" id="Zaehlernummer" value="" size="50" class="form-control form-control-sm round" placeholder="Zaehlernummer">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group-sm">
+																	<span class="text-help-sm">MeloID</span>
+																	<input type="text" name="MeloID" id="MeloID" value="" size="50" class="form-control form-control-sm round" placeholder="MeloID">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group-sm">
+																	<span class="text-help-sm">Medium</span>
+																	<select data-style="warning" class="text-white" name="Medium" id="mediumselect" data-plugin="selectpicker">
+																		<option value="">Bitte wählen</option>
+																		<option value="1">Strom</option>
+																		<option value="2">Erdgas</option>
+																		<option value="3">Ökostrom</option>
+																		<option value="4">Biogas</option>
+																		<option value="5">Digitaler Zähler</option>
+																		<option value="6">Wasser Haupt</option>
+																		<option value="7">Wasser warm</option>
+																		<option value="8">Wasser kalt</option>
+																		<option value="9">Wasser sonstige</option>
+																		<option value="10">Wärmepumpe</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group-sm">
+																	<span class="text-help-sm">Stichtag Abrechnung</span>
+																	<input type="text" name="stab" id="stab" value="" data-plugin="datepicker" size="50" class="form-control form-control-sm round" placeholder="Stichtag">
+																</div>
+															</div>
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group-sm" id="kdlFacilityUserSelectWrap" style="display: none">
+																	<span class="text-help-sm">Zugewieserner Mitarbeiter</span>
+																	<select data-style="warning" class="text-white" name="facilityUserId" id="facUserSelect" data-plugin="selectpicker">
+																	
+																	</select>
+																
+																</div>
+															</div>
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group-sm">
+																	<span class="text-help-sm">Zu erledigen bis:</span>
+																	<input type="text" name="doneUntil" id="doneUntil" value="" data-plugin="datepicker" size="50" class="form-control form-control-sm round" placeholder="Datum für Todo">
+																</div>
+															</div>
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group-sm" style="padding-top: 25px;">
+																	<button type="button" id="createManualTodo" class="btn btn-warning btn-floating btn-xs  animation-shake animation-hover" style="position: inherit">
+																		<a onclick="createFCTodo()" style="color: #ffffff" class="animation-shake animation-hover"><i class="icon md-notifications-add animation-shake animation-hover" style="margin: -1px 5px 0;" aria-hidden="true"></i></a>
+																	</button>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6 float-left">
+												<div class="panel shadow-lg" id="akVersorgerPanel">
+													<div class="panel-heading">
+														<h3 class="panel-title text-white">aktueller Versorger</h3>
+														<div class="panel-actions text-white">
+															<a class="panel-action icon wb-minus text-white" data-toggle="panel-collapse" aria-expanded="true" aria-hidden="true"></a>
+														</div>
+													</div>
+													<div class="panel-body container-fluid">
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<div class="form-group-sm" id="VersorgerIDSelectWrap">
+																		<span class="text-help-sm">Versorger</span>
+																		<select data-style="warning" class="text-white" name="Versorger" id="Versorger" data-plugin="selectpicker">
+																			{% for versorger in suppliers %}
+																				<option value="{{ versorger.id }}">{{ versorger.name }}</option>
+																			{% endfor %}
+																		</select>
+																	</div>
+																	<!--<input type="text" name="Versorger" id="Versorger" value="" class="form-control form-control-sm round" placeholder="Versorger">-->
+																</div>
+															</div><div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">Tarifname</span>
+																	<input type="text" name="Tarifname" id="Tarifname" value="" class="form-control form-control-sm round" placeholder="Tarifname">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">Tarifnummer</span>
+																	<input type="text" name="Tarifnummer" id="Tarifnummer" value="" class="form-control form-control-sm round" placeholder="Tarifnummer">
+																</div>
+															</div><div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">VersKdNr</span>
+																	<input type="text" name="VersKdNr" id="VersKdNr" value="" class="form-control form-control-sm round" placeholder="VersKdNr">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">Abschlussprovision</span>
+																	<input type="text" name="Abschlussprovision" id="Abschlussprovision" value="" class="form-control form-control-sm round" placeholder="Abschlussprovision">
+																</div>
+															</div><div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">FolgeprovM</span>
+																	<input type="text" name="FolgeprovM" id="FolgeprovM" value="" class="form-control form-control-sm round" placeholder="FolgeprovM">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">SpannePKwH</span>
+																	<input type="text" name="SpannePKwH" id="SpannePKwH" value="" class="form-control form-control-sm round" placeholder="SpannePKwH">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">AP</span>
+																	<input type="text" name="AP" id="AP" value="" class="form-control form-control-sm round" placeholder="AP">
+																</div>
+															</div><div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">GP</span>
+																	<input type="text" name="GP" id="GP" value="" class="form-control form-control-sm round" placeholder="GP">
+																</div>
+															</div>
+														</div>
+														<div class="row row-lg">
+															<div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">Vertragsbeginn</span>
+																	<input name="Vertragsbeginn" id="Vertragsbeginn" data-plugin="datepicker" value="" class="form-control form-control-sm round" placeholder="Vertragsbeginn">
+																</div>
+															</div><div class="col-lg-6 col-md-6">
+																<div class="form-group">
+																	<span class="text-help-sm">Dauer</span>
+																	<input type="text" name="Dauer" id="Dauer" value="" class="form-control form-control-sm round" placeholder="Dauer">
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-footer"></div>
+		</form>
+	</div>
+{% endblock %}
+
+
