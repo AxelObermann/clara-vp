@@ -114,7 +114,7 @@
 			<div class="col-md-12">
 				<div class="panel shadow-lg" id="Lieferstellen" style="margin-top: 15px;overflow: auto; white-space: nowrap;">
 					<div class="panel-heading" >
-						<h3 class="panel-title text-white"><img class="" src="{{ asset('assets/images/Icons/Lieferstellen-end.svg') }}" style="width: 40px;margin-right: 10px;"> Lieferstellen</h3>
+						<img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Lieferstellen-end.svg') }}" style="width: 40px;margin-right: 10px;"><h3 class="panel-title text-white"> Lieferstellen</h3>
 						<div class="panel-actions text-white">
 							{% if is_granted('ROLE_ADMIN') %}
 								<a class="panel-action text-white" href="{{ path('deliveryplace_add',{cid : customer.cid } ) }}" aria-expanded="true" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/hinzufuegen-generell-end.svg') }}" style="width: 40px"></a>
@@ -161,7 +161,7 @@
 										<td>{{ place.verbrauch }}</td>
 										<td>{{ place.versorger }}</td>
 										<td>{{ place.zaehlernummer }}</td>
-										<td>{{ place.stab|date("d.m.Y") }}</td>
+										<td>toDo</td>
 										<td>
 											<a href="/kundenindex/dp/edit/{{ place.id }}" class="mr-5" data-toggle="tooltip" data-original-title="bearbeiten"><img class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 40px"></a>
 											<a href="#" class="mr-5" onclick="deleteDeliveryPlace({{ place.id }})" data-toggle="tooltip" data-original-title="löschen"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 40px"></a>
@@ -188,12 +188,12 @@
 				<a class="panel-action icon wb-minus text-white" id="showNotesClose" ></a>
 			</div>
 		</div>
-		<div class="panel-body pt-15">
+		<div class="panel-body pt-15" id="DPNotesPanelContent">
 			{% for note in notes %}
-				<div class="card bg-orange-50 shadow-sm">
+				<div class="card bg-orange-50 shadow-sm" id="note{{ note.id }}">
 					<div class="card-block">
 						<div class="panel-actions">
-							<a href="#" class="mr-5" onclick="" data-toggle="tooltip" data-original-title="löschen"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 40px"></a>
+							<a href="#" class="mr-5" onclick="deleteNote({{ note.id }})" data-toggle="tooltip" data-original-title="löschen"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 40px"></a>
 						</div>
 						<h4 class="card-title">{{ note.description }}</h4>
 						<p class="card-text">{{ note.notetext|nl2br }}</p>
@@ -219,11 +219,11 @@
 				<div class="modal-body clara-modal-body">
 					<div class="form-group">
 						<span class="text-help">Überschrift</span>
-						<input type="text" name="description" placeholder="Überschrift" class="form-control form-control-sm round">
+						<input type="text" name="description" id="NoteDescription" placeholder="Überschrift" class="form-control form-control-sm round">
 					</div>
 					<div class="form-group">
 						<span class="text-help">Überschrift</span>
-						<textarea rows="5" name="noteText" placeholder="Notiz" class="form-control form-control-sm "></textarea>
+						<textarea rows="5" name="noteText" placeholder="Notiz" id="NoteNoteText" class="form-control form-control-sm "></textarea>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -234,6 +234,7 @@
 		</div>
 	</div>
 </div>
+
 {% endblock body %}
 {% block siteJS %}
 <script src="/assets/js/customer.js"></script>
