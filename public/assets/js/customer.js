@@ -342,6 +342,54 @@ $('#newCustomerNoteSubmit').click(function (evt) {
         processData: false,
         complete: function (data){
             toastr['success'](JSON.parse(data.responseText));
+            $( "#newCustomerNote" ).modal('hide');
+            $( "#DPNotesPanelContent" ).append('<div class="card bg-orange-50 shadow-sm">\n' +
+                '\t\t\t\t\t<div class="card-block">\n' +
+                '\t\t\t\t\t\t<h4 class="card-title">'+$( "#NoteDescription" ).val()+'</h4>\n' +
+                '\t\t\t\t\t\t<p class="card-text">'+$( "#NoteNoteText" ).val()+'</p>\n' +
+                '\t\t\t\t\t\t<!--<a href="#" class="btn btn-primary">Go somewhere</a>-->\n' +
+                '\t\t\t\t\t</div>\n' +
+                '\t\t\t\t</div>')
+        }
+    });
+});
+
+function deleteNote(id){
+    $.ajax({
+        url: "/note/delete/"+id,
+        type: "POST",
+        contentType: false,
+        processData: false,
+        complete: function (data){
+            toastr['success'](JSON.parse(data.responseText));
+        }
+    });
+    $( "#note"+id ).hide()
+}
+
+$('#newDPNoteSubmit').click(function (evt) {
+    evt.preventDefault();
+    var myForm = document.getElementById('newDPNoteForm');
+    var formData = new FormData($("#newDPNoteForm")[0]);
+
+    $.ajax({
+        url: "/note/add/dpnote",
+        type: "POST",
+        data:formData,
+        contentType: false,
+        processData: false,
+        complete: function (data){
+
+            toastr['success'](JSON.parse(data.responseText));
+            $( "#newDPNote" ).modal('hide');
+            $( "#DPNotesPanelContent" ).append('<div class="card bg-orange-50 shadow-sm">\n' +
+                '\t\t\t\t\t<div class="card-block">\n' +
+                '\t\t\t\t\t\t<h4 class="card-title">'+$( "#NoteDescription" ).val()+'</h4>\n' +
+                '\t\t\t\t\t\t<p class="card-text">'+$( "#NoteNoteText" ).val()+'</p>\n' +
+                '\t\t\t\t\t\t<!--<a href="#" class="btn btn-primary">Go somewhere</a>-->\n' +
+                '\t\t\t\t\t</div>\n' +
+                '\t\t\t\t</div>')
+
         }
     });
 });
@@ -351,7 +399,7 @@ $('#dpcUploadSubmit').click(function (evt) {
     var myForm = document.getElementById('UploadDeliveryCheckForm');
     var formData = new FormData($("#UploadDeliveryCheckForm")[0]);
 
-
+c
     $.ajax({
         url: "/deliveryplace/check/upload",
         type: "POST",
@@ -361,7 +409,7 @@ $('#dpcUploadSubmit').click(function (evt) {
         complete: function (data){
             $("#dpcuid").val();
             $( "#UploadCheckModal" ).modal('hide');
-            $( "#edpcid" ).val('')
+            $( "#edpcid" ).val('');
             toastr['success'](JSON.parse(data.responseText));
         }
     });
