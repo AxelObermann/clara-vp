@@ -91,11 +91,13 @@ class DeliverPlaceController extends AbstractController
         $dpl = $deliveryPlaceRepository->find($request->get('id'));
         $checks = $deliverPlaceCheckRepository->findBy(array('deliveryPlace' => $dpl,'deleted' => false));
         $ufiles = $uploadedFilesRepository->getfiles($dpl->getId());
+        $notes = $dpl->getNotes();
         return $this->render('deliver_place/edit.html.twig', [
             'dpl' => $dpl,
             'suppliers' => $suppliers,
             'checks' => $checks,
             'files' => $ufiles,
+            'notes' => $notes,
         ]);
     }
 
