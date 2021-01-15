@@ -120,6 +120,7 @@ class CustomerController extends AbstractController
     public function edit(Request $request,EntityManagerInterface $entityManager,CustomerRepository $customerRepository,UserRepository $userRepository,AdressRepository $adressRepository,DeliveryPlaceRepository $deliveryPlaceRepository){
         $this->session->set('lastUrl', $request->getPathInfo());
         $customer = $customerRepository->find($request->get('id'));
+
         if($request->isMethod('POST')){
             $adress = $adressRepository->find($request->get('aid'));
             $customer->setContactPerson($request->get('contactPerson'));
@@ -142,10 +143,12 @@ class CustomerController extends AbstractController
         $stmt =$conn->executeQuery($query);
         $stmt->execute();
         $users = $userRepository->findAll();
+        $notes = $customer->getNotes();
         return $this->render('customer/edit.html.twig',[
             'users' => $users,
             'customer' => $stmt->fetchAssociative(),
             'places' => $dpls,
+            'notes' => $notes,
         ]);
     }
 
