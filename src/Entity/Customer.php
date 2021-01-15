@@ -70,6 +70,11 @@ class Customer
      */
     private $uploadedFiles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Note::class, mappedBy="customer")
+     */
+    private $notes;
+
     public function __construct()
     {
         $this->adress = new ArrayCollection();
@@ -77,6 +82,7 @@ class Customer
         $this->deliveryPlaces = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->uploadedFiles = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -269,6 +275,36 @@ class Customer
             // set the owning side to null (unless already changed)
             if ($uploadedFile->getCustomer() === $this) {
                 $uploadedFile->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Note[]
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes[] = $note;
+            $note->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getCustomer() === $this) {
+                $note->setCustomer(null);
             }
         }
 

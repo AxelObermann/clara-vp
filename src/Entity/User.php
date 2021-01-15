@@ -120,6 +120,11 @@ class User implements UserInterface
      */
     private $uploadedFiles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Note::class, mappedBy="Author")
+     */
+    private $notes;
+
 
     public function __construct()
     {
@@ -128,6 +133,7 @@ class User implements UserInterface
         $this->customers = new ArrayCollection();
         $this->deliveryPlaces = new ArrayCollection();
         $this->uploadedFiles = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -504,6 +510,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($uploadedFile->getUser() === $this) {
                 $uploadedFile->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Note[]
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes[] = $note;
+            $note->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getAuthor() === $this) {
+                $note->setAuthor(null);
             }
         }
 

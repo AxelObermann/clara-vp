@@ -415,12 +415,18 @@ class DeliveryPlace
      */
     private $checkdate;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Note::class, mappedBy="dpl")
+     */
+    private $notes;
+
 
     public function __construct()
     {
         $this->notifications = new ArrayCollection();
         $this->deliverPlaceChecks = new ArrayCollection();
         $this->uploadedFiles = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1428,6 +1434,36 @@ class DeliveryPlace
     public function setCheckdate(?\DateTimeInterface $checkdate): self
     {
         $this->checkdate = $checkdate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Note[]
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes[] = $note;
+            $note->setDpl($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getDpl() === $this) {
+                $note->setDpl(null);
+            }
+        }
 
         return $this;
     }
