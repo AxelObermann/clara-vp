@@ -162,6 +162,7 @@ $( document ).ready(function() {
 }); // end Ready Function
 
 function getCustomerKdl(id){
+    var kdl="";
     $('#action').val('');
     $('#uploadPathOld').val($('#uploadPath').val());
     $('#uploadPath').val('/deliverplace/edit/'+id);
@@ -171,7 +172,7 @@ function getCustomerKdl(id){
         dataType: 'json',
         complete: function (data){
 
-            var kdl = JSON.parse(data.responseText);
+            kdl = JSON.parse(data.responseText);
             $('#deliveryPlaceTitle').text(kdl[0].Firmenname);
             $('#dpId').val(kdl[0].id);
             $('#Firmenname').val(kdl[0].Firmenname);
@@ -236,6 +237,8 @@ function getCustomerKdl(id){
         url: '/customer/getfm/'+$('#customerId').val(),
         dataType: 'json',
         complete: function (data){
+            console.log('Start Facility User');
+            console.log(kdl[0][0]);
             var optionsadd="";
             if(data.responseText=='false'){
                 $('#facUserSelect').empty();
@@ -258,6 +261,7 @@ function getCustomerKdl(id){
                         //optionsadd = optionsadd + '<option value="'+obj.id+'">'+obj.displayName+'</option>';
                     });
                 };
+                console.log('END Facility User');
 
                 //$('#facUserSelect').innerHTML =optionsadd;
 
@@ -324,6 +328,24 @@ function dpcUpload(id){
     $("#dpcuid").val(id);
     $("#UploadCheckModal").modal('show');
 }
+
+$('#newCustomerNoteSubmit').click(function (evt) {
+    evt.preventDefault();
+    var myForm = document.getElementById('newCustomerNoteForm');
+    var formData = new FormData($("#newCustomerNoteForm")[0]);
+
+    $.ajax({
+        url: "/note/add/customernote",
+        type: "POST",
+        data:formData,
+        contentType: false,
+        processData: false,
+        complete: function (data){
+            toastr['success'](JSON.parse(data.responseText));
+        }
+    });
+});
+
 $('#dpcUploadSubmit').click(function (evt) {
     evt.preventDefault();
     var myForm = document.getElementById('UploadDeliveryCheckForm');
