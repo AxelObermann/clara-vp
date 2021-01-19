@@ -114,7 +114,7 @@
 			<div class="col-md-12">
 				<div class="panel shadow-lg" id="Lieferstellen" style="margin-top: 15px;overflow: auto; white-space: nowrap;">
 					<div class="panel-heading" >
-						<img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Lieferstellen-end.svg') }}" style="width: 40px;margin-right: 10px;"><h3 class="panel-title text-white"> Lieferstellen</h3>
+						<img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Lieferstellen-end.svg') }}" ><h3 class="panel-title text-white"> Lieferstellen</h3>
 						<div class="panel-actions text-white">
 							{% if is_granted('ROLE_ADMIN') %}
 								<a class="panel-action text-white" href="{{ path('deliveryplace_add',{cid : customer.cid } ) }}" aria-expanded="true" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/hinzufuegen-generell-end.svg') }}" style="width: 40px"></a>
@@ -165,6 +165,9 @@
 										<td>
 											<a href="/kundenindex/dp/edit/{{ place.id }}" class="mr-5" data-toggle="tooltip" data-original-title="bearbeiten"><img class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 40px"></a>
 											<a href="#" class="mr-5" onclick="deleteDeliveryPlace({{ place.id }})" data-toggle="tooltip" data-original-title="löschen"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 40px"></a>
+											{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}
+											<a href="#" class="btn btn-sm btn-icon btn-pure btn-default open-movedelivery"  data-toggle="modal" data-target="#moveDeliveryPlaceModal" data-id="{{ place.id }}" data-toggle="tooltip" data-original-title="Verschieben"><img class="" src="/assets/images/Icons/verschieben-end.svg" style="width: 40px"></a>
+											{% endif %}
 										</td>
 									</tr>
 								{% endfor %}
@@ -234,7 +237,39 @@
 		</div>
 	</div>
 </div>
-
+	<div class="modal fade modal-3d-slit" id="moveDeliveryPlaceModal" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
+		<div class="modal-dialog modal-simple">
+			<div class="modal-content clara-modal-content">
+				<form method="post" action="{{ path('app_deliverplace_movedpcustomer') }}" id="deliveryMoveForm">
+					<div class="modal-header clara-modal-header">
+						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+						<h4 class="modal-title clara-modal-title"><i class="icon fa-map-marker" aria-hidden="true" style="font-size: 25px"></i> Lieferstelle verschieben</h4>
+					</div>
+					<div class="modal-body clara-modal-body">
+						<div class="form-group">
+							<span class="text-help">zu welchem Kunden verschieben?</span>
+							
+							<select data-live-search="true" class="select text-white" id="moveDeliverToCsutomerSelect" name="toCustomer" data-style="warning" data-plugin="selectpicker">
+								
+								{% for cust in customers %}
+									<option value="{{ cust.id }}">{{ cust.fullName }}</option>
+								{% endfor %}
+								
+							</select>
+						
+						</div>
+						<input type="hidden" name="dlid" id="dlid" value=""/>
+					</div>
+					<div class="modal-footer">
+						<button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
+						<button type="submit" class="btn btn-warning">Speichern</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 {% endblock body %}
 {% block siteJS %}
 <script src="/assets/js/customer.js"></script>
