@@ -142,13 +142,16 @@ class CustomerController extends AbstractController
         $query = 'SELECT  customer.id AS cid, customer.user_id, customer.full_name,customer.contact_person, adress.id as adrid,adress.street,adress.street_number,adress.zip,adress.town,adress.phone,adress.fax,adress.mail FROM customer INNER JOIN adress WHERE customer.id='.$request->get('id').' AND customer.id = adress.customer_id AND adress.adresstype = "STAMM"';
         $stmt =$conn->executeQuery($query);
         $stmt->execute();
+
         $users = $userRepository->findAll();
         $notes = $customer->getNotes();
+        $customers = $customerRepository->findBy(array('deleted' => 0));
         return $this->render('customer/edit.html.twig',[
             'users' => $users,
             'customer' => $stmt->fetchAssociative(),
             'places' => $dpls,
             'notes' => $notes,
+            'customers' => $customers,
         ]);
     }
 
