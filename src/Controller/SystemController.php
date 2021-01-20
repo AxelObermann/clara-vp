@@ -8,10 +8,12 @@ use App\Repository\DeliveryPlaceRepository;
 use App\Repository\SupplierRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SystemController extends AbstractController
@@ -94,14 +96,54 @@ class SystemController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route ("system/settings", name="system_settings")
      */
-    public function systemSettings(SupplierRepository $supplierRepository, DeliveryPlaceRepository $deliveryPlaceRepository,DeliverPlaceCheckRepository $deliverPlaceCheckRepository,Request $request){
+    public function systemSettings(SupplierRepository $supplierRepository, DeliveryPlaceRepository $deliveryPlaceRepository,DeliverPlaceCheckRepository $deliverPlaceCheckRepository,Request $request,MailerInterface $mailer){
         if ($request->isMethod("POST")){
             $selSupps = $request->get("check");
 
             foreach ($selSupps as $supplier){
                 $supp = $supplierRepository->find($supplier);
                 $checks = $deliverPlaceCheckRepository->findBy(array('versorger' => $supp->getId()));
-                dump($checks);
+
+                if ($checks){
+                    $content='<table width="100%">';
+                    $content.='<tr>
+                                <td>Tarif Nr.</td>
+                                <td>Str.</td>
+                                <td>Nr.</td>
+                                <td>PLZ</td>
+                                <td>Ort</td>
+                                <td>Zähler Nr.</td>
+                                <td>Malo</td>
+                                <td>Ablesedatum</td>
+                                <td>Stand</td>
+                                </tr>';
+                    foreach ($checks as $check){
+                        $dpl = $deliveryPlaceRepository->find($check->getDeliveryPlace());
+                        $content.='<tr>
+                                <td>'.$dpl->getTarifnummer().'</td>
+                                <td>'.$dpl->getStrasse().'</td>
+                                <td>'.$dpl->getHausnummer().'</td>
+                                <td>'.$dpl->getPLZ().'</td>
+                                <td>'.$dpl->getOrt().'</td>
+                                <td>'.$dpl->getZaehlernummer().'</td>
+                                <td>'.$dpl->getMaloID().'</td>
+                                <td>'.$check->getDatum()->format("d.m.Y").'</td>
+                                <td>'.$check->getWert().'</td>
+                                </tr>';
+
+                        dump($check->getDeliveryPlace()->getZaehlernummer(),$supp);
+                    }
+                    $content.='</table>';
+
+                    $email = (new TemplatedEmail())
+                        ->from('vp@energie-ew.de')
+                        ->to($supp->getEmail())
+                        ->subject('Ablesung / Zählerstände')
+                        ->htmlTemplate("email/suppliersend.html.twig")
+                        ->context(["VERSORGERNAME" => $supp->getName(),'VERSORGERSTRASSE' => $supp->getStreet(),'VERSORGERPLZ' => $supp->getPlz(),'VERSORGERORT' => $supp->getOrt(),'content' => $content]);
+
+                    $mailer->send($email);dump($checks);
+                }
             }
             die();
         }
@@ -125,6 +167,9 @@ class SystemController extends AbstractController
         $sup = new Supplier();
         $sup->setName($request->get('name'));
         $sup->setEmail($request->get('email'));
+        $sup->setStreet($request->get('street'));
+        $sup->setPlz($request->get('plz'));
+        $sup->setOrt($request->get('ort'));
         $entityManager->persist($sup);
         $entityManager->flush();
         $this->addFlash('success', 'Der Versorger wurde angelegt.');
@@ -139,6 +184,9 @@ class SystemController extends AbstractController
         $supplier = $supplierRepository->find($request->get('supplierId'));
         $supplier->setEmail($request->get('email'));
         $supplier->setName($request->get('name'));
+        $supplier->setStreet($request->get('street'));
+        $supplier->setPlz($request->get('plz'));
+        $supplier->setOrt($request->get('ort'));
         $entityManager->flush();
         $this->addFlash('success', 'Der Versorger wurde geändert.');
         return $this->redirect($request->headers->get('referer'));
