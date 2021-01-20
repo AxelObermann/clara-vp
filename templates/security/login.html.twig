@@ -63,7 +63,7 @@
         <div class="panel">
             <div class="panel-body">
                 <div class="brand">
-                    <img class="brand-img" src="/assets//images/ClaraLogo.png" alt="..." style="width: 330px;">
+                    <img class="brand-img" src="/assets/images/CLARA-Logo-komplett-SVG-RGB.svg" alt="..." style="width: 330px;">
                     {% if error %}
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                     {% endif %}
@@ -88,7 +88,9 @@
                             <input type="checkbox" id="inputCheckbox" name="_remember_me">
                             <label for="inputCheckbox">Angemeldet bleiben</label>
                         </div>
-                        <a class="float-right" href="{{ path("forgot_pass") }}">Passwort vergessen?</a>
+                    </div>
+                    <div class="form-group clearfix">
+                        <a href="{{ path("forgot_pass") }}">Passwort vergessen?</a>
                     </div>
                     <input type="hidden" name="_csrf_token"
                            value="{{ csrf_token('authenticate') }}"
