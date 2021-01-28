@@ -4,7 +4,8 @@
 	<div class="panel-heading">
 		<img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Kunden-end.svg') }}"><h3 class="panel-title"> Kunde: <span id="CustomerTitle"></span></h3>
 			<div class="panel-actions">
-				<a class="panel-action icon wb-close text-white" href="{{ path('customers') }}"></a>
+				<a class="panel-action"  id="showNotes"><img class="" src="{{ asset('assets/images/Icons/Aktionsbutton-Note-gross-end.svg') }}" style="width: 40px"></a>
+				<a class="panel-action" href="{{ path('customers') }}"><img data-toggle="tooltip" data-original-title="Schliessen" class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px"></a>
 				
 			</div>
 	</div>
@@ -18,7 +19,6 @@
 						<h3 class="panel-title text-white">Kundendaten</h3>
 						<div class="panel-actions text-white">
 							{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}
-								<a class="panel-action"  id="showNotes"><img class="" src="{{ asset('assets/images/Icons/Aktionsbutton-Note-gross-end.svg') }}" style="width: 40px"></a>
 								<button type="submit" class="panel-action" id="customerSave" data-toggle="tooltip" data-original-title="Speichern" aria-hidden="true" style="border: none">
 								<img class="" src="{{ asset('assets/images/Icons/speichern-end.svg') }}" style="width: 40px">
 								</button>
@@ -164,9 +164,9 @@
 										<td>toDo</td>
 										<td>
 											<a href="/kundenindex/dp/edit/{{ place.id }}" class="mr-5"><img data-toggle="tooltip" data-original-title="bearbeiten" class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 40px"></a>
-											<a href="#" class="mr-5" onclick="deleteDeliveryPlace({{ place.id }})"><img data-toggle="tooltip" data-original-title="löschen" class="mr-5" src="/assets/images/Icons/loeschen-end.svg" style="width: 40px"></a>
 											{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}
-											<a href="#" class="open-movedelivery mr-5"  data-toggle="modal" data-target="#moveDeliveryPlaceModal" data-id="{{ place.id }}" ><img data-toggle="tooltip" data-original-title="Verschieben" class="mr-5" src="/assets/images/Icons/verschieben-end.svg" style="width: 40px"></a>
+												<a href="#" class="mr-5" onclick="deleteDeliveryPlace({{ place.id }})"><img data-toggle="tooltip" data-original-title="löschen" class="mr-5" src="/assets/images/Icons/loeschen-end.svg" style="width: 40px"></a>
+												<a href="#" class="open-movedelivery mr-5"  data-toggle="modal" data-target="#moveDeliveryPlaceModal" data-id="{{ place.id }}" ><img data-toggle="tooltip" data-original-title="Verschieben" class="mr-5" src="/assets/images/Icons/verschieben-end.svg" style="width: 40px"></a>
 											{% endif %}
 										</td>
 									</tr>
