@@ -4,7 +4,7 @@
 	<div class="panel-heading">
 		<img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Kunden-end.svg') }}"><h3 class="panel-title"> Kunde: <span id="CustomerTitle"></span></h3>
 			<div class="panel-actions">
-				<a class="panel-action icon wb-minus text-white" href="{{ path('customers') }}"></a>
+				<a class="panel-action icon wb-close text-white" href="{{ path('customers') }}"></a>
 				
 			</div>
 	</div>
@@ -163,10 +163,10 @@
 										<td>{{ place.zaehlernummer }}</td>
 										<td>toDo</td>
 										<td>
-											<a href="/kundenindex/dp/edit/{{ place.id }}" class="mr-5" data-toggle="tooltip" data-original-title="bearbeiten"><img class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 40px"></a>
-											<a href="#" class="mr-5" onclick="deleteDeliveryPlace({{ place.id }})" data-toggle="tooltip" data-original-title="löschen"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 40px"></a>
+											<a href="/kundenindex/dp/edit/{{ place.id }}" class="mr-5"><img data-toggle="tooltip" data-original-title="bearbeiten" class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 40px"></a>
+											<a href="#" class="mr-5" onclick="deleteDeliveryPlace({{ place.id }})"><img data-toggle="tooltip" data-original-title="löschen" class="mr-5" src="/assets/images/Icons/loeschen-end.svg" style="width: 40px"></a>
 											{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}
-											<a href="#" class="btn btn-sm btn-icon btn-pure btn-default open-movedelivery"  data-toggle="modal" data-target="#moveDeliveryPlaceModal" data-id="{{ place.id }}" data-toggle="tooltip" data-original-title="Verschieben"><img class="" src="/assets/images/Icons/verschieben-end.svg" style="width: 40px"></a>
+											<a href="#" class="open-movedelivery mr-5"  data-toggle="modal" data-target="#moveDeliveryPlaceModal" data-id="{{ place.id }}" ><img data-toggle="tooltip" data-original-title="Verschieben" class="mr-5" src="/assets/images/Icons/verschieben-end.svg" style="width: 40px"></a>
 											{% endif %}
 										</td>
 									</tr>
