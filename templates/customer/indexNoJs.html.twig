@@ -1,7 +1,7 @@
 {% extends 'index.html.twig' %}
 
 {% block body %}
-	<div class="panel shadow-lg " id="customerIndexPanel" style="border: 3px solid #f19408;">
+	<div class="panel shadow-lg " id="customerIndexPanel">
 		<header class="panel-heading">
 			<img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Kunden-end.svg') }}"><h3 class="panel-title"> Kunden</h3>
 			{% if is_granted('ROLE_ADMIN') %}
@@ -24,7 +24,7 @@
 						<th style="width:230px">Mail</th>
 						<th style="width:50px">PLZ</th>
 						<th style="width:230px">Ort</th>
-						<th>Actions</th>
+						<th>Aktionen</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -39,8 +39,8 @@
 							<td>{{ customer.zip }}</td>
 							<td>{{ customer.town }}</td>
 							<td>
-								<a href="/kundenindex/edit/{{ customer.id }}" class="" onclick="getCustomerWithAdress({{ customer.id }}, {% if 'show_deleted' in app.request.pathinfo %} 1 {% else %} 0 {% endif %})" data-toggle="tooltip" data-original-title="Edit"><img class="" src="{{ asset('assets/images/Icons/bearbeiten-end.svg') }}" style="width: 30px"></a>
-								{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" data-toggle="tooltip" data-original-title="Löschen" onclick="deleteCustomer({{ customer.id }})"><img class="" src="{{ asset('assets/images/Icons/loeschen-end.svg') }}" style="width: 30px"></a>{% endif %}
+								<a href="/kundenindex/edit/{{ customer.id }}" class="" onclick="getCustomerWithAdress({{ customer.id }}, {% if 'show_deleted' in app.request.pathinfo %} 1 {% else %} 0 {% endif %})" data-toggle="tooltip" data-original-title="Bearbeiten"><img class="" src="{{ asset('assets/images/Icons/bearbeiten-end.svg') }}" style="width: 40px"></a>
+								{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" data-toggle="tooltip" data-original-title="Löschen" onclick="deleteCustomer({{ customer.id }})"><img class="" src="{{ asset('assets/images/Icons/loeschen-end.svg') }}" style="width: 40px"></a>{% endif %}
 								{#  {% if is_granted('ROLE_PORTAL_ADMIN') %}<a href="/customer/importkdls/{{ customer.old_id }}" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="tooltip" data-original-title="Import Kdls"><i class="icon md-link" aria-hidden="true" style="font-size: 26px;"></i></a>{% endif %}#}
 							</td>
 						</tr>
