@@ -2,7 +2,10 @@
 {% block body %}
 <div class="panel shadow-lg" style="border: 3px solid #f19408;">
 	<header class="panel-heading">
-		<h3 class="panel-title"><i class="site-menu-icon icon md-pin-account" aria-hidden="true" style="font-size: 25px;top: 3px;"></i> Neuen Benutzer anlegen:</h3>
+		<img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Benutzer-end.svg') }}"><h3 class="panel-title"> Neuen Benutzer anlegen:</h3>
+		<div class="panel-actions">
+			<a class="panel-action" href="{{ path('benutzerindex') }}"><img data-toggle="tooltip" data-original-title="Schliessen" class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px"></a>
+		</div>
 	</header>
 	<div class="panel-body">
 		<div class="panel pt-10 shadow-lg" id="UserDataPanel">
