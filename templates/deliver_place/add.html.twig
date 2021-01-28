@@ -8,13 +8,13 @@
 					<img class="" src="{{ asset('assets/images/Icons/Lieferstellen-end.svg') }}" style="width: 40px;margin-right: 10px;"> Lieferstelle: NEU<span id="deliveryPlaceTitle"></span></h3>
 				<div class="panel-actions">
 					{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}
-						<button type="submit" class="panel-action" id="customerSave" data-toggle="tooltip" data-original-title="Speichern" aria-hidden="true" style="border: none">
-							<img class="" src="{{ asset('assets/images/Icons/speichern-end.svg') }}" style="width: 40px">
+						<button type="submit" class="panel-action" id="customerSave" aria-hidden="true" style="border: none">
+							<img class="" src="{{ asset('assets/images/Icons/speichern-end.svg') }}" data-toggle="tooltip" data-original-title="Speichern" style="width: 40px">
 						</button>
 					{% elseif is_granted('ROLE_FACILITY_MANAGER') %}
 						<a class="panel-action" id="deliveryModalButton" data-toggle="modal" data-target="#newCheckModal" aria-hidden="true" data-toggle="tooltip" data-original-title="neue Ablseung"><i class="icon fa-files-o text-white font-size-26" aria-hidden="true"></i></a>
 					{% endif %}
-					<a class="panel-action" href="{{ app.session.get('lastUrl') }}" aria-hidden="true"><img class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px"></a>
+					<a class="panel-action" href="{{ app.session.get('lastUrl') }}"><img data-toggle="tooltip" data-original-title="Schliessen" class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px"></a>
 				</div>
 			</div>
 			<div class="panel-body">
