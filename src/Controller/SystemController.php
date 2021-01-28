@@ -92,20 +92,23 @@ class SystemController extends AbstractController
         ]);
 
     }
+
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route ("system/settings", name="system_settings")
      */
-    public function systemSettings(SupplierRepository $supplierRepository, DeliveryPlaceRepository $deliveryPlaceRepository,DeliverPlaceCheckRepository $deliverPlaceCheckRepository,Request $request,MailerInterface $mailer){
+    public function systemSettings(SupplierRepository $supplierRepository, DeliveryPlaceRepository $deliveryPlaceRepository,DeliverPlaceCheckRepository $deliverPlaceCheckRepository,Request $request,MailerInterface $mailer,EntityManagerInterface $entityManager){
         if ($request->isMethod("POST")){
             $selSupps = $request->get("check");
-
+            $count1 =0;
+            $count2 =0;
             foreach ($selSupps as $supplier){
                 $supp = $supplierRepository->find($supplier);
-                $checks = $deliverPlaceCheckRepository->findBy(array('versorger' => $supp->getId()));
+                $checks = $deliverPlaceCheckRepository->findBy(array('versorger' => $supp->getId(),'sended' => false));
+                //dd($checks);
 
                 if ($checks){
-                    $content='<table width="100%">';
+                    $content='<table width="100%"  style="border: 1px solid black;  border-collapse: collapse;">';
                     $content.='<tr>
                                 <td>Tarif Nr.</td>
                                 <td>Str.</td>
@@ -119,37 +122,48 @@ class SystemController extends AbstractController
                                 </tr>';
                     foreach ($checks as $check){
                         $dpl = $deliveryPlaceRepository->find($check->getDeliveryPlace());
-                        $content.='<tr>
-                                <td>'.$dpl->getTarifnummer().'</td>
-                                <td>'.$dpl->getStrasse().'</td>
-                                <td>'.$dpl->getHausnummer().'</td>
-                                <td>'.$dpl->getPLZ().'</td>
-                                <td>'.$dpl->getOrt().'</td>
-                                <td>'.$dpl->getZaehlernummer().'</td>
-                                <td>'.$dpl->getMaloID().'</td>
-                                <td>'.$check->getDatum()->format("d.m.Y").'</td>
-                                <td>'.$check->getWert().'</td>
+                        $content.='<tr style="border: 1px solid black;  border-collapse: collapse;">
+                                <td style="border: 1px solid black;  border-collapse: collapse;">'.$dpl->getTarifnummer().'</td>
+                                <td style="border: 1px solid black;  border-collapse: collapse;">'.$dpl->getStrasse().'</td>
+                                <td style="border: 1px solid black;  border-collapse: collapse;">'.$dpl->getHausnummer().'</td>
+                                <td style="border: 1px solid black;  border-collapse: collapse;">'.$dpl->getPLZ().'</td>
+                                <td style="border: 1px solid black;  border-collapse: collapse;">'.$dpl->getOrt().'</td>
+                                <td style="border: 1px solid black;  border-collapse: collapse;">'.$dpl->getZaehlernummer().'</td>
+                                <td style="border: 1px solid black;  border-collapse: collapse;">'.$dpl->getMaloID().'</td>
+                                <td style="border: 1px solid black;  border-collapse: collapse;">'.$check->getDatum()->format("d.m.Y").'</td>
+                                <td style="border: 1px solid black;  border-collapse: collapse;">'.$check->getWert().'</td>
                                 </tr>';
-
-                        dump($check->getDeliveryPlace()->getZaehlernummer(),$supp);
+                        $check->setSended(true);
+                        $check->setSendedAt(new \DateTime());
+                        $entityManager->flush();
+                        //dump($check->getDeliveryPlace()->getZaehlernummer(),$supp);
+                    $count2++;
                     }
                     $content.='</table>';
 
                     $email = (new TemplatedEmail())
                         ->from('vp@energie-ew.de')
                         ->to($supp->getEmail())
+                        ->addCc("info@bentley-energie.de")
                         ->subject('Ablesung / Zählerstände')
                         ->htmlTemplate("email/suppliersend.html.twig")
                         ->context(["VERSORGERNAME" => $supp->getName(),'VERSORGERSTRASSE' => $supp->getStreet(),'VERSORGERPLZ' => $supp->getPlz(),'VERSORGERORT' => $supp->getOrt(),'content' => $content]);
 
-                    $mailer->send($email);dump($checks);
+                    $mailer->send($email);
+                    $count1++;
                 }
             }
-            die();
+            return new JsonResponse("Es wurden ".$count1." Mails mit ".$count2." Einträgen versendet");
         }
+        $conn = $entityManager->getConnection();
+        $sql = 'SELECT DISTINCT vorversorger FROM delivery_place';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $vorversorger = $stmt->fetchAllAssociative();
         $suppliers = $supplierRepository->findAll();
         $dps = $deliveryPlaceRepository->findAll();
         return $this->render('system/index.html.twig', [
+            'vorversorger' => $vorversorger,
             'suppliers' => $suppliers,
             'places' => $dps,
         ]);
@@ -178,6 +192,15 @@ class SystemController extends AbstractController
 
     /**
      * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @Route ("system/sypplier/addvv", name="system_supplier_addvv")
+     */
+    public function addNewSupplierFromVV(Request $request, EntityManagerInterface $entityManager){
+        dd($request);
+    }
+
+    /**
+     * @param Request $request
      * @Route ("system/supplier/edit", name="system_supplier_edit")
      */
     public function supplierEdit(Request $request,SupplierRepository $supplierRepository, EntityManagerInterface $entityManager){
@@ -201,4 +224,23 @@ class SystemController extends AbstractController
         $supplierRepository->deleteSupplier($request->get('id'));
         return new JsonResponse("Dir Versorger wurde glöscht");
     }
+
+    /**
+     * @param DeliveryPlaceRepository $deliveryPlaceRepository
+     * @param DeliverPlaceCheckRepository $deliverPlaceCheckRepository
+     * @param EntityManagerInterface $entityManager
+     * @Route ("system/versorger/sync")
+     */
+    public function syncVersorger(DeliveryPlaceRepository $deliveryPlaceRepository, DeliverPlaceCheckRepository $deliverPlaceCheckRepository,EntityManagerInterface $entityManager){
+        $checks = $deliverPlaceCheckRepository->findBy(array("versorger" => null));
+
+        foreach ($checks as $check){
+            $dpl = $deliveryPlaceRepository->find($check->getDeliveryPlace());
+            $check->setVersorger($dpl->getVersorger());
+            $entityManager->flush();
+        }
+        die();
+    }
+
+
 }
