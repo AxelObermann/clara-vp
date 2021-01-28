@@ -29,6 +29,9 @@
 .site-navbar {
     background-color: unset;
 }
+.site-navbar .navbar-header .navbar-brand{
+    color:#015780;
+}
 .navbar-default .navbar-toolbar .nav-link {
     display: block;
     color: #ffffff;
