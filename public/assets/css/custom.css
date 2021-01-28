@@ -27,7 +27,7 @@
     background-color: rgb(236 121 2 / 75%);
 }
 .site-navbar {
-    background-color: #f19408;
+    background-color: unset;
 }
 .navbar-default .navbar-toolbar .nav-link {
     display: block;
