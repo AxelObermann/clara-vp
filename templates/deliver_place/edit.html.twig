@@ -8,16 +8,17 @@
 				<h3 class="panel-title">
 					<img class="" src="{{ asset('assets/images/Icons/Lieferstellen-end.svg') }}" style="width: 40px;margin-right: 10px;"> Lieferstelle: <span id="deliveryPlaceTitle"></span></h3>
 				<div class="panel-actions">
+					<a class="panel-action"  id="showNotes"><img data-toggle="tooltip" data-original-title="Notizen" class="" src="{{ asset('assets/images/Icons/Aktionsbutton-Note-gross-end.svg') }}" style="width: 40px"></a>
+					<a class="panel-action" id="deliveryModalButton" data-toggle="modal" data-target="#newCheckModal" aria-hidden="true"><img class="" data-toggle="tooltip" data-original-title="neue Ablseung" src="{{ asset('assets/images/Icons/Zaehler-ablesen-end.svg') }}" style="width: 40px"></a>
 					{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}
-						<a class="panel-action"  id="showNotes"><img class="" src="{{ asset('assets/images/Icons/Aktionsbutton-Note-gross-end.svg') }}" style="width: 40px"></a>
-						<a class="panel-action" id="deliveryModalButton" data-toggle="modal" data-target="#newCheckModal" aria-hidden="true"><img class="" data-toggle="tooltip" data-original-title="neue Ablseung" src="{{ asset('assets/images/Icons/Zaehler-ablesen-end.svg') }}" style="width: 40px"></a>
-						<button type="submit" class="panel-action" id="customerSave" data-toggle="tooltip" data-original-title="Speichern" aria-hidden="true" style="border: none">
-							<img class="" src="{{ asset('assets/images/Icons/speichern-end.svg') }}" style="width: 40px">
+						<a class="panel-action" id="deliveryModalButton" data-toggle="modal" data-target="#duplicateDPL" aria-hidden="true"><img class="" data-toggle="tooltip" data-original-title="Vertrag Duplizieren" src="{{ asset('assets/images/Icons/Vertrag-hinzu-end.svg') }}" style="width: 40px"></a>
+						<button type="submit" class="panel-action" id="customerSave" aria-hidden="true" style="border: none">
+							<img class="" src="{{ asset('assets/images/Icons/speichern-end.svg') }}" data-toggle="tooltip" data-original-title="Speichern" style="width: 40px">
 						</button>
 					{% elseif is_granted('ROLE_FACILITY_MANAGER') %}
 						<a class="panel-action" id="deliveryModalButton" data-toggle="modal" data-target="#newCheckModal" aria-hidden="true" data-toggle="tooltip" data-original-title="neue Ablseung"><i class="icon fa-files-o text-white font-size-26" aria-hidden="true"></i></a>
 					{% endif %}
-					<a class="panel-action icon wb-minus text-white" href="{{ app.session.get('lastUrl') }}"></a>
+					<a class="panel-action" href="{{ app.session.get('lastUrl') }}"><img data-toggle="tooltip" data-original-title="Schliessen" class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px"></a>
 					
 				</div>
 			</div>
@@ -400,6 +401,7 @@
 																</div>
 															</div>
 														</div>
+														{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') or is_granted('ROLE_PORTAL_USER') %}
 														<div class="row row-lg">
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
@@ -421,6 +423,7 @@
 																</div>
 															</div>
 														</div>
+														{% endif %}
 														<div class="row row-lg">
 															<div class="col-lg-6 col-md-6">
 																<div class="form-group">
@@ -429,7 +432,7 @@
 																</div>
 															</div><div class="col-lg-6 col-md-6">
 																<div class="form-group">
-																	<span class="text-help-sm">GP</span>
+																	<span class="text-help-sm">Grundgebühr</span>
 																	<input type="text" name="GP" id="GP" value="{{ dpl.gP }}" class="form-control form-control-sm round" placeholder="GP">
 																</div>
 															</div>
@@ -509,6 +512,7 @@
 										<tr>
 											<th>Datum</th>
 											<th>Wert</th>
+											<th>Gesendet</th>
 											<th>Aktionen</th>
 										</tr>
 										</thead>
@@ -517,9 +521,19 @@
 											<tr>
 												<td>{{ check.datum|date('d.m.Y') }}</td>
 												<td>{{ check.wert }}</td>
+												<td style="width: 50px">
+													
+													{% if check.sended %}
+														<a style="color: #8bc34a;font-size: 20px;"><i class="icon fa-check" aria-hidden="true"></i></a>
+													{% else %}
+														<a style="color: #ff0000;font-size: 20px;"><i class="icon fa-close" aria-hidden="true"></i></a>
+													{% endif %}
+												</td>
 												<td>
 													<a href="#" class="mr-5" onclick="editDPC({{ check.id }})" data-toggle="tooltip" data-original-title="Bearbeiten"><img class="mr-5" src="/assets/images/Icons/bearbeiten-end.svg" style="width: 40px"></a>
+													{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}
 													<a href="#" class="" onclick="deleteDeliveryPlaceCheck({{ check.id }})" data-toggle="tooltip" data-original-title="Löschen"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 40px"></a>
+													{% endif %}
 													<a href="#" class="btn btn-sm btn-icon btn-pure btn-default" onclick="dpcUpload({{ check.id }})"  data-toggle="tooltip" data-original-title="Upload"><img class="" src="/assets/images/Icons/Aktionsbutton-Upload-gross-end.svg" style="width: 40px"></a>
 												</td>
 											</tr>
@@ -620,7 +634,79 @@
 		</div>
 	</div>
 </div>
-	
+
+<div class="modal fade modal-3d-slit" id="duplicateDPL" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
+	<div class="modal-dialog modal-simple">
+		<div class="modal-content clara-modal-content">
+			<form method="post" action="" id="duplicateDPForm">
+				<input type="hidden" name="dpid" id="dpid" value="{{ dpl.id }}">
+				<div class="modal-header clara-modal-header">
+					<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+					<h4 class="modal-title clara-modal-title"><img class="" data-toggle="tooltip" data-original-title="Vertrag Duplizieren" src="{{ asset('assets/images/Icons/Vertrag-hinzu-end.svg') }}" style="width: 40px"> Vertrag Duplizieren</h4>
+				</div>
+				<div class="modal-body clara-modal-body">
+					<div class="form-group">
+						<span class="text-help">Tarifnummer</span>
+						<input type="text"  name="Tarifnummer" class="form-control form-control-sm round" id="Tarifnummer" placeholder="Tarifnummer">
+					</div>
+					<div class="form-group">
+						<span class="text-help">Tarifname</span>
+						<input type="text"  name="Tarifname" class="form-control form-control-sm round" id="Tarifname" placeholder="Tarifname">
+					</div>
+					<div class="form-group">
+						<span class="text-help">Versorger</span>
+						<select data-style="warning" class="text-white" name="Versorgercopy" id="Versorgercopy" data-plugin="selectpicker">
+							{% for versorger in suppliers %}
+								<option value="{{ versorger.id }}">{{ versorger.name }}</option>
+							{% endfor %}
+						</select>
+						
+					</div>
+					<div class="form-group">
+						<span class="text-help">Versorger Kundennr.</span>
+						<input type="text"  name="VersKdNr" class="form-control form-control-sm round" id="VersKdNr" placeholder="VersKdNr">
+					</div>
+					<div class="form-group">
+						<span class="text-help">Abschlussprovision</span>
+						<input type="text"  name="Abschlussprovision" class="form-control form-control-sm round" id="Abschlussprovision" placeholder="Abschlussprovision">
+					</div>
+					<div class="form-group">
+						<span class="text-help">Folgeprovision Monatlich</span>
+						<input type="text"  name="SpanneFolge" class="form-control form-control-sm round" id="FolgeprovM" placeholder="FolgeprovM">
+					</div>
+					<div class="form-group">
+						<span class="text-help">Spanne pro KwH</span>
+						<input type="text"  name="SpannePKwH" class="form-control form-control-sm round" id="SpannePKwH" placeholder="SpannePKwH">
+					</div>
+					<div class="form-group">
+						<span class="text-help">AP</span>
+						<input type="text"  name="AP" class="form-control form-control-sm round" id="AP" placeholder="AP">
+					</div>
+					<div class="form-group">
+						<span class="text-help">GP</span>
+						<input type="text"  name="GP" class="form-control form-control-sm round" id="GP" placeholder="GP">
+					</div>
+					<div class="form-group">
+						<span class="text-help">Vertragsbeginn</span>
+						<input type="text"  name="Vertragsbeginn"  class="datepicker" data-plugin="datepicker" id="Vertragsbeginn" placeholder="Vertragsbeginn">
+					</div>
+					<div class="form-group">
+						<span class="text-help">Dauer</span>
+						<input type="text"  name="Dauer"  class="datepicker" data-plugin="datepicker" id="Dauer" placeholder="Dauer">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
+					<button type="submit" id="dupdplSubmitButton" class="btn btn-warning">Speichern</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
 <div class="slidePanel slidePanel-right site-sidebar lvl3-sidePanel" id="DPNotes" style="z-index:1500;overflow-y: scroll; overflow: scroll;border-left: 3px solid #f19408;">
 	<div class="panel mb-0" id="">
 		<div class="panel-heading">
@@ -636,7 +722,9 @@
 				<div class="card bg-orange-50 shadow-sm" id="note{{ note.id }}">
 					<div class="card-block">
 						<div class="panel-actions">
+							{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}
 							<a href="#" class="mr-5" onclick="deleteNote({{ note.id }})" data-toggle="tooltip" data-original-title="löschen"><img class="" src="/assets/images/Icons/loeschen-end.svg" style="width: 40px"></a>
+							{% endif %}
 						</div>
 						<h4 class="card-title">{{ note.description }}</h4>
 						<p class="card-text">{{ note.notetext|nl2br }}</p>
@@ -688,6 +776,7 @@
         });
         var testrole = "{{ app.user.roles[0] }}";
 
+        
         $( "#newCheckModal" ).submit(function( event ) {
 
             event.preventDefault();
@@ -742,6 +831,34 @@
                     $( "#echeckwert" ).val('')
                     $( "#echeckdate" ).val('')
                     $( "#edpcid" ).val('')
+                    toastr['success'](JSON.parse(data.responseText));
+                }
+            });
+
+        });
+        
+        $( "#duplicateDPForm" ).submit(function( event ) {
+
+            event.preventDefault();
+            console.log('SPEICHERN');
+            
+            //$( "#dlcheckid" ).val($( "#dpId" ).val());
+            var myForm = document.getElementById('duplicateDPForm');
+            var formData = new FormData(myForm),
+                result = {};
+
+            for (var entry of formData.entries())
+            {
+                result[entry[0]] = entry[1];
+            }
+            result = JSON.stringify(result)
+            $.ajax({
+                url: "{{ path('deliverplace_copy') }}",
+                type: "POST",
+                data:result,
+                contentType: "application/json",
+                complete: function (data){
+                    $( "#duplicateDPL" ).modal('hide');
                     toastr['success'](JSON.parse(data.responseText));
                 }
             });
