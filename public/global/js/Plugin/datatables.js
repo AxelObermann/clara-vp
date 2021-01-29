@@ -64,15 +64,17 @@
         return {
           responsive: true,
           language: {
-            SearchPlaceholder: 'Suchen..',
+            sSearchPlaceholder: 'Suchen..',
 
-            lengthMenu: 'zeige _MENU_ pro Seite',
-
+            lengthMenu: ' _MENU_ pro Seite',
+            paginate: {
+            "previous": "zurück",
+            "next": "weiter"
+          },
             search: '_INPUT_' // paginate: {
             //   previous: '<i class="icon md-chevron-left"></i>',
             //   next: '<i class="icon md-chevron-right"></i>'
             // }
-
 
           }
         };
