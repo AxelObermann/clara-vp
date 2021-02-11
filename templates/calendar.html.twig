@@ -7,7 +7,7 @@
 	<meta name="description" content="bootstrap material admin template">
 	<meta name="author" content="">
 	
-	<title>CLARA</title>
+	<title>CLARA | Kalender</title>
 	
 	<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
 	<link rel="shortcut icon" href="/assets/images/favicon.ico">
@@ -39,7 +39,11 @@
 	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.css" integrity="sha512-UrCkMTUH0evgGYJJ1Gb5XGuBXDrsSNoyN6Y6OecnEldtTg0TnqZACVJXyEY1wmvf6H8sKET/Yb85cG1xOjSnsw==" crossorigin="anonymous" />	<link rel="stylesheet" href="/global/fonts/material-design/material-design.min.css">
 	<link rel="stylesheet" href="/global/fonts/font-awesome/font-awesome.css">
-	
+	<style>
+        .tooltip {
+            z-index: 100000000;
+        }
+	</style>
 	<!--[if lt IE 9]>
 	<script src="/global/vendor/html5shiv/html5shiv.min.js"></script>
 	<![endif]-->
@@ -148,12 +152,12 @@
 			<div class="modal fade" id="addNewEvent" aria-hidden="true" aria-labelledby="addNewEvent"
 				 role="dialog" tabindex="-1">
 				<div class="modal-dialog modal-simple">
-					<form class="modal-content form-horizontal" action="#" method="post" role="form">
-						<div class="modal-header">
-							<button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-							<h4 class="modal-title">New Event</h4>
+					<form class="modal-content form-horizontal" id="newEvent" name="newEvent" method="post" role="form">
+						<div class="modal-header clara-modal-header">
+							<button type="button" class="close" aria-hidden="true" data-dismiss="modal"><img data-toggle="tooltip" data-original-title="Schliessen" class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px"></button>
+							<h4 class="modal-title text-white">Neuer Termin</h4>
 						</div>
-						<div class="modal-body">
+						<div class="modal-body clara-modal-body">
 							<div class="form-group row">
 								<label class="col-md-2 form-control-label" for="ename">Name:</label>
 								<div class="col-md-10">
@@ -161,10 +165,10 @@
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-md-2 form-control-label" for="starts">Starts:</label>
+								<label class="col-md-2 form-control-label" for="starts">Start:</label>
 								<div class="col-md-10">
 									<div class="input-group">
-										<input type="text" class="form-control" id="starts" data-container="#addNewEvent"
+										<input type="text" class="form-control" id="starts" name="starts" data-container="#addNewEvent"
 											   data-plugin="datepicker">
 										<div class="input-group-append">
                           <span class="input-group-text">
@@ -176,10 +180,10 @@
 							</div>
 							
 							<div class="form-group row">
-								<label class="col-md-2 form-control-label" for="ends">Ends:</label>
+								<label class="col-md-2 form-control-label" for="ends">Ende:</label>
 								<div class="col-md-10">
 									<div class="input-group">
-										<input type="text" class="form-control" id="ends" data-container="#addNewEvent"
+										<input type="text" class="form-control" id="ends" name="ends" data-container="#addNewEvent"
 											   data-plugin="datepicker">
 										<div class="input-group-append">
                           <span class="input-group-text">
@@ -190,86 +194,119 @@
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-md-2 form-control-label" for="repeats">Repeats:</label>
-								<div class="col-md-10">
-									<input type="text" class="form-control" id="repeats" name="repeats" data-plugin="TouchSpin"
-										   data-min="0" data-max="10" value="0" />
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="form-control-label col-md-2">Color:</label>
+								<label class="form-control-label col-md-2">Art:</label>
 								<div class="col-md-10">
 									<ul class="color-selector">
-										<li class="bg-blue-600">
-											<input type="radio" checked name="eventColorChosen" id="eventColorChosen2">
+										<li class="" style="background-color:#015780; ">
+											<input  type="radio" checked name="eventColorChosen" value="#015780" id="eventColorChosen2">
 											<label for="eventColorChosen2"></label>
 										</li>
-										<li class="bg-green-600">
-											<input type="radio" name="eventColorChosen" id="eventColorChosen3">
+										<li style="background-color:#f19408; ">
+											<input type="radio" name="eventColorChosen" value="#f19408" id="eventColorChosen3">
 											<label for="eventColorChosen3"></label>
 										</li>
-										<li class="bg-cyan-600">
-											<input type="radio" name="eventColorChosen" id="eventColorChosen4">
+										<li style="background-color:#9463F7; ">
+											<input type="radio" name="eventColorChosen" value="#9463F7" id="eventColorChosen4">
 											<label for="eventColorChosen4"></label>
 										</li>
-										<li class="bg-orange-600">
-											<input type="radio" name="eventColorChosen" id="eventColorChosen5">
+										<li style="background-color:#000000; ">
+											<input type="radio" name="eventColorChosen" value="#000000" id="eventColorChosen5">
 											<label for="eventColorChosen5"></label>
 										</li>
-										<li class="bg-red-600">
-											<input type="radio" name="eventColorChosen" id="eventColorChosen6">
+										<li style="background-color:#17B3A3; ">
+											<input type="radio" name="eventColorChosen" value="#17B3A3" id="eventColorChosen6">
 											<label for="eventColorChosen6"></label>
 										</li>
-										<li class="bg-blue-grey-600">
-											<input type="radio" name="eventColorChosen" id="eventColorChosen7">
+										<li  style="background-color:#C7C9CB; ">
+											<input type="radio" name="eventColorChosen" value="#C7C9CB" id="eventColorChosen7">
 											<label for="eventColorChosen7"></label>
 										</li>
-										<li class="bg-purple-600">
-											<input type="radio" name="eventColorChosen" id="eventColorChosen8">
-											<label for="eventColorChosen8"></label>
-										</li>
+										
 									</ul>
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-md-2 form-control-label" for="people">People:</label>
+								<label class="col-md-2 form-control-label" for="allday">Ganztätig:</label>
 								<div class="col-md-10">
-									<select id="eventPeople" multiple="multiple" class="plugin-selective"></select>
+									<input type="checkbox" style="margin-top: 10px;" class="checkbox-info" name="allday" id="allday">
+									
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-md-4 form-control-label" for="Ansprechpartner">Ansprechpartner:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="Ansprechpartner" name="Ansprechpartner">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-md-4 form-control-label" for="Emailadresse">Emailadresse:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="Emailadresse" name="Emailadresse">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-md-4 form-control-label" for="Strasse">Strasse:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="Strasse" name="Strasse">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-md-4 form-control-label" for="HausNr">HausNr:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="HausNr" name="HausNr">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-md-4 form-control-label" for="PLZ">PLZ:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="PLZ" name="PLZ">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-md-4 form-control-label" for="Ort">Ort:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="Ort" name="Ort">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-md-4 form-control-label" for="Bemerkungen">Bemerkungen:</label>
+								<div class="col-md-8">
+									<textarea class="form-control" id="Bemerkungen" name="Bemerkungen"></textarea>
 								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
 							<div class="form-actions">
-								<button class="btn btn-primary" data-dismiss="modal" type="button">Add this event</button>
-								<a class="btn btn-sm btn-white btn-pure" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+								<button class="btn btn-primary" data-dismiss="modal" id="saveNewEventbuttton" type="submit" onclick="saveNewEvent()">Termin anlegen</button>
+								<a class="btn btn-sm btn-white btn-pure" data-dismiss="modal" href="javascript:void(0)">Abbrechen</a>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
 			<!-- End AddEvent Dialog -->
-			
-			<!-- Edit Dialog -->
-			<div class="modal fade" id="editNewEvent" aria-hidden="true" aria-labelledby="editNewEvent"
-				 role="dialog" tabindex="-1" data-show="false">
+			<!--EditEvent Dialog -->
+			<div class="modal fade" id="editEvent" aria-hidden="true" aria-labelledby="editEvent"
+				 role="dialog" tabindex="-1">
 				<div class="modal-dialog modal-simple">
-					<form class="modal-content form-horizontal" action="#" method="post" role="form">
-						<div class="modal-header">
-							<button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-							<h4 class="modal-title">Edit Event</h4>
+					<form class="modal-content form-horizontal" id="editEventForm" name="editEventForm" method="post" role="form">
+						<input type="hidden" name="eventid" id="eventid">
+						<div class="modal-header clara-modal-header">
+							<button type="button" class="close" aria-hidden="true" data-dismiss="modal" style="margin-top: -7px;"><img data-toggle="tooltip" data-original-title="Schliessen" class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px"></button>
+							<h4 class="modal-title text-white">Termin bearbeiten</h4>
 						</div>
-						<div class="modal-body">
+						<div class="modal-body clara-modal-body">
 							<div class="form-group row">
-								<label class="col-md-2 form-control-label" for="editEname">Name:</label>
+								<label class="col-md-2 form-control-label" for="Eename">Name:</label>
 								<div class="col-md-10">
-									<input type="text" class="form-control" id="editEname" name="editEname">
+									<input type="text" class="form-control" id="Eename" name="Eename">
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-md-2 form-control-label" for="editStarts">Starts:</label>
+								<label class="col-md-2 form-control-label" for="Estarts">Start:</label>
 								<div class="col-md-10">
 									<div class="input-group">
-										<input type="text" class="form-control" id="editStarts" name="editStarts" data-container="#editNewEvent"
+										<input type="text" class="form-control" id="Estarts" name="Estarts" data-container="#addNewEvent"
 											   data-plugin="datepicker">
 										<div class="input-group-append">
                           <span class="input-group-text">
@@ -281,10 +318,10 @@
 							</div>
 							
 							<div class="form-group row">
-								<label class="col-md-2 form-control-label" for="editEnds">Ends:</label>
+								<label class="col-md-2 form-control-label" for="Eends">Ende:</label>
 								<div class="col-md-10">
 									<div class="input-group">
-										<input type="text" class="form-control" id="editEnds" data-container="#editNewEvent"
+										<input type="text" class="form-control" id="Eends" name="Eends" data-container="#addNewEvent"
 											   data-plugin="datepicker">
 										<div class="input-group-append">
                           <span class="input-group-text">
@@ -295,183 +332,97 @@
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-md-2 form-control-label" for="editRepeats">Repeats:</label>
-								<div class="col-md-10">
-									<input type="text" class="form-control" id="editRepeats" name="repeats" data-plugin="TouchSpin"
-										   data-min="0" data-max="10" value="0" />
-								</div>
-							</div>
-							<div class="form-group row" id="editColor">
-								<label class="form-control-label col-md-2">Color:</label>
+								<label class="form-control-label col-md-2">Art:</label>
 								<div class="col-md-10">
 									<ul class="color-selector">
-										<li class="bg-blue-600">
-											<input type="radio" data-color="blue|600" name="colorChosen" id="editColorChosen2">
+										<li class="" style="background-color:#015780; ">
+											<input  type="radio" checked name="EeventColorChosen" data-color="#015780" value="#015780" id="editColorChosen1">
+											<label for="editColorChosen1"></label>
+										</li>
+										<li style="background-color:#f19408; ">
+											<input type="radio" name="EeventColorChosen" data-color="#f19408" value="#f19408" id="editColorChosen2">
 											<label for="editColorChosen2"></label>
 										</li>
-										<li class="bg-green-600">
-											<input type="radio" data-color="green|600" name="colorChosen" id="editColorChosen3">
-											<label for="editColorChosen3"></label>
+										<li style="background-color:#9463F7; ">
+											<input type="radio" name="EeventColorChosen" data-color="#9463F7" value="#9463F7" id="#9463F7">
+											<label for="editColorChosen#9463F7"></label>
 										</li>
-										<li class="bg-cyan-600">
-											<input type="radio" data-color="cyan|600" name="colorChosen" id="editColorChosen4">
+										<li style="background-color:#000000; ">
+											<input type="radio" name="EeventColorChosen" data-color="#000000" value="#000000" id="000000">
 											<label for="editColorChosen4"></label>
 										</li>
-										<li class="bg-orange-600">
-											<input type="radio" data-color="orange|600" name="colorChosen" id="editColorChosen5">
-											<label for="editColorChosen4"></label>
+										<li style="background-color:#17B3A3; ">
+											<input type="radio" name="EeventColorChosen" data-color="#17B3A3" value="#17B3A3" id="editColorChosen5">
+											<label for="editColorChosen5"></label>
 										</li>
-										<li class="bg-red-600">
-											<input type="radio" data-color="red|600" name="colorChosen" id="editColorChosen6">
+										<li  style="background-color:#C7C9CB; ">
+											<input type="radio" name="EeventColorChosen" data-color="#C7C9CB" value="#C7C9CB" id="editColorChosen6">
 											<label for="editColorChosen6"></label>
 										</li>
-										<li class="bg-blue-grey-600">
-											<input type="radio" data-color="blue-grey|600" name="colorChosen" id="editColorChosen7">
-											<label for="editColorChosen7"></label>
-										</li>
-										<li class="bg-purple-600">
-											<input type="radio" data-color="purple|600" name="colorChosen" id="editColorChosen8">
-											<label for="editColorChosen8"></label>
-										</li>
-										<li class="bg-success">
-											<i class="icon fa-leaf" aria-hidden="true"></i>
-											<label for="editColorChosen8"></label>
-										</li>
+										
 									</ul>
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-md-2 form-control-label" for="editPeople">People:</label>
+								<label class="col-md-2 form-control-label" for="Eallday">Ganztätig:</label>
 								<div class="col-md-10">
-									<select id="editPeople" multiple="multiple" class="plugin-selective"></select>
+									<input type="checkbox" style="margin-top: 10px;" class="checkbox-info" name="Eallday" id="Eallday">
+									
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-md-4 form-control-label" for="EAnsprechpartner">Ansprechpartner:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="EAnsprechpartner" name="EAnsprechpartner">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-md-4 form-control-label" for="EEmailadresse">Emailadresse:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="EEmailadresse" name="EEmailadresse">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-md-4 form-control-label" for="EStrasse">Strasse:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="EStrasse" name="EStrasse">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-md-4 form-control-label" for="EHausNr">HausNr:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="EHausNr" name="EHausNr">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-md-4 form-control-label" for="EPLZ">PLZ:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="EPLZ" name="EPLZ">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-md-4 form-control-label" for="EOrt">Ort:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="EOrt" name="EOrt">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-md-4 form-control-label" for="EBemerkungen">Bemerkungen:</label>
+								<div class="col-md-8">
+									<textarea class="form-control" id="EBemerkungen" name="EBemerkungen"></textarea>
 								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
 							<div class="form-actions">
-								<button class="btn btn-primary" data-dismiss="modal" type="button">Save</button>
-								<button class="btn btn-danger" data-dismiss="modal" type="button">Delete</button>
-								<a class="btn btn-sm btn-white btn-pure" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+								<button class="btn btn-primary" data-dismiss="modal" id="saveEditEventbuttton" type="submit" onclick="saveEditEvent()">Speichern</button>
+								<a class="btn btn-sm btn-white btn-pure" data-dismiss="modal" href="javascript:void(0)">Abbrechen</a>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
 			<!-- End EditEvent Dialog -->
-			
-			<!--AddCalendar Dialog -->
-			<div class="modal fade" id="addNewCalendar" aria-hidden="true" aria-labelledby="addNewCalendar"
-				 role="dialog" tabindex="-1">
-				<div class="modal-dialog modal-simple">
-					<form class="modal-content form-horizontal" action="#" method="post" role="form">
-						<div class="modal-header">
-							<button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-							<h4 class="modal-title">New Calendar</h4>
-						</div>
-						<div class="modal-body">
-							<div class="form-group row">
-								<label class="col-md-2 form-control-label" for="ename">Name:</label>
-								<div class="col-md-10">
-									<input type="text" class="form-control" id="ename" name="ename">
-								</div>
-							</div>
-							
-							<div class="form-group row">
-								<label class="form-control-label col-md-2">Color:</label>
-								<div class="col-md-10">
-									<ul class="color-selector">
-										<li class="bg-blue-600">
-											<input type="radio" checked name="colorChosen" id="colorChosen2">
-											<label for="colorChosen2"></label>
-										</li>
-										<li class="bg-green-600">
-											<input type="radio" name="colorChosen" id="colorChosen3">
-											<label for="colorChosen3"></label>
-										</li>
-										<li class="bg-cyan-600">
-											<input type="radio" name="colorChosen" id="colorChosen4">
-											<label for="colorChosen4"></label>
-										</li>
-										<li class="bg-orange-600">
-											<input type="radio" name="colorChosen" id="colorChosen5">
-											<label for="colorChosen5"></label>
-										</li>
-										<li class="bg-red-600">
-											<input type="radio" name="colorChosen" id="colorChosen6">
-											<label for="colorChosen6"></label>
-										</li>
-										<li class="bg-blue-grey-600">
-											<input type="radio" name="colorChosen" id="colorChosen7">
-											<label for="colorChosen7"></label>
-										</li>
-										<li class="bg-purple-600">
-											<input type="radio" name="colorChosen" id="colorChosen8">
-											<label for="colorChosen8"></label>
-										</li>
-									</ul>
-								</div>
-							</div>
-							
-							<div class="form-group row">
-								<label class="col-md-2 form-control-label" for="people">People:</label>
-								<div class="col-md-10">
-									<select id="people" multiple="multiple" class="plugin-selective"></select>
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<div class="form-actions">
-								<button class="btn btn-primary" data-dismiss="modal" type="button">Create</button>
-								<a class="btn btn-sm btn-white btn-pure" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-			<!-- End AddCalendar Dialog -->
-		</div>
-	</div>
-</div>
-
-<!-- Site Action -->
-<div class="site-action" data-plugin="actionBtn">
-	<button type="button" class="site-action-toggle btn-raised btn btn-warning btn-floating">
-		<i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i>
-		<i class="back-icon md-delete animation-scale-up" aria-hidden="true"></i>
-	</button>
-</div>
-<!-- End Site Action -->
-
-<!-- Add Calendar Form -->
-<div class="modal fade" id="addNewCalendarForm" aria-hidden="true" aria-labelledby="addNewCalendarForm"
-	 role="dialog" tabindex="-1">
-	<div class="modal-dialog modal-simple">
-		<form class="modal-content" action="#" method="post" role="form">
-			<div class="modal-header">
-				<button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-				<h4 class="modal-title">Create New Calendar</h4>
-			</div>
-			<div class="modal-body">
-				<div class="form-group">
-					<label class="form-control-label mb-15" for="name">Calendar name:</label>
-					<input type="text" class="form-control" id="name" name="name" placeholder="Calendar name">
-				</div>
-				<div class="form-group">
-					<label class="form-control-label mb-15" for="name">Choice people to your project:</label>
-					<select multiple="multiple" class="plugin-selective"></select>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<div class="form-actions">
-					<button class="btn btn-primary" data-dismiss="modal" type="button">Create</button>
-					<a class="btn btn-sm btn-white btn-pure" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
-				</div>
-			</div>
-		</form>
-	</div>
-</div>
-<!-- End Add Calendar Form -->
-
 
 <!-- Footer -->
 <footer class="site-footer">
@@ -539,6 +490,7 @@
 <script src="/assets/examples/js/apps/calendar.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js" integrity="sha512-jytq61HY3/eCNwWirBhRofDxujTCMFEiQeTe+kHR4eYLNTXrUq7kY2qQDKOUnsVAKN5XGBJjQ3TvNkIkW/itGw==" crossorigin="anonymous"></script>
 <script>
+	
     (function(document, window, $){
         Dropzone.autoDiscover = false;
         'use strict';
@@ -550,9 +502,13 @@
     })
     (document, window, jQuery);
 
+    
 
     $( document ).ready(function() {
         //alert($("#dashUserwidget").height())
+    	
+		
+    
         initDropzone();
         $('#toggleUpload').click(function () {
             $('#site-sidebar').toggleClass( 'slidePanel-show', 1000 );
@@ -588,6 +544,49 @@
         });
     }
 
+    function saveNewEvent(){
+        var myForm = document.getElementById('newEvent');
+        var formData = new FormData(myForm),
+            result = {};
+
+        for (var entry of formData.entries())
+        {
+            result[entry[0]] = entry[1];
+        }
+        result = JSON.stringify(result);
+
+        $.ajax( {
+            method: 'POST',
+            url: '/calendar/addNewEvent',
+            dataType: 'json',
+            data: result,
+            complete: function (data){
+               location.reload();
+                
+            }});
+    }
+    
+    function saveEditEvent(){
+        var myForm = document.getElementById('editEventForm');
+        var formData = new FormData(myForm),
+            result = {};
+
+        for (var entry of formData.entries())
+        {
+            result[entry[0]] = entry[1];
+        }
+        result = JSON.stringify(result);
+
+        $.ajax( {
+            method: 'POST',
+            url: '/calendar/editEvent',
+            dataType: 'json',
+            data: result,
+            complete: function (data){
+               location.reload();
+
+            }});
+	}
 
 </script>
 </body>
