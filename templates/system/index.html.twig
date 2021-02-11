@@ -10,10 +10,27 @@
                 <ul class="nav nav-tabs nav-tabs-line" role="tablist">
                     <li class="nav-item" role="presentation"><a class="active nav-link" data-toggle="tab" href="#System" aria-controls="all_contacts" role="tab">System</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#Versorger" aria-controls="my_contacts" role="tab">Versorger</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#Vorversorger" aria-controls="my_contacts" role="tab">Vorversorger</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#Lieferstellen" aria-controls="my_contacts" role="tab">Lieferstellen</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#Abgleich" aria-controls="my_contacts" role="tab">Abgleich</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane animation-fade active" id="System" role="tabpanel">
+                    </div>
+                    <div class="tab-pane animation-fade" id="Abgleich" role="tabpanel">
+                        <div class="panel-body">
+                            <form action="/system/syncTro" method="post" enctype="multipart/form-data">
+                                
+                                <div class="form-group-sm">
+                                    <span class="text-help-sm">Datei auswählen</span>
+                                    <input type="file" name="file" id="file" value="" class="form-control form-control-sm round" placeholder="bitte auswählen">
+                                </div>
+                                <div class="form-group-sm" style="margin-top: 25px">
+                                    <button type="submit" class="btn btn-warning">Speichern</button>
+                                </div>
+                            </form>
+                            
+                        </div>
                     </div>
                     <div class="tab-pane animation-fade" id="Versorger" role="tabpanel">
                         <div class="panel-body">
@@ -43,12 +60,45 @@
                                         <td>{{ supplier.name }}</td>
                                         <td>{{ supplier.email }} </td>
                                         <td>
-                                            <a href="#" class="" onclick="editSupplier({{ supplier.id }},'{{ supplier.name }}', '{{ supplier.email }}')" data-toggle="tooltip" data-original-title="Edit"><img class="" src="{{ asset('assets/images/Icons/bearbeiten-end.svg') }}" style="width: 30px"></a>
+                                            <a href="#" class="" onclick="editSupplier({{ supplier.id }},'{{ supplier.name }}', '{{ supplier.email }}','{{ supplier.street }}','{{ supplier.plz }}','{{ supplier.ort }}')" data-toggle="tooltip" data-original-title="Edit"><img class="" src="{{ asset('assets/images/Icons/bearbeiten-end.svg') }}" style="width: 30px"></a>
                                             {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PORTAL_ADMIN') %}<a href="#" data-toggle="tooltip" data-original-title="Löschen" onclick="deleteSupplier({{ supplier.id }})"><img class="" src="{{ asset('assets/images/Icons/loeschen-end.svg') }}" style="width: 30px"></a>{% endif %}
                                             {#  {% if is_granted('ROLE_PORTAL_ADMIN') %}<a href="/customer/importkdls/{{ customer.old_id }}" class="btn btn-sm btn-icon btn-pure btn-default" data-toggle="tooltip" data-original-title="Import Kdls"><i class="icon md-link" aria-hidden="true" style="font-size: 26px;"></i></a>{% endif %}#}
                                         </td>
                                     </tr>
                                 {% endfor %}
+                                </tbody>
+                            </table>
+                                <input type="submit" class="btn btn-success round" value="Speichern">
+                            </form>
+                        </div>
+                    
+                    </div>
+                    <div class="tab-pane animation-fade" id="Vorversorger" role="tabpanel">
+                        <div class="panel-body">
+                            
+                            <table class="table table-hover dataTable" data-plugin="dataTable" id="supplierIndexTable">
+                                <thead>
+                                <tr>
+                                    <th style="width:50px">Name</th>
+                                    <th style="width:50px">Ersetzen durch</th>
+                                    <th style="width:50px">Aktion</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for vv in vorversorger %}
+                                        <tr>
+                                            <td>{{ vv.vorversorger }} {{ loop.index }}</td>
+                                            <td>
+                                                <select data-style="warning" onchange="testswitch({{ loop.index }},'{{ vv.vorversorger }}')" class="text-white" name="Versorger{{ loop.index }}" id="Versorger{{ loop.index }}" data-plugin="selectpicker">
+                                                {% for supplier in suppliers %}
+                                                    <option value="{{ supplier.id }}" >{{ supplier.name }}</option>
+                                                {% endfor %}
+                                                </select>
+                                            </td>
+                                            <td><a href="{{ path('system_supplier_addvv') }}?name={{ vv.vorversorger }}" style="font-size: 40px" data-toggle="tooltip" data-original-title="als Versorger anlegen"><i class="icon fa-arrow-circle-o-right" aria-hidden="true"></i></a></td>
+                                        </tr>
+                                    {%  endfor %}
+                               
                                 </tbody>
                             </table>
                                 <input type="submit" class="btn btn-success round" value="Speichern">
@@ -121,8 +171,16 @@
                             <input type="text" name="name" id="name" value="" size="50" class="form-control form-control-sm round" placeholder="Name">
                         </div>
                         <div class="form-group-sm">
-                            <span class="text-help-sm">Versorger Email</span>
-                            <input type="email" name="email" id="email" value="" size="50" class="form-control form-control-sm round" placeholder="E-Mail">
+                            <span class="text-help-sm">Straße / Nr</span>
+                            <input type="text" name="street" id="street" value="" size="50" class="form-control form-control-sm round" placeholder="Strasse Hausnummmer">
+                        </div>
+                        <div class="form-group-sm">
+                            <span class="text-help-sm">PLZ</span>
+                            <input type="text" name="plz" id="plz" value="" size="50" class="form-control form-control-sm round" placeholder="PLZ">
+                        </div>
+                        <div class="form-group-sm">
+                            <span class="text-help-sm">Ort</span>
+                            <input type="text" name="ort" id="ort" value="" size="50" class="form-control form-control-sm round" placeholder="Ort">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -153,6 +211,18 @@
                             <span class="text-help-sm">Versorger Email</span>
                             <input type="email" name="email" id="supplierEmail" value="" size="50" class="form-control form-control-sm round" placeholder="E-Mail">
                         </div>
+                        <div class="form-group-sm">
+                            <span class="text-help-sm">Straße / Nr</span>
+                            <input type="text" name="street" id="supplierStreet" value="" size="50" class="form-control form-control-sm round" placeholder="Strasse Hausnummmer">
+                        </div>
+                        <div class="form-group-sm">
+                            <span class="text-help-sm">PLZ</span>
+                            <input type="text" name="plz" id="supplierPlz" value="" size="50" class="form-control form-control-sm round" placeholder="PLZ">
+                        </div>
+                        <div class="form-group-sm">
+                            <span class="text-help-sm">Ort</span>
+                            <input type="text" name="ort" id="supplierOrt" value="" size="50" class="form-control form-control-sm round" placeholder="Ort">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-default btn-pure" data-dismiss="modal">Abbrechen</button>
@@ -164,10 +234,13 @@
     </div>
     <script>
         
-        function editSupplier(id,name,email){
+        function editSupplier(id,name,email,street,plz,ort){
             $("#supplierId").val(id);
             $("#supplierName").val(name);
             $("#supplierEmail").val(email);
+            $("#supplierStreet").val(street);
+            $("#supplierPlz").val(plz);
+            $("#supplierOrt").val(ort);
             $("#VersorgerEditModal").modal('show');
             
             console.log(id);
@@ -204,6 +277,11 @@
                         }});
                 });
             });
+        }
+        
+        function testswitch(id,name){
+            console.clear()
+            console.log(id, name,$('#Versorger'+id).val())
         }
     </script>
 {% endblock %}
