@@ -1,74 +1,602 @@
-{% extends 'baseNew.html.twig' %}
+{% extends 'index.html.twig' %}
 
 {% block plugins_css %}
-	<link rel="stylesheet" href="/assets/vendor/fullcalendar/fullcalendar.min.css">
+	<link rel="stylesheet" href="{{ asset('assets/js/fullcalendar/main.css') }}">
+	<script src="{{ asset('assets/js//fullcalendar/main.js') }}"></script>
+	<script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek',
+                selectable: true,
+                
+				headerToolbar: {
+                    left: false,
+                    center: 'title',
+                    end: 'today prev,next'
+                },
+				buttonText:{
+                    today:    'Heute',
+                    month:    'Monat',
+                    week:     'Woche',
+                    day:      'Tag',
+                    list:     'list'
+				},
+                
+                timeZone: 'local',
+                slotMinTime:'08:00:00',
+                slotMaxTime:'21:00:00',
+                slotDuration:'01:00:00',
+                eventTimeFormat: { // like '14:30:00'
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                },
+				height:800,
+                contentHeight: 600,
+                locale: 'de',
+                events: '/calendars/getEvents',
+                editable:true,
+                dateClick: function(info) {
+                    console.log(moment.locale('de'))
+                    $("#starts").val(moment(info.dateStr).format('DD.MM.YYYY HH:mm'));
+                    $("#ends").val(moment(info.dateStr).add(1,'hours').format('DD.MM.YYYY HH:mm'));
+                    $('#addNewEvent').modal('show');
+                },
+                eventClick: function(info) {
+                    console.log('test')
+                    $('#newAppointment').attr('href', '/customer/new/appointment?eventid='+info.event.id)
+                    //alert('Event: ' + info.event.title);
+                    //alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+                    //alert('View: ' + info.view.type);
+
+                    // change the border color just for fun
+                    //info.el.style.borderColor = 'red';
+                    $('#eventid').val(info.event.id);
+                    $('#Eename').val(info.event.title);
+                    $('#Estarts').val(moment(info.event.start).format('DD.MM.YYYY HH:mm'));
+                    $('#Eends').val(moment(info.event.end).format('DD.MM.YYYY HH:mm'));
+                    if (info.event._def.extendedProps.eventColor=="#015780"){
+                        $('#editColor1').attr('checked', true);
+                        $('#editColor2').attr('checked', false);
+                        $('#editColor3').attr('checked', false);
+                        $('#editColor4').attr('checked', false);
+                        $('#editColor5').attr('checked', false);
+                        $('#editColor6').attr('checked', false);
+					}
+                    if (info.event._def.extendedProps.eventColor=="#f19408"){
+                        $('#editColor2').attr('checked', true);
+                        $('#editColor1').attr('checked', false);
+                        $('#editColor3').attr('checked', false);
+                        $('#editColor4').attr('checked', false);
+                        $('#editColor5').attr('checked', false);
+                        $('#editColor6').attr('checked', false);
+					}
+                    if (info.event._def.extendedProps.eventColor=="#9463F7"){
+                        $('#editColor3').attr('checked', true);
+                        $('#editColor1').attr('checked', false);
+                        $('#editColor2').attr('checked', false);
+                        $('#editColor4').attr('checked', false);
+                        $('#editColor5').attr('checked', false);
+                        $('#editColor6').attr('checked', false);
+                    }
+                    if (info.event._def.extendedProps.eventColor=="#000000"){
+                        $('#editColor4').attr('checked', true);
+                        $('#editColor1').attr('checked', false);
+                        $('#editColor2').attr('checked', false);
+                        $('#editColor3').attr('checked', false);
+                        $('#editColor5').attr('checked', false);
+                        $('#editColor6').attr('checked', false);
+                    }
+                    if (info.event._def.extendedProps.eventColor=="#17B3A3"){
+                        $('#editColor5').attr('checked', true);
+                        $('#editColor1').attr('checked', false);
+                        $('#editColor2').attr('checked', false);
+                        $('#editColor3').attr('checked', false);
+                        $('#editColor4').attr('checked', false);
+                        $('#editColor6').attr('checked', false);
+                    }
+                    if (info.event._def.extendedProps.eventColor=="#C7C9CB"){
+                        $('#editColor6').attr('checked', true);
+                        $('#editColor1').attr('checked', false);
+                        $('#editColor2').attr('checked', false);
+                        $('#editColor3').attr('checked', false);
+                        $('#editColor4').attr('checked', false);
+                        $('#editColor5').attr('checked', false);
+                    }
+                    if (info.event.allDay){
+                        $('#Eallday').prop('checked', true);
+                    }
+                    $('#EAnsprechpartner').val(info.event._def.extendedProps.Ansprechpartner);
+                    $('#EEmailadresse').val(info.event._def.extendedProps.Emailadresse);
+                    $('#EStrasse').val(info.event._def.extendedProps.Strasse);
+                    $('#EHausNr').val(info.event._def.extendedProps.HausNr);
+                    $('#EPLZ').val(info.event._def.extendedProps.PLZ);
+                    $('#EOrt').val(info.event._def.extendedProps.Ort);
+                    $('#EBemerkungen').val(info.event._def.extendedProps.Bemerkungen);
+                    $('#editEvent').modal('show');
+                    //$('#addNewEvent').modal('show');
+                },
+                eventDrop: function(info) {
+                    $('#eventid').val(info.event.id);
+                    $('#Eename').val(info.event.title);
+                    $('#Estarts').val(moment(info.event.start).format('DD.MM.YYYY HH:mm'));
+                    $('#Eends').val(moment(info.event.end).format('DD.MM.YYYY HH:mm'));
+                    if (info.event._def.extendedProps.eventColor=="#015780"){
+                        $('#editColor1').attr('checked', true);
+                        $('#editColor2').attr('checked', false);
+                        $('#editColor3').attr('checked', false);
+                        $('#editColor4').attr('checked', false);
+                        $('#editColor5').attr('checked', false);
+                        $('#editColor6').attr('checked', false);
+                    }
+                    if (info.event._def.extendedProps.eventColor=="#f19408"){
+                        $('#editColor2').attr('checked', true);
+                    }
+                    if (info.event._def.extendedProps.eventColor=="#9463F7"){
+                        $('#editColor3').attr('checked', true);
+                    }
+                    if (info.event._def.extendedProps.eventColor=="#000000"){
+                        $('#editColor4').attr('checked', true);
+                    }
+                    if (info.event._def.extendedProps.eventColor=="#17B3A3"){
+                        $('#editColor5').attr('checked', true);
+                    }
+                    if (info.event._def.extendedProps.eventColor=="#C7C9CB"){
+                        $('#editColor6').attr('checked', true);
+                    }
+                    if (info.event.allDay){
+                        $('#Eallday').prop('checked', true);
+                    }
+                    $('#EAnsprechpartner').val(info.event._def.extendedProps.Ansprechpartner);
+                    $('#EEmailadresse').val(info.event._def.extendedProps.Emailadresse);
+                    $('#EStrasse').val(info.event._def.extendedProps.Strasse);
+                    $('#EHausNr').val(info.event._def.extendedProps.HausNr);
+                    $('#EPLZ').val(info.event._def.extendedProps.PLZ);
+                    $('#EOrt').val(info.event._def.extendedProps.Ort);
+                    $('#EBemerkungen').val(info.event._def.extendedProps.Bemerkungen);
+                    $( "#editEventForm" ).submit();
+                    //alert(info.event.title + " was dropped on " + info.event.end.toISOString());
+/*
+                    if (!confirm("Are you sure about this change?")) {
+                        info.revert();
+                    }
+*/
+                },
+                eventResize:function(info) {
+                    $('#eventid').val(info.event.id);
+                    $('#Eename').val(info.event.title);
+                    $('#Estarts').val(moment(info.event.start).format('DD.MM.YYYY HH:mm'));
+                    $('#Eends').val(moment(info.event.end).format('DD.MM.YYYY HH:mm'));
+                    if (info.event._def.extendedProps.eventColor=="#015780"){
+                        $('#editColor1').attr('checked', true);
+                        $('#editColor2').attr('checked', false);
+                        $('#editColor3').attr('checked', false);
+                        $('#editColor4').attr('checked', false);
+                        $('#editColor5').attr('checked', false);
+                        $('#editColor6').attr('checked', false);
+                    }
+                    if (info.event._def.extendedProps.eventColor=="#f19408"){
+                        $('#editColor2').attr('checked', true);
+                    }
+                    if (info.event._def.extendedProps.eventColor=="#9463F7"){
+                        $('#editColor3').attr('checked', true);
+                    }
+                    if (info.event._def.extendedProps.eventColor=="#000000"){
+                        $('#editColor4').attr('checked', true);
+                    }
+                    if (info.event._def.extendedProps.eventColor=="#17B3A3"){
+                        $('#editColor5').attr('checked', true);
+                    }
+                    if (info.event._def.extendedProps.eventColor=="#C7C9CB"){
+                        $('#editColor6').attr('checked', true);
+                    }
+                    if (info.event.allDay){
+                        $('#Eallday').prop('checked', true);
+                    }
+                    $('#EAnsprechpartner').val(info.event._def.extendedProps.Ansprechpartner);
+                    $('#EEmailadresse').val(info.event._def.extendedProps.Emailadresse);
+                    $('#EStrasse').val(info.event._def.extendedProps.Strasse);
+                    $('#EHausNr').val(info.event._def.extendedProps.HausNr);
+                    $('#EPLZ').val(info.event._def.extendedProps.PLZ);
+                    $('#EOrt').val(info.event._def.extendedProps.Ort);
+                    $('#EBemerkungen').val(info.event._def.extendedProps.Bemerkungen);
+                    $( "#editEventForm" ).submit();
+				}
+            });
+            calendar.render();
+        });
+        function saveNewEvent(){
+            $( "#newEvent" ).submit();
+
+        }
+
+        function saveEditEvent(){
+            $( "#editEventForm" ).submit();
+
+        }
+        
+        function delEvent(){
+            console.log('delete')
+            var test = swal({
+                title: "Bist Du sicher?",
+                text: "Das Du den Termin löschen willst",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-warning",
+                confirmButtonText: 'Ja ich will!',
+                closeOnConfirm: false //closeOnCancel: false
+
+            }, function () {
+                $('#editEventForm').attr('action', '/calendar/deleteEvent');
+                $( "#editEventForm" ).submit();
+
+            });
+            
+		}
+  
+	</script>
 {% endblock %}
 {% block body %}
 <div class="panel">
+	<header class="panel-heading">
+		<img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Termine-end.svg') }}"><h3 class="panel-title"> Kalender</h3>
+		{% if is_granted('ROLE_ADMIN') %}
+			<div class="panel-actions">
+			
+			</div>
+			
+		{% endif %}
+	</header>
 	<div class="panel-body container-fluid">
-		<div class="row clearfix">
+		<div class="row clearfix pt-25">
 			<div class="col-lg-2 col-md-12">
 				<div class="card">
 					<div class="header">
-						<h2>Todo List</h2>
+						<h2>Farb Legende</h2>
 					</div>
 					<div class="body">
-						<ul class="todo_list list-unstyled">
-							<li>
-								<label class="fancy-checkbox">
-									<input type="checkbox" name="checkbox" checked>
-									<span>Product Event at New York</span>
-								</label>
-								<a href="javascript:void(0);" class="todo-delete"><i class="icon-trash"></i></a>
-							</li>
-							<li>
-								<label class="fancy-checkbox">
-									<input type="checkbox" name="checkbox" checked>
-									<span>Meeting with Team</span>
-								</label>
-								<a href="javascript:void(0);" class="todo-delete"><i class="icon-trash"></i></a>
-							</li>
-							<li>
-								<label class="fancy-checkbox">
-									<input type="checkbox" name="checkbox">
-									<span>Product Event for new product</span>
-								</label>
-								<a href="javascript:void(0);" class="todo-delete"><i class="icon-trash"></i></a>
-							</li>
-							<li>
-								<label class="fancy-checkbox">
-									<input type="checkbox" name="checkbox" checked>
-									<span>Lunch friends in Sunday</span>
-								</label>
-								<a href="javascript:void(0);" class="todo-delete"><i class="icon-trash"></i></a>
-							</li>
-							<li>
-								<label class="fancy-checkbox">
-									<input type="checkbox" name="checkbox">
-									<span>Meeting with Team</span>
-								</label>
-								<a href="javascript:void(0);" class="todo-delete"><i class="icon-trash"></i></a>
-							</li>
-							<li>
-								<label class="fancy-checkbox">
-									<input type="checkbox" name="checkbox">
-									<span>Product Event for new product</span>
-								</label>
-								<a href="javascript:void(0);" class="todo-delete"><i class="icon-trash"></i></a>
-							</li>
-						</ul>
+						<section class="page-aside-section">
+							
+							<div class="list-group calendar-list">
+								<a class="list-group-item calendar-event" data-title="Strom & Erdgas" data-stick=true
+								   data-color="#015780" href="javascript:void(0)">
+									<i class="md-circle mr-10 font-size-20" aria-hidden="true" style="color: #015780;"></i>Strom & Erdgas
+								</a>
+								<a class="list-group-item calendar-event" data-title="Solar" data-stick=true
+								   data-color="#f19408" href="javascript:void(0)">
+									<i class="md-circle mr-10 font-size-20" aria-hidden="true" style="color: #f19408;"></i>Solar
+								</a>
+								<a class="list-group-item calendar-event" data-title="MSB" data-stick=true
+								   data-color="#9463F7" href="javascript:void(0)">
+									<i class="md-circle mr-10 font-size-20" aria-hidden="true" style="color:#9463F7"></i>MSB
+								</a>
+								<a class="list-group-item calendar-event" data-title="Geblockt" data-stick=true
+								   data-color="#000000" href="javascript:void(0)">
+									<i class="md-circle mr-10 font-size-20" aria-hidden="true" style="color: #000000;"></i>Geblockt
+								</a>
+								<a class="list-group-item calendar-event" data-title="Meeting" data-stick=true
+								   data-color="#17B3A3" href="javascript:void(0)">
+									<i class="md-circle mr-10 font-size-20" aria-hidden="true" style="color: #17B3A3"></i>Meeting
+								</a>
+								<a class="list-group-item calendar-event" data-title="Allgemein" data-stick=true
+								   data-color="#C7C9CB" href="javascript:void(0)">
+									<i class="md-circle mr-10 font-size-20" aria-hidden="true" style="color: #C7C9CB"></i>Allgemein
+								</a>
+							</div>
+						</section>
 					</div>
 				</div>
 			</div>
 			<div class="col-lg-10 col-md-12">
-				<div class="calendar-container h-450 scrollable">
+				<div class="calendar-container h-900 scrollable">
 					<div id="calendar"></div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+	
+	<!--EditEvent Dialog -->
+	<div class="modal fade" id="editEvent" aria-hidden="true" aria-labelledby="editEvent"
+		 role="dialog" tabindex="-1">
+		<div class="modal-dialog modal-simple">
+			<form class="modal-content form-horizontal" id="editEventForm" name="editEventForm" method="post" role="form" action="/calendar/editEvent">
+				<input type="hidden" name="eventid" id="eventid">
+				<div class="panel-heading">
+					<img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Termine-end.svg') }}"><h3 class="panel-title">Termin bearbeiten</h3>
+					<div class="panel-actions text-white">
+						<!--<a href="javascript:void(0)" id="newAppointment"><img data-toggle="tooltip" data-original-title="Termin Starten" onclick="" class="mr-5" src="/assets/images/Icons/Aktionsbutton-gross-end.svg" style="width: 40px"></a>-->
+						<a href="javascript:void(0)"><img data-toggle="tooltip" data-original-title="löschen" onclick="delEvent()" class="mr-5" src="/assets/images/Icons/loeschen-end.svg" style="width: 40px"></a>
+						<a href="javascript:void(0)"><img data-toggle="tooltip" data-dismiss="modal" data-original-title="Schliessen" class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px"></a>
+					</div>
+				</div>
+				
+				<div class="modal-body clara-modal-body">
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label" for="Eename">Titel:</label>
+						<div class="col-md-10">
+							<input type="text" class="form-control" id="Eename" name="Eename">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label" for="Estarts">Start:</label>
+						<div class="col-md-10">
+							<div class="input-group">
+								<input type="text" class="form-control" id="Estarts" name="Estarts" data-container="#addNewEvent"
+									   data-plugin="datepicker">
+								<div class="input-group-append">
+                          <span class="input-group-text">
+                            <i class="icon md-calendar" aria-hidden="true"></i>
+                          </span>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label" for="Eends">Ende:</label>
+						<div class="col-md-10">
+							<div class="input-group">
+								<input type="text" class="form-control" id="Eends" name="Eends" data-container="#addNewEvent"
+									   data-plugin="dateticker">
+								<div class="input-group-append">
+                          <span class="input-group-text">
+                            <i class="icon md-calendar" aria-hidden="true"></i>
+                          </span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="form-control-label col-md-4">Art:</label>
+						<div class="col-md-8">
+							<ul class="color-selector">
+								<li class="" style="background-color:#015780; ">
+									<input type="radio" name="EeventColorChosen" value="#015780" id="editColor1">
+									<label for="editColorChosen1"></label>
+								</li>
+								<li style="background-color:#f19408; ">
+									<input type="radio" name="EeventColorChosen" value="#f19408" id="editColor2">
+									<label for="editColorChosen2"></label>
+								</li>
+								<li style="background-color:#9463F7; ">
+									<input type="radio" name="EeventColorChosen" value="#9463F7" id="editColor3">
+									<label for="editColorChosen#9463F7"></label>
+								</li>
+								<li style="background-color:#000000; ">
+									<input type="radio" name="EeventColorChosen" value="#000000" id="editColor4">
+									<label for="editColorChosen4"></label>
+								</li>
+								<li style="background-color:#17B3A3; ">
+									<input type="radio" name="EeventColorChosen" value="#17B3A3" id="editColor5">
+									<label for="editColorChosen5"></label>
+								</li>
+								<li  style="background-color:#C7C9CB; ">
+									<input type="radio" name="EeventColorChosen" value="#C7C9CB" id="editColor6">
+									<label for="editColorChosen6"></label>
+								</li>
+							
+							</ul>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="Eallday">Ganztätig:</label>
+						<div class="col-md-8">
+							<input type="checkbox" style="margin-top: 10px;" class="checkbox-info" name="Eallday" id="Eallday">
+						
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="EAnsprechpartner">Ansprechpartner:</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" id="EAnsprechpartner" name="EAnsprechpartner">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="EEmailadresse">Emailadresse:</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" id="EEmailadresse" name="EEmailadresse">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="EStrasse">Strasse:</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" id="EStrasse" name="EStrasse">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="EHausNr">HausNr:</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" id="EHausNr" name="EHausNr">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="EPLZ">PLZ:</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" id="EPLZ" name="EPLZ">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="EOrt">Ort:</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" id="EOrt" name="EOrt">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="EBemerkungen">Bemerkungen:</label>
+						<div class="col-md-8">
+							<textarea class="form-control" id="EBemerkungen" name="EBemerkungen"></textarea>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="Eallday">Terminbestätigung:</label>
+						<div class="col-md-8">
+							<input type="checkbox" style="margin-top: 10px;" class="checkbox-info" name="terminbest" id="terminbest">
+						
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="form-actions">
+						<a class="btn btn-sm btn-white btn-pure" data-dismiss="modal" href="javascript:void(0)">Abbrechen</a>
+						<button class="btn btn-warning" data-dismiss="modal" id="saveEditEventbuttton" type="submit" onclick="saveEditEvent()">Speichern</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- End EditEvent Dialog -->
+	
+	<!--AddEvent Dialog -->
+	<div class="modal fade" id="addNewEvent" aria-hidden="true" aria-labelledby="addNewEvent"
+		 role="dialog" tabindex="-1">
+		<div class="modal-dialog modal-simple">
+			<form class="modal-content form-horizontal" id="newEvent" name="newEvent" method="post" role="form" action="/calendar/addNewEvent">
+				<div class="panel-heading">
+					<img class="indexBoxTitleIcon" src="{{ asset('assets/images/Icons/Termine-end.svg') }}"><h3 class="panel-title">Neuer Termin</h3>
+					<div class="panel-actions text-white">
+						<a href="javascript:void(0)"><img data-toggle="tooltip" data-dismiss="modal" data-original-title="Schliessen" class="" src="{{ asset('assets/images/Icons/schliessen-end.svg') }}" style="width: 40px"></a>
+					</div>
+				</div>
+				<div class="modal-body clara-modal-body">
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label" for="ename">Name:</label>
+						<div class="col-md-10">
+							<input type="text" class="form-control" id="ename" name="ename">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label" for="starts">Start:</label>
+						<div class="col-md-10">
+							<div class="input-group">
+								<input type="text" class="form-control" id="starts" name="starts" data-container="#addNewEvent"
+									   data-plugin="datepicker">
+								<div class="input-group-append">
+                          <span class="input-group-text">
+                            <i class="icon md-calendar" aria-hidden="true"></i>
+                          </span>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label" for="ends">Ende:</label>
+						<div class="col-md-10">
+							<div class="input-group">
+								<input type="text" class="form-control" id="ends" name="ends" data-container="#addNewEvent"
+									   data-plugin="datepicker">
+								<div class="input-group-append">
+                          <span class="input-group-text">
+                            <i class="icon md-calendar" aria-hidden="true"></i>
+                          </span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="form-control-label col-md-2">Art:</label>
+						<div class="col-md-10">
+							<ul class="color-selector">
+								<li class="" style="background-color:#015780; ">
+									<input  type="radio" checked name="eventColorChosen" value="#015780" id="eventColorChosen2">
+									<label for="eventColorChosen2"></label>
+								</li>
+								<li style="background-color:#f19408; ">
+									<input type="radio" name="eventColorChosen" value="#f19408" id="eventColorChosen3">
+									<label for="eventColorChosen3"></label>
+								</li>
+								<li style="background-color:#9463F7; ">
+									<input type="radio" name="eventColorChosen" value="#9463F7" id="eventColorChosen4">
+									<label for="eventColorChosen4"></label>
+								</li>
+								<li style="background-color:#000000; ">
+									<input type="radio" name="eventColorChosen" value="#000000" id="eventColorChosen5">
+									<label for="eventColorChosen5"></label>
+								</li>
+								<li style="background-color:#17B3A3; ">
+									<input type="radio" name="eventColorChosen" value="#17B3A3" id="eventColorChosen6">
+									<label for="eventColorChosen6"></label>
+								</li>
+								<li  style="background-color:#C7C9CB; ">
+									<input type="radio" name="eventColorChosen" value="#C7C9CB" id="eventColorChosen7">
+									<label for="eventColorChosen7"></label>
+								</li>
+							
+							</ul>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label" for="allday">Ganztätig:</label>
+						<div class="col-md-10">
+							<input type="checkbox" style="margin-top: 10px;" class="checkbox-info" name="allday" id="allday">
+						
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="Ansprechpartner">Ansprechpartner:</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" id="Ansprechpartner" name="Ansprechpartner">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="Emailadresse">Emailadresse:</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" id="Emailadresse" name="Emailadresse">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="Strasse">Strasse:</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" id="Strasse" name="Strasse">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="HausNr">HausNr:</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" id="HausNr" name="HausNr">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="PLZ">PLZ:</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" id="PLZ" name="PLZ">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="Ort">Ort:</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" id="Ort" name="Ort">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="Bemerkungen">Bemerkungen:</label>
+						<div class="col-md-8">
+							<textarea class="form-control" id="Bemerkungen" name="Bemerkungen"></textarea>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-4 form-control-label" for="Eallday">Terminbestätigung:</label>
+						<div class="col-md-8">
+							<input type="checkbox" style="margin-top: 10px;" class="checkbox-info" name="terminbest" id="terminbest">
+						
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="form-actions">
+						<a class="btn btn-sm btn-white btn-pure" data-dismiss="modal" href="javascript:void(0)">Abbrechen</a>
+						<button class="btn btn-warning" data-dismiss="modal" id="saveNewEventbuttton" type="submit" onclick="saveNewEvent()">Termin anlegen</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- End AddEvent Dialog -->
 {% endblock %}
-{% block plugins_js %}
+
+{% block siteJS %}
 
 {% endblock %}
