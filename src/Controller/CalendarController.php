@@ -189,7 +189,7 @@ class CalendarController extends AbstractController
                 ->addCc("info@bentley-energie.de")
                 ->subject('Terminbestätigung')
                 ->htmlTemplate("email/terminbest.html.twig")
-                ->context(['DATUM' => $editEvent->getStart()->format("d.m.Y"),"MESSAGE" => $message,'SIGNATUR' => $editEvent->getUser()->getProfile()->getSignatur(),'LOGO' => $editEvent->getUser()->getProfile()->getLogo()]);
+                ->context(['DATUM' => $editEvent->getStart()->format("d.m.Y"),'UHRZEIT' => $editEvent->getStart()->format("H:m"),"MESSAGE" => $message,'SIGNATUR' => $editEvent->getUser()->getProfile()->getSignatur(),'LOGO' => $editEvent->getUser()->getProfile()->getLogo()]);
 
             $mailer->send($email);
         }
