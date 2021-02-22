@@ -117,7 +117,7 @@ class CalendarController extends AbstractController
      * @param Request $request
      * @Route ("/calendar/addNewEvent")
      */
-    public function addNewEvent(Request $request,EntityManagerInterface $entityManager,UserRepository $userRepository){
+    public function addNewEvent(Request $request,EntityManagerInterface $entityManager,UserRepository $userRepository,MailerInterface $mailer){
 
         //dd($request);
         $newEvent = new Calendar();
@@ -128,7 +128,6 @@ class CalendarController extends AbstractController
         }else{
             $newEvent->setAllday(false);
         }
-
         $newEvent->setStart(new \DateTime($request->get('starts')));
         $newEvent->setEnd(new \DateTime($request->get('ends')));
         $newEvent->setTitle($request->get('ename'));
@@ -142,6 +141,40 @@ class CalendarController extends AbstractController
         $newEvent->setBermerkungen($request->get('Bemerkungen'));
         $entityManager->persist($newEvent);
         $entityManager->flush();
+        if ( $request->get('terminbest') ){
+            $message = "";
+            //dump($editEvent->getUser()->getProfile()->getLogo());
+            //dump($editEvent->getUser()->getProfile()->getSignatur());
+            if($request->get('EeventColorChosen') == "#015780"){
+                $message = "Bitte halten sie ihre Strom- & Erdgasrechnung/en bereit, damit wir die Berechnung ihres Einsparpotenzials erstellen können.";
+                //dd("StromErdgas");
+            }elseif ($request->get('EeventColorChosen') == "#f19408"){
+                $message = "Wir werden zu diesem Termin uns und unsere Leistungen vorstellen, sowie die örtlichen Gegebenheiten besichtigen und notwenige Daten.";
+                //dd("Solar");
+            }elseif ($request->get('EeventColorChosen') == "#9463F7"){
+                $message = "Bitte halten sie ihre Stromrechnung bereit, damit wir die Berechnung ihres Einsparpotenzials erstellen können.";
+                //dd("MSB");
+            }elseif ($request->get('EeventColorChosen') == "#000000"){
+                $message = "";
+                //dd("Geblockt");
+            }elseif ($request->get('EeventColorChosen') == "#17B3A3"){
+                $message = "Wenn wir ein Onlinemeeting vereinbart haben, nutzen sie bitte folgende Zugangsdaten.<br>".$newEvent->getBermerkungen();
+                //dd("Meeting");
+            }elseif ($request->get('EeventColorChosen') == "#C7C9CB"){
+
+                //dd("Allgemein");
+            }
+            $email = (new TemplatedEmail())
+                ->from('vp@energie-ew.de')
+                ->to($newEvent->getUser()->getEmail())
+                ->addCc("info@bentley-energie.de")
+                ->subject('Terminbestätigung')
+                ->htmlTemplate("email/terminbest.html.twig")
+                ->context(['DATUM' => $newEvent->getStart()->format("d.m.Y"),'UHRZEIT' => $newEvent->getStart()->format("H:m"),"MESSAGE" => $message,'SIGNATUR' => $newEvent->getUser()->getProfile()->getSignatur(),'LOGO' => $newEvent->getUser()->getProfile()->getLogo()]);
+
+            $mailer->send($email);
+        }
+
         $this->addFlash('success','neuer Termin wurde angelegt!');
         return $this->redirectToRoute('calendar');
     }
